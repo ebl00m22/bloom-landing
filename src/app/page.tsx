@@ -3,6 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
+import VideoShowcase from "@/components/VideoShowcase";
+import AnimateIn from "@/components/AnimateIn";
+import CountUp from "@/components/CountUp";
 import {
   CheckIcon,
   StarIcon,
@@ -181,14 +184,24 @@ export default function HomePage() {
       <section className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-            {RESULTS.map((r) => (
-              <div key={r.metric} className="text-center">
-                <p className="text-4xl md:text-5xl font-bold text-bloom-green">
-                  {r.metric}
-                </p>
-                <p className="text-gray-600 mt-2">{r.label}</p>
-              </div>
-            ))}
+            <AnimateIn className="text-center" delay={0}>
+              <p className="text-4xl md:text-5xl font-bold text-bloom-green">
+                <CountUp end={5} prefix="" suffix="x" />
+              </p>
+              <p className="text-gray-600 mt-2">More profile views within 90 days</p>
+            </AnimateIn>
+            <AnimateIn className="text-center" delay={200}>
+              <p className="text-4xl md:text-5xl font-bold text-bloom-green">
+                <CountUp end={40} suffix="%" />
+              </p>
+              <p className="text-gray-600 mt-2">Average increase in connection requests</p>
+            </AnimateIn>
+            <AnimateIn className="text-center" delay={400}>
+              <p className="text-4xl md:text-5xl font-bold text-bloom-green">
+                <CountUp end={10} suffix="+" />
+              </p>
+              <p className="text-gray-600 mt-2">Hours saved per executive per month</p>
+            </AnimateIn>
           </div>
         </div>
       </section>
@@ -331,24 +344,33 @@ export default function HomePage() {
       <section className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="grid md:grid-cols-3 gap-6">
-            <img
-              src="https://static.wixstatic.com/media/341fff_7de18eb3df214a42b9a222994b548ed5~mv2.jpg/v1/fill/w_387,h_506,fp_0.56_0.25,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/20250827-Bloom-Chamber-27.jpg"
-              alt="Bloom Social team at work"
-              className="w-full h-80 object-cover rounded-2xl"
-            />
-            <img
-              src="https://static.wixstatic.com/media/341fff_ca6f9bb833f943b69014b2394587bd4f~mv2.jpg/v1/fill/w_387,h_506,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/20250827-Bloom-Chamber-11.jpg"
-              alt="Bloom Social team collaboration"
-              className="w-full h-80 object-cover rounded-2xl"
-            />
-            <img
-              src="https://static.wixstatic.com/media/341fff_e2f6472d583b4234a55d1a8974b7ba27~mv2.jpg/v1/crop/x_0,y_898,w_4672,h_6110/fill/w_387,h_506,fp_0.50_0.50,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/20250827-Bloom-Chamber-4.jpg"
-              alt="Bloom Social behind the scenes"
-              className="w-full h-80 object-cover rounded-2xl"
-            />
+            <AnimateIn delay={0}>
+              <img
+                src="https://static.wixstatic.com/media/341fff_7de18eb3df214a42b9a222994b548ed5~mv2.jpg/v1/fill/w_387,h_506,fp_0.56_0.25,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/20250827-Bloom-Chamber-27.jpg"
+                alt="Bloom Social team at work"
+                className="w-full h-80 object-cover rounded-2xl"
+              />
+            </AnimateIn>
+            <AnimateIn delay={150}>
+              <img
+                src="https://static.wixstatic.com/media/341fff_ca6f9bb833f943b69014b2394587bd4f~mv2.jpg/v1/fill/w_387,h_506,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/20250827-Bloom-Chamber-11.jpg"
+                alt="Bloom Social team collaboration"
+                className="w-full h-80 object-cover rounded-2xl"
+              />
+            </AnimateIn>
+            <AnimateIn delay={300}>
+              <img
+                src="https://static.wixstatic.com/media/341fff_e2f6472d583b4234a55d1a8974b7ba27~mv2.jpg/v1/crop/x_0,y_898,w_4672,h_6110/fill/w_387,h_506,fp_0.50_0.50,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/20250827-Bloom-Chamber-4.jpg"
+                alt="Bloom Social behind the scenes"
+                className="w-full h-80 object-cover rounded-2xl"
+              />
+            </AnimateIn>
           </div>
         </div>
       </section>
+
+      {/* VIDEO SHOWCASE */}
+      <VideoShowcase />
 
       {/* TESTIMONIALS */}
       <section className="bg-bloom-light">
