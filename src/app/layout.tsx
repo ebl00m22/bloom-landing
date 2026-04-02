@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 const inter = Inter({
@@ -74,6 +75,7 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
+        <SmoothScroll />
         <Navigation />
         <div className="flex-1">{children}</div>
         <Footer />
