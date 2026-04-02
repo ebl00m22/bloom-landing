@@ -21,16 +21,12 @@ export default function Navigation() {
     <header className="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-bloom-green rounded-lg flex items-center justify-center text-white font-bold text-sm">
-            B
-          </div>
-          <span className="text-xl font-bold text-bloom-green tracking-tight">
-            Bloom
-            <span className="font-normal text-gray-500 ml-1 text-sm uppercase tracking-[0.2em]">
-              Social
-            </span>
-          </span>
+        <Link href="/">
+          <img
+            src="https://static.wixstatic.com/media/6f7b33_06eaee4996b84de2b8bd5ca55943beaa~mv2.png/v1/crop/x_31,y_0,w_2280,h_750/fill/w_182,h_60,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Bloom_Primary-DkGreen%26Gray%20(1).png"
+            alt="Bloom Social"
+            className="h-9 w-auto"
+          />
         </Link>
 
         {/* Desktop nav */}

@@ -8,16 +8,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-bloom-green rounded-lg flex items-center justify-center text-white font-bold text-sm">
-                B
-              </div>
-              <span className="text-lg font-bold text-white tracking-tight">
-                Bloom
-                <span className="font-normal text-gray-500 ml-1 text-sm uppercase tracking-[0.2em]">
-                  Social
-                </span>
-              </span>
+            <div className="mb-4">
+              <img
+                src="https://static.wixstatic.com/media/6f7b33_06eaee4996b84de2b8bd5ca55943beaa~mv2.png/v1/crop/x_31,y_0,w_2280,h_750/fill/w_182,h_60,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Bloom_Primary-DkGreen%26Gray%20(1).png"
+                alt="Bloom Social"
+                className="h-8 w-auto brightness-0 invert"
+              />
             </div>
             <p className="text-sm leading-relaxed max-w-sm">
               A boutique social media agency helping businesses bloom. Michigan-based, women-owned, serving clients nationwide.
