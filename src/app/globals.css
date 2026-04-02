@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bloom-green: #004845;
+  --color-bloom-blue: #3196cd;
+  --color-bloom-orange: #e17339;
+  --color-bloom-pink: #d9bed0;
+  --color-bloom-purple: #301730;
+  --color-bloom-gray: #bdcad1;
+  --color-bloom-light: #f5f8f7;
+  --color-bloom-dark: #002422;
+  --font-sans: var(--font-inter);
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Custom form focus styles */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 72, 69, 0.15);
+  border-color: #004845;
+}
+
+/* Smooth gradient animation for hero */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Subtle float animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
