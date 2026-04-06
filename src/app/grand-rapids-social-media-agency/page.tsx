@@ -129,6 +129,9 @@ export default function GrandRapidsSocialMediaAgency() {
         {/* Hero content */}
         <div className="relative z-[3] w-full max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
+          {/* Left column — text */}
+          <div>
+
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 14 }}
@@ -216,10 +219,11 @@ export default function GrandRapidsSocialMediaAgency() {
             <span className="hidden sm:block">·</span>
             <span>Founded 2020</span>
           </motion.div>
-        </div>
 
-        {/* Team photo — right column */}
-        <motion.div
+          </div>{/* end left column */}
+
+          {/* Team photo — right column */}
+          <motion.div
           className="hidden lg:block relative z-[3]"
           initial={{ opacity: 0, x: 40, scale: 0.96 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -239,7 +243,9 @@ export default function GrandRapidsSocialMediaAgency() {
               <span className="text-white text-xs font-semibold tracking-wide opacity-70">The Bloom Social Team · Grand Rapids, MI</span>
             </div>
           </div>
-        </motion.div>
+          </motion.div>
+
+        </div>{/* end grid */}
 
         {/* Scroll cue */}
         <motion.div
