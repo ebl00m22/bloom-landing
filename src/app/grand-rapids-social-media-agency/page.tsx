@@ -127,7 +127,7 @@ export default function GrandRapidsSocialMediaAgency() {
         </motion.div>
 
         {/* Hero content */}
-        <div className="relative z-[3] w-full max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="relative z-[3] w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-16 sm:pb-20 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* Left column — text */}
           <div>
@@ -265,18 +265,18 @@ export default function GrandRapidsSocialMediaAgency() {
       {/* ════════════════════════════════════════════════════════════════
           BENEFITS
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-24 md:py-32 bg-[#0c0a14]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="py-16 md:py-24 lg:py-32 bg-[#0c0a14]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mb-14"
+            className="mb-10 md:mb-14"
           >
             <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">Why Bloom</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white max-w-xl leading-[1.1]">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white max-w-xl leading-[1.1]">
               A local agency that treats your brand like their own.
             </h2>
           </motion.div>
@@ -318,7 +318,7 @@ export default function GrandRapidsSocialMediaAgency() {
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:divide-x lg:divide-white/[0.08]">
             {STATS.map((s, i) => (
               <motion.div
@@ -341,7 +341,7 @@ export default function GrandRapidsSocialMediaAgency() {
           HOW IT WORKS
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-[#0c0a14]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -384,7 +384,7 @@ export default function GrandRapidsSocialMediaAgency() {
           INDUSTRIES
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-20 bg-[#0c0a14] border-t border-white/[0.06]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -415,7 +415,7 @@ export default function GrandRapidsSocialMediaAgency() {
           TESTIMONIALS
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-[#0c0a14]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -457,9 +457,51 @@ export default function GrandRapidsSocialMediaAgency() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════
+          FAQ
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="py-16 md:py-24 bg-[#0c0a14]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-12"
+          >
+            <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">FAQ</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white leading-[1.1]">
+              Common questions about working with a Grand Rapids social media agency.
+            </h2>
+          </motion.div>
+          <div className="space-y-4">
+            {[
+              { q: "What does a Grand Rapids social media agency actually do?", a: "We handle your entire social presence — strategy, content creation, publishing, community management, and reporting. Our clients invest about 30 minutes a month reviewing content. We handle everything else." },
+              { q: "How much does social media management cost in Grand Rapids?", a: "Pricing varies based on platforms, content volume, and services. Bloom Social offers monthly retainers covering strategy, content, publishing, and reporting. Book a free call and we'll give you a clear picture of what makes sense for your goals." },
+              { q: "What industries do you work with in West Michigan?", a: "Manufacturing, healthcare, financial services, legal, real estate, nonprofits, B2B tech, and retail — among others. We specialize in helping executives build their LinkedIn presence and managing full social accounts for companies across the Grand Rapids area." },
+              { q: "Do you only work with Grand Rapids businesses?", a: "No. We're based in Grand Rapids and deeply connected here, but we serve clients nationwide. Our process is built to work remotely just as well as locally." },
+              { q: "How fast can you get started?", a: "After your strategy call we typically have your first content calendar ready within two weeks. First posts go live within five weeks of kickoff." },
+              { q: "Is Bloom Social women-owned?", a: "Yes. Bloom Social is a women-owned boutique agency founded in Grand Rapids in 2020. We are also Diverse Business Enterprise (DVE) certified." },
+            ].map((faq, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.06 }}
+                className="rounded-2xl border border-white/[0.07] bg-white/[0.03] px-6 py-5"
+              >
+                <p className="font-bold text-white text-sm mb-2">{faq.q}</p>
+                <p className="text-white/45 text-sm leading-relaxed">{faq.a}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════
           FINAL CTA
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-32 bg-[#004845] relative overflow-hidden">
+      <section className="py-16 md:py-24 lg:py-32 bg-[#004845] relative overflow-hidden">
         <div
           aria-hidden="true"
           className="absolute left-[-8%] top-1/2 -translate-y-1/2 w-[44vw] max-w-[560px] pointer-events-none select-none"
@@ -470,14 +512,14 @@ export default function GrandRapidsSocialMediaAgency() {
         </div>
         <div className="noise-overlay opacity-[0.03]" />
 
-        <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-8 text-center">
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.65 }}
           >
-            <h2 className="text-5xl md:text-7xl font-black text-white leading-[1.02] tracking-tight mb-6">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-[1.02] tracking-tight mb-6">
               Let&apos;s talk.
             </h2>
             <p className="text-white/60 text-lg mb-10 max-w-lg mx-auto">

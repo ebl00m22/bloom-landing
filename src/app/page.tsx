@@ -119,13 +119,13 @@ function FloatingBubble({
   return (
     <div
       aria-hidden="true"
-      className="absolute bottom-0 pointer-events-none select-none hidden sm:block"
+      className="absolute bottom-0 pointer-events-none select-none"
       style={{
         left,
         animation: `bubble-rise ${duration}s linear ${delay}s infinite`,
       }}
     >
-      <div className="px-3 py-1.5 rounded-full bg-white/[0.07] backdrop-blur-sm border border-white/[0.1] text-white/55 text-xs font-medium whitespace-nowrap">
+      <div className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-white/[0.07] backdrop-blur-sm border border-white/[0.1] text-white/55 text-[10px] sm:text-xs font-medium whitespace-nowrap">
         {text}
       </div>
     </div>
@@ -137,6 +137,15 @@ function FloatingBubble({
 export default function HomePage() {
   const prefersReduced = useReducedMotion();
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+  const [isLg, setIsLg] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    setIsLg(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsLg(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   // ── Hero scroll parallax ─────────────────────────────────────────────────
   const heroRef = useRef<HTMLElement>(null);
@@ -246,7 +255,7 @@ export default function HomePage() {
 
         {/* Hero content — parallaxes up + fades on scroll */}
         <motion.div
-          className="relative z-[3] w-full max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-36"
+          className="relative z-[3] w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-24 sm:pb-32"
           style={prefersReduced ? {} : { y: heroContentY, opacity: heroContentAlpha }}
         >
           {/* Eyebrow badge */}
@@ -380,7 +389,7 @@ export default function HomePage() {
           SERVICES
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header */}
           <motion.div
@@ -465,7 +474,7 @@ export default function HomePage() {
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0 lg:divide-x lg:divide-white/[0.08]">
             {STATS.map((s, i) => (
               <motion.div
@@ -490,7 +499,7 @@ export default function HomePage() {
           PROCESS
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -528,11 +537,11 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
                   transition={{ duration: 0.5, delay: i * 0.12 }}
-                  onHoverStart={() => setHoveredStep(i)}
-                  onHoverEnd={() => setHoveredStep(null)}
+                  onHoverStart={() => isLg && setHoveredStep(i)}
+                  onHoverEnd={() => isLg && setHoveredStep(null)}
                   animate={{
-                    opacity: hoveredStep !== null && hoveredStep !== i ? 0.45 : 1,
-                    y: hoveredStep === i ? -6 : 0,
+                    opacity: isLg && hoveredStep !== null && hoveredStep !== i ? 0.45 : 1,
+                    y: isLg && hoveredStep === i ? -6 : 0,
                   }}
                   className="relative cursor-default group"
                 >
@@ -540,10 +549,10 @@ export default function HomePage() {
                   <motion.div
                     className="hidden lg:block w-[18px] h-[18px] rounded-full border-2 bg-[#0c0a14] mb-8 relative z-10"
                     animate={{
-                      borderColor: i <= (hoveredStep ?? -1) ? "#e17339" : "rgba(225,115,57,0.35)",
-                      backgroundColor: hoveredStep === i ? "#e17339" : "#0c0a14",
-                      scale: hoveredStep === i ? 1.35 : 1,
-                      boxShadow: hoveredStep === i ? "0 0 0 5px rgba(225,115,57,0.18)" : "0 0 0 0px transparent",
+                      borderColor: isLg && i <= (hoveredStep ?? -1) ? "#e17339" : "rgba(225,115,57,0.35)",
+                      backgroundColor: isLg && hoveredStep === i ? "#e17339" : "#0c0a14",
+                      scale: isLg && hoveredStep === i ? 1.35 : 1,
+                      boxShadow: isLg && hoveredStep === i ? "0 0 0 5px rgba(225,115,57,0.18)" : "0 0 0 0px transparent",
                     }}
                     transition={{ duration: 0.2 }}
                   />
@@ -551,7 +560,7 @@ export default function HomePage() {
                   <p className="text-[#e17339] text-[10px] font-bold tracking-[0.22em] uppercase mb-2">{step.n}</p>
                   <motion.h3
                     className="font-bold text-lg mb-2"
-                    animate={{ color: hoveredStep === i ? "#ffffff" : "rgba(255,255,255,0.75)" }}
+                    animate={{ color: isLg && hoveredStep === i ? "#ffffff" : "rgba(255,255,255,0.85)" }}
                     transition={{ duration: 0.2 }}
                   >
                     {step.title}
@@ -583,9 +592,9 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════════════════
           TEAM / WHO WE ARE
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-24 bg-[#001a19] relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+      <section className="py-16 md:py-24 bg-[#001a19] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-14 lg:gap-20 items-center">
 
             {/* Copy */}
             <motion.div
@@ -656,7 +665,7 @@ export default function HomePage() {
           TESTIMONIALS
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -700,7 +709,7 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════════════════
           FINAL CTA
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-32 bg-[#004845] relative overflow-hidden">
+      <section className="py-16 md:py-24 lg:py-32 bg-[#004845] relative overflow-hidden">
         <div
           aria-hidden="true"
           className="absolute left-[-8%] top-1/2 -translate-y-1/2 w-[44vw] max-w-[560px] pointer-events-none select-none"
@@ -711,7 +720,7 @@ export default function HomePage() {
         </div>
         <div className="noise-overlay opacity-[0.03]" />
 
-        <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-8 text-center">
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

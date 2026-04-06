@@ -133,7 +133,7 @@ export default function AboutPage() {
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
         </div>
 
-        <div className="relative z-[3] max-w-7xl mx-auto px-6 lg:px-8 py-24 md:py-32">
+        <div className="relative z-[3] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -152,7 +152,7 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.25 }}
-              className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.06] tracking-tight mb-6"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.06] tracking-tight mb-6"
             >
               Meet the Team Behind Your
               <span className="text-bloom-orange"> Social Presence</span>
@@ -173,7 +173,7 @@ export default function AboutPage() {
           FOUNDERS
       ════════════════════════════════════════════════════════════════ */}
       <section className="bg-white py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -283,7 +283,7 @@ export default function AboutPage() {
           TEAM
       ════════════════════════════════════════════════════════════════ */}
       <section className="bg-bloom-light py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -339,7 +339,7 @@ export default function AboutPage() {
           VALUES
       ════════════════════════════════════════════════════════════════ */}
       <section className="bg-white py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -385,7 +385,7 @@ export default function AboutPage() {
           TESTIMONIALS
       ════════════════════════════════════════════════════════════════ */}
       <section className="bg-bloom-light py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -431,7 +431,7 @@ export default function AboutPage() {
           COMMUNITY / GIVING BACK
       ════════════════════════════════════════════════════════════════ */}
       <section className="bg-[#001a19] py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -515,7 +515,7 @@ export default function AboutPage() {
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 text-center">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

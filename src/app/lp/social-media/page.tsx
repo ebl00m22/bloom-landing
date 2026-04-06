@@ -268,7 +268,7 @@ export default function SocialMediaLP() {
         ))}
 
         {/* Hero content — two columns */}
-        <div className="relative z-[3] w-full max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-24">
+        <div className="relative z-[3] w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-16 sm:pb-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
             {/* ── LEFT COL ── */}
@@ -457,7 +457,7 @@ export default function SocialMediaLP() {
           BENEFITS
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-[#0c0a14]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -508,8 +508,8 @@ export default function SocialMediaLP() {
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-3 gap-10 lg:divide-x lg:divide-white/[0.08]">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-3 gap-4 sm:gap-10 lg:divide-x lg:divide-white/[0.08]">
             {STATS.map((s, i) => (
               <motion.div
                 key={i}
@@ -519,7 +519,7 @@ export default function SocialMediaLP() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="text-center lg:px-8"
               >
-                <div className="text-4xl md:text-5xl font-black text-white mb-2">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2">
                   <CountUp end={s.end} suffix={s.suffix} />
                 </div>
                 <p className="text-white/40 text-xs leading-snug">{s.label}</p>
@@ -543,7 +543,7 @@ export default function SocialMediaLP() {
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -585,7 +585,7 @@ export default function SocialMediaLP() {
           HOW IT WORKS
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-[#0c0a14]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -626,7 +626,7 @@ export default function SocialMediaLP() {
           WHO THIS IS FOR
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -673,7 +673,7 @@ export default function SocialMediaLP() {
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
         </div>
 
-        <div className="relative max-w-3xl mx-auto px-6 lg:px-8">
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -698,7 +698,7 @@ export default function SocialMediaLP() {
       {/* ════════════════════════════════════════════════════════════════
           FINAL CTA
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-32 bg-[#004845] relative overflow-hidden">
+      <section className="py-16 md:py-24 lg:py-32 bg-[#004845] relative overflow-hidden">
         <div
           aria-hidden="true"
           className="absolute left-[-8%] top-1/2 -translate-y-1/2 w-[44vw] max-w-[560px] pointer-events-none select-none"
@@ -709,14 +709,14 @@ export default function SocialMediaLP() {
         </div>
         <div className="noise-overlay opacity-[0.03]" />
 
-        <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-8 text-center">
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.65 }}
           >
-            <h2 className="text-5xl md:text-7xl font-black text-white leading-[1.02] tracking-tight mb-6">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-[1.02] tracking-tight mb-6">
               Stop guessing.
             </h2>
             <p className="text-white/60 text-lg mb-10 max-w-lg mx-auto">

@@ -194,7 +194,7 @@ export default function ExecutiveLinkedInLP() {
         </div>
 
         {/* Hero content */}
-        <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-24" style={{ zIndex: 3 }}>
+        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-16 sm:pb-24" style={{ zIndex: 3 }}>
           <div className="grid lg:grid-cols-2 gap-14 xl:gap-20 items-start">
 
             {/* ── Left column — copy ── */}
@@ -379,7 +379,7 @@ export default function ExecutiveLinkedInLP() {
           SOCIAL PROOF STRIP
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-10 bg-white/[0.025] border-y border-white/[0.05]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-8 text-white/30 text-sm font-semibold">
             <span>Trusted by executives across the Midwest</span>
             <span className="hidden sm:block w-px h-4 bg-white/15" />
@@ -396,7 +396,7 @@ export default function ExecutiveLinkedInLP() {
           BENEFITS
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-[#0c0a14]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -472,7 +472,7 @@ export default function ExecutiveLinkedInLP() {
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -506,7 +506,7 @@ export default function ExecutiveLinkedInLP() {
           HOW IT WORKS
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-[#0c0a14]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -566,7 +566,7 @@ export default function ExecutiveLinkedInLP() {
           style={{ background: "radial-gradient(circle, #e17339 0%, transparent 70%)", opacity: 0.08 }}
         />
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Eyebrow + heading */}
           <motion.div
@@ -737,7 +737,7 @@ export default function ExecutiveLinkedInLP() {
           TESTIMONIALS
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-[#0c0a14]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -785,7 +785,7 @@ export default function ExecutiveLinkedInLP() {
           WHO THIS IS FOR
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-20 md:py-28 bg-[#09080f] border-t border-white/[0.05]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -835,7 +835,7 @@ export default function ExecutiveLinkedInLP() {
       {/* ════════════════════════════════════════════════════════════════
           FINAL CTA
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-32 bg-[#004845] relative overflow-hidden">
+      <section className="py-16 md:py-24 lg:py-32 bg-[#004845] relative overflow-hidden">
         <div
           aria-hidden="true"
           className="absolute left-[-8%] top-1/2 -translate-y-1/2 w-[44vw] max-w-[560px] pointer-events-none select-none"
@@ -846,7 +846,7 @@ export default function ExecutiveLinkedInLP() {
         </div>
         <div className="noise-overlay opacity-[0.03]" />
 
-        <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-8 text-center">
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -854,7 +854,7 @@ export default function ExecutiveLinkedInLP() {
             transition={{ duration: 0.65 }}
           >
             <p className="text-white/40 text-xs font-bold tracking-[0.25em] uppercase mb-5">Ready to grow?</p>
-            <h2 className="text-5xl md:text-7xl font-black text-white leading-[1.02] tracking-tight mb-6">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-[1.02] tracking-tight mb-6">
               Your LinkedIn.<br />Our execution.
             </h2>
             <p className="text-white/60 text-lg mb-10 max-w-lg mx-auto">
