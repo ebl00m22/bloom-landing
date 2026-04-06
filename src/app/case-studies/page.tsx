@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { useRef } from "react";
 import CountUp from "@/components/CountUp";
-import { ArrowRightIcon, StarIcon } from "@/components/Icons";
+import { ArrowRightIcon, StarIcon, BMark } from "@/components/Icons";
 
 // ─── Nena stats ───────────────────────────────────────────────────────────────
 
@@ -45,9 +45,8 @@ function AnimatedStat({ end, label, display, index }: { end: number; label: stri
       transition={{ duration: 0.5, delay: index * 0.08 }}
       className="text-center p-6 rounded-2xl bg-white/[0.03] border border-white/[0.07]"
     >
-      <div className="text-3xl md:text-4xl font-black text-white mb-1 tabular-nums">
-        {inView ? <CountUp end={end} /> : "0"}
-        {display && <span>{display}</span>}
+      <div className="text-3xl md:text-4xl font-black mb-1 tabular-nums" style={{ color: "#00c4be" }}>
+        {inView ? <CountUp end={end} suffix={display ?? ""} duration={2200} /> : <span>0{display}</span>}
       </div>
       <p className="text-white/40 text-xs leading-snug">{label}</p>
     </motion.div>
@@ -73,11 +72,9 @@ export default function CaseStudiesPage() {
         {/* Ghost B mark */}
         <div
           aria-hidden="true"
-          className="absolute right-[-6%] top-1/2 -translate-y-1/2 w-[45vw] max-w-[580px] pointer-events-none select-none"
-          style={{ opacity: 0.06, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+          className="absolute right-[-6%] top-1/2 -translate-y-1/2 w-[45vw] max-w-[580px] pointer-events-none select-none opacity-[0.05] text-white"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+          <BMark className="w-full h-auto" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
@@ -360,11 +357,9 @@ export default function CaseStudiesPage() {
       <section className="py-32 bg-[#004845] relative overflow-hidden">
         <div
           aria-hidden="true"
-          className="absolute left-[-8%] top-1/2 -translate-y-1/2 w-[44vw] max-w-[560px] pointer-events-none select-none"
-          style={{ opacity: 0.09, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+          className="absolute left-[-8%] top-1/2 -translate-y-1/2 w-[44vw] max-w-[560px] pointer-events-none select-none opacity-[0.08] text-white"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+          <BMark className="w-full h-auto" />
         </div>
 
         <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-8 text-center">
@@ -382,10 +377,11 @@ export default function CaseStudiesPage() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-white text-[#004845] font-black text-lg rounded-xl hover:bg-[#f0f7f6] transition-colors shadow-2xl shadow-black/20"
+              className="group inline-flex items-center gap-3 px-8 py-4 font-black text-lg rounded-full text-white transition-all duration-200 hover:gap-5 shadow-2xl shadow-black/20"
+              style={{ backgroundColor: "#e17339" }}
             >
               Book your free call
-              <ArrowRightIcon className="w-5 h-5" />
+              <ArrowRightIcon className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
             </Link>
           </motion.div>
         </div>
