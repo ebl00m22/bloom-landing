@@ -33,12 +33,6 @@ const staggerContainer = {
 
 const teamMembers = [
   {
-    name: "Ethan Weliver",
-    role: "Social Media Specialist",
-    image: "/images/team-ethan-bloom-social.webp",
-    bio: "Ethan brings the creative vision to life. From photography and video to written content and strategy, he makes sure everything Bloom Social produces looks sharp and tells the right story.",
-  },
-  {
     name: "Carly",
     role: "Social Media Specialist",
     image: "/images/team-carly-bloom-social.webp",
@@ -49,6 +43,12 @@ const teamMembers = [
     role: "Social Media Specialist",
     image: "/images/team-abbie-bloom-social.webp",
     bio: "Abbie brings precision and creativity to content and community management. She keeps every client's social presence consistent, on-brand, and always moving forward.",
+  },
+  {
+    name: "Ethan Weliver",
+    role: "Social Media Specialist",
+    image: "/images/team-ethan-bloom-social.webp",
+    bio: "Ethan brings the creative vision to life. From photography and video to written content and strategy, he makes sure everything Bloom Social produces looks sharp and tells the right story.",
   },
 ];
 
