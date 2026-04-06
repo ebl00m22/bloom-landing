@@ -5,6 +5,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
+import PageTransition from "@/components/PageTransition";
 import "./globals.css";
 
 const inter = Inter({
@@ -83,10 +84,56 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
+        {/* LocalBusiness structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "name": "Bloom Social",
+              "description": "Boutique social media agency in Grand Rapids, MI specializing in executive LinkedIn ghostwriting and social media management.",
+              "url": "https://www.bloomsocialbiz.com",
+              "telephone": "",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Grand Rapids",
+                "addressRegion": "MI",
+                "addressCountry": "US"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 42.9634,
+                "longitude": -85.6681
+              },
+              "areaServed": [
+                { "@type": "City", "name": "Grand Rapids" },
+                { "@type": "State", "name": "Michigan" },
+                { "@type": "Country", "name": "United States" }
+              ],
+              "serviceType": [
+                "Social Media Management",
+                "LinkedIn Ghostwriting",
+                "Executive LinkedIn Management",
+                "Content Strategy",
+                "Content Production"
+              ],
+              "priceRange": "$$",
+              "openingHours": "Mo-Fr 09:00-17:00",
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "5.0",
+                "reviewCount": "5"
+              }
+            })
+          }}
+        />
         <CustomCursor />
         <SmoothScroll />
         <Navigation />
-        <div className="flex-1">{children}</div>
+        <PageTransition>
+          <div className="flex-1">{children}</div>
+        </PageTransition>
         <Footer />
       </body>
     </html>
