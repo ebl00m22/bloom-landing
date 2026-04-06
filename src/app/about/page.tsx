@@ -33,13 +33,13 @@ const staggerContainer = {
 
 const teamMembers = [
   {
-    name: "Carly",
+    name: "Carly Segar",
     role: "Social Media Specialist",
     image: "/images/team-carly-bloom-social.webp",
     bio: "Carly manages the day-to-day social presence for Bloom Social's clients. From strategy to scheduling to engagement, she keeps brands active and growing across every platform.",
   },
   {
-    name: "Abbie",
+    name: "Abbie Wisusik",
     role: "Social Media Specialist",
     image: "/images/team-abbie-bloom-social.webp",
     bio: "Abbie brings precision and creativity to content and community management. She keeps every client's social presence consistent, on-brand, and always moving forward.",
