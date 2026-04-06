@@ -4,6 +4,7 @@ import Script from "next/script";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
+import CustomCursor from "@/components/CustomCursor";
 import "./globals.css";
 
 const inter = Inter({
@@ -14,26 +15,33 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Bloom Social | Social Media Services | Grand Rapids, Michigan",
+    default: "Bloom Social | Social Media Agency | Grand Rapids, Michigan",
     template: "%s | Bloom Social",
   },
   description:
-    "Bloom Social is a boutique social media agency helping businesses bloom. Executive LinkedIn management, content creation, strategy, and more. Michigan-based, women-owned, nationwide results.",
+    "Bloom Social is a boutique social media agency in Grand Rapids, MI. Executive LinkedIn ghostwriting, social media management, and content strategy. Michigan-based, nationwide results.",
   keywords: [
-    "social media agency",
+    "social media agency Grand Rapids",
+    "Grand Rapids social media management",
     "LinkedIn ghostwriter",
     "executive LinkedIn management",
-    "social media management",
-    "content creation",
-    "Grand Rapids",
-    "Michigan",
+    "social media management Michigan",
+    "LinkedIn thought leadership",
+    "B2B social media agency",
+    "content strategy Grand Rapids",
   ],
+  icons: {
+    icon: "/images/bloom-social-b-mark-favicon.png",
+    shortcut: "/images/bloom-social-b-mark-favicon.png",
+    apple: "/images/bloom-social-b-mark-favicon.png",
+  },
   openGraph: {
-    title: "Bloom Social | Social Media Services",
+    title: "Bloom Social | Social Media Agency | Grand Rapids, MI",
     description:
-      "A boutique social media agency helping businesses bloom. Executive LinkedIn management, content creation, strategy, and more.",
+      "Executive LinkedIn ghostwriting and social media management. We help leaders build authority and generate leads without lifting a finger.",
     url: "https://www.bloomsocialbiz.com",
     siteName: "Bloom Social",
+    images: [{ url: "/images/bloom-social-grand-rapids-team.webp", width: 1400, alt: "Bloom Social team Grand Rapids Michigan" }],
     type: "website",
   },
 };
@@ -75,6 +83,7 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
+        <CustomCursor />
         <SmoothScroll />
         <Navigation />
         <div className="flex-1">{children}</div>

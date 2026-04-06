@@ -7,6 +7,8 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const isDark = variant === "dark";
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
@@ -60,19 +62,19 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white rounded-2xl shadow-2xl p-8 md:p-10 space-y-5"
+      className={`rounded-2xl p-8 md:p-10 space-y-5 ${isDark ? "bg-transparent" : "bg-white shadow-2xl"}`}
     >
       <div className="text-center mb-2">
-        <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange">
-          Free Strategy Session
+        <p className={`text-sm font-semibold tracking-widest uppercase ${isDark ? "text-[#e17339]" : "text-bloom-orange"}`}>
+          Book a Free Strategy Call
         </p>
-        <h3 className="text-xl md:text-2xl font-bold text-bloom-green mt-1">
-          Get Your Custom LinkedIn Plan
+        <h3 className={`text-xl md:text-2xl font-bold mt-1 ${isDark ? "text-white" : "text-bloom-green"}`}>
+          Let&apos;s Talk
         </h3>
       </div>
 
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="name" className={`block text-sm font-medium mb-1 ${isDark ? "text-white/70" : "text-gray-700"}`}>
           Full Name *
         </label>
         <input
@@ -81,12 +83,16 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
           type="text"
           required
           placeholder="Jane Smith"
-          className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 transition-all duration-200"
+          className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 ${
+            isDark
+              ? "bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              : "border-gray-300 text-gray-900 placeholder-gray-400"
+          }`}
         />
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="email" className={`block text-sm font-medium mb-1 ${isDark ? "text-white/70" : "text-gray-700"}`}>
           Work Email *
         </label>
         <input
@@ -95,12 +101,16 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
           type="email"
           required
           placeholder="jane@company.com"
-          className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 transition-all duration-200"
+          className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 ${
+            isDark
+              ? "bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              : "border-gray-300 text-gray-900 placeholder-gray-400"
+          }`}
         />
       </div>
 
       <div>
-        <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="company" className={`block text-sm font-medium mb-1 ${isDark ? "text-white/70" : "text-gray-700"}`}>
           Company
         </label>
         <input
@@ -108,12 +118,16 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
           name="company"
           type="text"
           placeholder="Acme Inc."
-          className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 transition-all duration-200"
+          className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 ${
+            isDark
+              ? "bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              : "border-gray-300 text-gray-900 placeholder-gray-400"
+          }`}
         />
       </div>
 
       <div>
-        <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="role" className={`block text-sm font-medium mb-1 ${isDark ? "text-white/70" : "text-gray-700"}`}>
           Your Role *
         </label>
         <select
@@ -121,7 +135,11 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
           name="role"
           required
           defaultValue=""
-          className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 transition-all duration-200 bg-white"
+          className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 ${
+            isDark
+              ? "bg-[#0c0a14] border-white/20 text-white"
+              : "border-gray-300 text-gray-900 bg-white"
+          }`}
         >
           <option value="" disabled>Select your role...</option>
           <option>C-Suite / Founder</option>
@@ -133,15 +151,19 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
       </div>
 
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-          What are your LinkedIn goals?
+        <label htmlFor="message" className={`block text-sm font-medium mb-1 ${isDark ? "text-white/70" : "text-gray-700"}`}>
+          What are you hoping to achieve?
         </label>
         <textarea
           id="message"
           name="message"
           rows={3}
-          placeholder="Build thought leadership, generate leads, increase visibility..."
-          className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 transition-all duration-200 resize-none"
+          placeholder="Tell us about your business and what you're hoping to achieve."
+          className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 resize-none ${
+            isDark
+              ? "bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              : "border-gray-300 text-gray-900 placeholder-gray-400"
+          }`}
         />
       </div>
 
@@ -159,12 +181,12 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
             Sending...
           </span>
         ) : (
-          "Get My Free Strategy Session"
+          "Send Message"
         )}
       </button>
 
-      <p className="text-xs text-gray-400 text-center">
-        No spam. No obligation. Just a real conversation about your LinkedIn presence.
+      <p className={`text-xs text-center ${isDark ? "text-white/35" : "text-gray-400"}`}>
+        No pressure. We will get back to you within one business day.
       </p>
     </form>
   );

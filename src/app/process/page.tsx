@@ -1,256 +1,530 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 import Link from "next/link";
 import {
   ArrowRightIcon,
-  LightBulbIcon,
+  CheckIcon,
   CalendarIcon,
   PenIcon,
   RocketIcon,
   ChartIcon,
-  CheckIcon,
+  LightBulbIcon,
+  BMark,
 } from "@/components/Icons";
 
-export const metadata: Metadata = {
-  title: "Our Process",
-  description:
-    "See how Bloom Social works with clients from discovery to results. Our proven process takes you from invisible to influential on social media.",
+// ─── Animation variants ────────────────────────────────────────────────────
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
 };
 
-const STEPS = [
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+};
+
+// ─── Timeline steps ────────────────────────────────────────────────────────
+
+const timelineSteps = [
   {
     number: "01",
-    title: "Discovery",
-    subtitle: "We get to know you.",
-    icon: LightBulbIcon,
-    description:
-      "Everything starts with a conversation. We learn about your business, your goals, your audience, and what makes you different. We dig into your voice, your industry, and what success looks like for you.",
+    icon: <LightBulbIcon className="w-6 h-6" />,
+    title: "Strategy Alignment",
+    timing: "Week 1–2 after signing",
+    body: "We kick off with a deep-dive call to learn your voice, your goals, your target audience, and what makes you different. We audit your existing presence, set KPIs, and build the foundation for everything that follows.",
     details: [
-      "Deep-dive into your brand, values, and goals",
-      "Audit of your current social media presence",
-      "Competitive landscape analysis",
-      "Audience research and persona development",
-      "Define KPIs and success metrics",
+      "Brand voice interview and tone of voice guide",
+      "Audit of your current LinkedIn and social profiles",
+      "Audience research and ideal client profiling",
+      "Competitor landscape review",
+      "KPI setting and success metrics definition",
     ],
   },
   {
     number: "02",
-    title: "Strategy",
-    subtitle: "We build your roadmap.",
-    icon: CalendarIcon,
-    description:
-      "Based on what we learn in discovery, we create a custom strategy built specifically for you. This is not a cookie-cutter template. It is a detailed plan that maps out exactly how we will grow your presence and hit your goals.",
+    icon: <CalendarIcon className="w-6 h-6" />,
+    title: "Content Calendar Delivered",
+    timing: "15th of each month",
+    timingHighlight: true,
+    body: "By the 15th of every month, you receive a complete, ready-to-review content calendar: every post written, every asset designed, organized by date and platform. You see the full month before anything goes live.",
     details: [
-      "Custom content calendar with topics and themes",
-      "Platform-specific strategies and posting schedules",
-      "Content pillar framework tailored to your industry",
-      "Engagement strategy and community growth plan",
-      "Paid media recommendations (if applicable)",
+      "Full month of posts drafted in your voice",
+      "Visual content and graphics designed",
+      "Platform-specific copy and hashtags",
+      "Organized in Monday.com for easy review",
+      "Notes on strategy rationale for key posts",
     ],
   },
   {
     number: "03",
-    title: "Creation",
-    subtitle: "We bring it to life.",
-    icon: PenIcon,
-    description:
-      "Our team gets to work creating content that sounds like you, looks like your brand, and resonates with your audience. You review everything before it goes live. We don't post anything you haven't approved.",
+    icon: <PenIcon className="w-6 h-6" />,
+    title: "You Approve in One Batch",
+    timing: "30–60 minutes, your call",
+    timingHighlight: true,
+    body: "Review and approve your entire month of content in a single 30–60 minute session via Monday.com. Leave comments, request changes, or give a thumbs up. That&apos;s your entire monthly time commitment to Bloom Social.",
     details: [
-      "Ghostwritten posts and captions in your voice",
-      "Professional graphics and visual content",
-      "Photography and video (if included in your package)",
-      "Profile optimization and branding updates",
-      "Approval workflow before anything goes live",
+      "Simple approval workflow in Monday.com",
+      "Comment directly on individual posts",
+      "Request edits with one-click notes",
+      "Revisions turned around within 48 hours",
+      "No phone calls required (unless you want one)",
     ],
   },
   {
     number: "04",
-    title: "Launch & Engage",
-    subtitle: "We put it out there.",
-    icon: RocketIcon,
-    description:
-      "Content goes live. But posting is only half the job. We actively manage engagement, respond to comments, build connections, and make sure your brand stays visible and active every single day.",
+    icon: <RocketIcon className="w-6 h-6" />,
+    title: "Publishing & Engagement",
+    timing: "First week of each month",
+    body: "Posts go live on schedule. Our team monitors engagement, responds to comments, makes strategic connections, and keeps your presence active every single day. You stay top of mind without lifting a finger.",
     details: [
-      "Scheduled posting across all platforms",
-      "Daily community management and engagement",
-      "Strategic commenting and connection outreach",
+      "Posts published on schedule across platforms",
+      "Comment monitoring and replies",
+      "Strategic connection requests to ideal prospects",
+      "Engagement on relevant industry content",
       "DM management and lead flagging",
-      "Real-time monitoring for opportunities and trends",
     ],
   },
   {
     number: "05",
-    title: "Measure & Optimize",
-    subtitle: "We track what matters.",
-    icon: ChartIcon,
-    description:
-      "We don't just set it and forget it. Every month, we review performance, identify what is working, and adjust the strategy to keep improving. You get clear reports that show exactly what is happening and why.",
+    icon: <ChartIcon className="w-6 h-6" />,
+    title: "Monthly Reporting",
+    timing: "5th of each month",
+    timingHighlight: true,
+    body: "By the 5th of each month, you receive a clear performance report showing what happened, what worked, and what we&apos;re adjusting for the next month. No vanity metrics. Just data that connects to your actual goals.",
     details: [
-      "Monthly performance reporting with clear insights",
-      "Content performance analysis (what worked, what didn't)",
-      "Audience growth and engagement tracking",
-      "Strategy adjustments based on data",
-      "Quarterly strategy reviews and goal check-ins",
+      "Impressions, reach, and engagement metrics",
+      "Follower/connection growth tracking",
+      "Top-performing content analysis",
+      "Strategy recommendations for next month",
+      "Quarterly deep-dive reviews available",
     ],
   },
 ];
 
+// ─── FAQ items ─────────────────────────────────────────────────────────────
+
+const faqs = [
+  {
+    question: "How much of my time does this take?",
+    answer: "About 30–60 minutes per month. You&apos;ll do a kickoff call when we onboard (usually 60–90 minutes), and after that, you just review and approve your monthly content calendar. We handle everything else: strategy, writing, design, scheduling, engagement, and reporting.",
+  },
+  {
+    question: "What platforms do you manage?",
+    answer: "We specialize in LinkedIn, Instagram, Facebook, TikTok, and YouTube Shorts. Most clients start with LinkedIn (our core specialty) and expand from there. We&apos;ll recommend the platforms that make the most sense for your audience and goals.",
+  },
+  {
+    question: "Do I own the content you create?",
+    answer: "Yes, 100%. All content we create for you belongs to you. We build your content calendar in your name, write in your voice, and everything we produce is yours to keep, even if you ever decide to stop working with us.",
+  },
+  {
+    question: "How do I approve content?",
+    answer: "We use Monday.com as our approval platform. You&apos;ll receive a link to your content board, where you can review posts, leave comments, request edits, and give final approval. All in one place, on your own schedule.",
+  },
+  {
+    question: "When will my first posts go live?",
+    answer: "Typically within 5 weeks of your kickoff call. We spend the first couple of weeks in strategy and onboarding, then build your first content calendar. Posts usually go live in the first week of your first full month of service.",
+  },
+  {
+    question: "What if I don't like something?",
+    answer: "Request an edit and we&apos;ll revise it. No questions asked, no limit on revisions during the approval window. Our goal is for you to feel genuinely proud of everything that goes out under your name.",
+  },
+];
+
+// ─── Components ────────────────────────────────────────────────────────────
+
+function TimelineStep({
+  step,
+  isActive,
+  isCurrent,
+}: {
+  step: typeof timelineSteps[0];
+  isActive: boolean;
+  isCurrent: boolean;
+}) {
+  return (
+    <div className="relative flex gap-6 md:gap-8">
+      {/* Step bubble */}
+      <motion.div
+        className="hidden md:flex shrink-0 w-14 h-14 rounded-2xl items-center justify-center text-white font-extrabold text-sm relative z-10"
+        animate={{
+          backgroundColor: isCurrent ? "#e17339" : "#004845",
+          boxShadow: isCurrent
+            ? "0 0 0 8px rgba(225,115,57,0.12), 0 8px 24px rgba(225,115,57,0.28)"
+            : "0 0 0 0px transparent",
+        }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {step.number}
+      </motion.div>
+
+      {/* Mobile number */}
+      <div className="md:hidden w-10 h-10 bg-bloom-green rounded-xl flex items-center justify-center text-white font-bold text-xs shrink-0 mt-1">
+        {step.number}
+      </div>
+
+      <div className="flex-1 pt-1">
+        {/* Timing badge */}
+        {step.timing && (
+          <span
+            className={`inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase px-3 py-1.5 rounded-full mb-3 ${
+              step.timingHighlight
+                ? "bg-bloom-orange/12 text-bloom-orange border border-bloom-orange/20"
+                : "bg-bloom-green/[0.08] text-bloom-green border border-bloom-green/15"
+            }`}
+          >
+            {step.icon}
+            {step.timing}
+          </span>
+        )}
+
+        <h3 className="text-2xl font-extrabold text-bloom-green mb-3">{step.title}</h3>
+        <p
+          className="text-gray-600 leading-relaxed mb-5 text-base"
+          dangerouslySetInnerHTML={{ __html: step.body }}
+        />
+
+        {/* Details card — always fully visible, just border highlights when active */}
+        <div
+          className={`rounded-2xl p-6 border transition-colors duration-500 ${
+            isCurrent
+              ? "bg-white border-bloom-orange/20 shadow-sm"
+              : "bg-bloom-light border-transparent"
+          }`}
+        >
+          <p className="text-xs font-bold text-bloom-green uppercase tracking-[0.15em] mb-4">
+            What this includes
+          </p>
+          <ul className="space-y-2.5">
+            {step.details.map((detail, j) => (
+              <li key={j} className="flex items-start gap-3 text-gray-600 text-sm">
+                <span className={`shrink-0 mt-0.5 transition-colors duration-300 ${isCurrent ? "text-bloom-orange" : "text-bloom-green"}`}>
+                  <CheckIcon className="w-4 h-4" />
+                </span>
+                {detail}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProcessTimeline() {
+  const [activeStep, setActiveStep] = useState(-1);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 80%", "end 25%"],
+  });
+
+  const rawLineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const lineHeight = useSpring(rawLineHeight, { stiffness: 55, damping: 18 });
+
+  useEffect(() => {
+    const observers: (IntersectionObserver | null)[] = stepRefs.current.map((ref, i) => {
+      if (!ref) return null;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveStep(i);
+          }
+        },
+        // rootMargin pushes the trigger point: step activates when its top
+        // clears the upper-third of the viewport — no rapid flicker
+        { threshold: 0, rootMargin: "-25% 0px -55% 0px" }
+      );
+      obs.observe(ref);
+      return obs;
+    });
+    return () => observers.forEach((o) => o?.disconnect());
+  }, []);
+
+  return (
+    <div className="relative" ref={containerRef}>
+      {/* Static background line */}
+      <div className="absolute left-[27px] top-6 bottom-6 w-0.5 bg-bloom-green/10 hidden md:block" />
+      {/* Animated orange fill line */}
+      <motion.div
+        className="absolute left-[27px] top-6 w-0.5 bg-gradient-to-b from-bloom-orange via-bloom-orange to-bloom-orange/50 hidden md:block rounded-full"
+        style={{ height: lineHeight }}
+      />
+
+      <div className="space-y-14">
+        {timelineSteps.map((step, i) => (
+          <div
+            key={i}
+            ref={(el) => { stepRefs.current[i] = el; }}
+          >
+            <TimelineStep
+              step={step}
+              isActive={activeStep >= i}
+              isCurrent={activeStep === i}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FAQItem({ question, answer }: { question: string; answer: string }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <motion.div
+      className="border border-gray-100 rounded-2xl overflow-hidden bg-white"
+      initial={false}
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between gap-4 px-7 py-5 text-left cursor-pointer"
+      >
+        <span className="font-semibold text-gray-900 text-sm md:text-base">{question}</span>
+        <motion.span
+          animate={{ rotate: open ? 45 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="w-7 h-7 rounded-full bg-bloom-green/[0.08] flex items-center justify-center text-bloom-green shrink-0 font-bold text-lg leading-none"
+        >
+          +
+        </motion.span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="px-7 pb-6">
+              <p className="text-gray-500 text-sm leading-relaxed">{answer}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
 export default function ProcessPage() {
   return (
-    <main className="pt-16">
-      {/* HERO */}
-      <section className="bg-gradient-to-br from-bloom-green via-bloom-dark to-bloom-purple">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-          <div className="max-w-3xl">
-            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
+    <main className="overflow-x-hidden">
+
+      {/* ═══════════════════════════════════════════════════════════════
+          HERO
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="hero-mesh relative min-h-[60vh] flex items-center overflow-hidden">
+        <div className="noise-overlay opacity-[0.055] z-[1]" aria-hidden="true" />
+
+        <motion.div
+          aria-hidden="true"
+          className="absolute rounded-full blur-[120px] pointer-events-none z-[1]"
+          style={{ width: 550, height: 550, top: "-10%", right: "-5%", backgroundColor: "#004845" }}
+          animate={{ scale: [1, 1.07, 1], opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 13, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute rounded-full blur-[130px] pointer-events-none z-[1]"
+          style={{ width: 380, height: 380, bottom: "-10%", left: "-5%", backgroundColor: "#301730" }}
+          animate={{ scale: [1, 1.08, 1], opacity: [0.55, 0.85, 0.55] }}
+          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
+        />
+
+        <div
+          aria-hidden="true"
+          className="absolute right-[-8%] top-1/2 -translate-y-1/2 w-[55vw] max-w-[700px] pointer-events-none z-[2] select-none"
+          style={{ opacity: 0.13, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+        </div>
+
+        <div className="relative z-[3] max-w-7xl mx-auto px-6 lg:px-8 py-24 md:py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-3xl"
+          >
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4"
+            >
               Our Process
-            </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1]">
-              From Invisible
-              <span className="text-bloom-orange"> to Influential.</span>
-            </h1>
-            <p className="mt-6 text-xl text-gray-300 leading-relaxed max-w-2xl">
-              Social media is not one-size-fits-all. Our process is built to
-              understand your unique business and create a strategy that actually
-              gets results.
-            </p>
-          </div>
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.25 }}
+              className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.06] tracking-tight mb-6"
+            >
+              How We Work
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-xl text-white/65 leading-relaxed max-w-2xl mb-8"
+            >
+              Simple, predictable, and designed to respect your time. Most clients spend less than an hour per month working with us.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.55 }}
+              className="inline-flex items-center gap-3 px-5 py-3 bg-bloom-orange/15 border border-bloom-orange/30 rounded-full text-bloom-orange text-sm font-semibold"
+            >
+              <RocketIcon className="w-4 h-4" />
+              First posts go live within 5 weeks of kickoff
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
-      {/* PROCESS STEPS */}
-      <section className="bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="space-y-20">
-            {STEPS.map((step, i) => {
-              const Icon = step.icon;
-              return (
-                <div key={step.number} className="relative">
-                  {/* Connector line */}
-                  {i < STEPS.length - 1 && (
-                    <div className="hidden md:block absolute left-7 top-20 bottom-0 w-px bg-bloom-green/10 -mb-20" style={{ height: "calc(100% + 5rem)" }} />
-                  )}
-
-                  <div className="flex gap-8">
-                    {/* Number circle */}
-                    <div className="hidden md:flex shrink-0 w-14 h-14 bg-bloom-green rounded-2xl items-center justify-center text-white font-bold text-lg relative z-10">
-                      {step.number}
-                    </div>
-
-                    <div className="flex-1">
-                      <div className="md:hidden w-12 h-12 bg-bloom-green rounded-xl flex items-center justify-center text-white font-bold text-sm mb-4">
-                        {step.number}
-                      </div>
-
-                      <div className="flex items-center gap-3 mb-2">
-                        <Icon className="w-6 h-6 text-bloom-orange" />
-                        <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange">
-                          {step.subtitle}
-                        </p>
-                      </div>
-
-                      <h2 className="text-2xl md:text-3xl font-bold text-bloom-green mb-4">
-                        {step.title}
-                      </h2>
-
-                      <p className="text-gray-600 text-lg leading-relaxed mb-6 max-w-2xl">
-                        {step.description}
-                      </p>
-
-                      <div className="bg-bloom-light rounded-2xl p-6">
-                        <p className="text-sm font-semibold text-bloom-green mb-4 uppercase tracking-wider">
-                          What this looks like:
-                        </p>
-                        <ul className="space-y-3">
-                          {step.details.map((detail) => (
-                            <li
-                              key={detail}
-                              className="flex items-start gap-3 text-gray-700"
-                            >
-                              <CheckIcon className="w-5 h-5 text-bloom-orange shrink-0 mt-0.5" />
-                              <span className="text-sm">{detail}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* WHAT MAKES US DIFFERENT */}
-      <section className="bg-bloom-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="text-center mb-14">
-            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
-              Why Bloom Social
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-bloom-green">
-              What Makes Us Different
+      {/* ═══════════════════════════════════════════════════════════════
+          TIMELINE
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-white py-24 md:py-32">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-3">Step by Step</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-bloom-green leading-tight">
+              The Bloom Social Process
             </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          </motion.div>
+
+          <ProcessTimeline />
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          KEY CALLOUT — 5 weeks
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-[#001a19] py-16 md:py-20">
+        <div className="max-w-5xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 md:divide-x md:divide-white/[0.08]"
+          >
             {[
-              {
-                title: "We learn your voice",
-                desc: "Every business is different. We take the time to understand how you communicate so the content always sounds like you.",
-              },
-              {
-                title: "You approve everything",
-                desc: "Nothing goes live without your sign-off. You always have full visibility and control over what gets posted.",
-              },
-              {
-                title: "Data drives decisions",
-                desc: "We track what works and adjust the strategy every month. No guesswork. Just data-backed creative.",
-              },
-              {
-                title: "We are a real team",
-                desc: "You are not getting passed off to a freelancer. You work with the same team of strategists and creatives every month.",
-              },
-              {
-                title: "We are proactive",
-                desc: "We don't wait for you to tell us what to post. We bring ideas, spot trends, and keep your content fresh.",
-              },
-              {
-                title: "Results over vanity metrics",
-                desc: "Likes are nice. Leads are better. We focus on the metrics that actually move your business forward.",
-              },
-            ].map((item) => (
-              <div key={item.title} className="bg-white rounded-2xl p-7">
-                <h3 className="text-lg font-bold text-bloom-green mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {item.desc}
-                </p>
+              { stat: "5 weeks", label: "From kickoff to first posts live", sub: "average for new clients" },
+              { stat: "30–60 min", label: "Your monthly time commitment", sub: "review + approve in one batch" },
+              { stat: "15th", label: "Content calendar delivery", sub: "every month, without fail" },
+            ].map((item, i) => (
+              <div key={i} className="text-center px-8">
+                <div className="text-4xl md:text-5xl font-extrabold text-bloom-orange mb-2 tracking-tight">{item.stat}</div>
+                <div className="text-white font-semibold mb-1">{item.label}</div>
+                <div className="text-white/35 text-sm">{item.sub}</div>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-bloom-green">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
-            Ready to get started?
-          </h2>
-          <p className="mt-4 text-gray-300 text-lg max-w-2xl mx-auto">
-            The first step is a conversation. Let us learn about your goals and
-            show you how we can help.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-8 inline-flex items-center gap-2 px-10 py-5 bg-bloom-orange hover:bg-bloom-orange/90 text-white font-bold rounded-lg text-lg tracking-wide uppercase transition-all duration-200 shadow-lg shadow-bloom-orange/30 hover:shadow-xl hover:-translate-y-1"
+      {/* ═══════════════════════════════════════════════════════════════
+          FAQ
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-bloom-light py-24 md:py-32">
+        <div className="max-w-3xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
           >
-            Book Your Free Discovery Call
-            <ArrowRightIcon className="w-5 h-5" />
-          </Link>
+            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-3">Questions</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-bloom-green leading-tight">
+              How It Works
+            </h2>
+          </motion.div>
+
+          <motion.div
+            className="space-y-3"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={staggerContainer}
+          >
+            {faqs.map((faq, i) => (
+              <motion.div key={i} variants={fadeUp}>
+                <FAQItem question={faq.question} answer={faq.answer} />
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          CTA
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-bloom-green relative overflow-hidden py-24 md:py-32">
+        <div
+          aria-hidden="true"
+          className="absolute right-[-8%] top-1/2 -translate-y-1/2 w-[42vw] max-w-[540px] pointer-events-none select-none"
+          style={{ opacity: 0.12, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
+              Ready to Start?
+            </p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5">
+              The First Step Is a Conversation
+            </h2>
+            <p className="text-white/65 text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+              Book a free strategy session. We&apos;ll learn about your goals, show you what&apos;s possible, and outline exactly how we&apos;d work together.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 px-10 py-5 bg-bloom-orange hover:bg-bloom-orange/90 text-white font-bold rounded-full text-lg transition-all duration-200 shadow-xl shadow-bloom-orange/30 hover:-translate-y-0.5"
+              >
+                Book a Free Strategy Session <ArrowRightIcon />
+              </Link>
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-2 px-10 py-5 bg-white/[0.10] border border-white/20 hover:bg-white/[0.18] text-white font-semibold rounded-full text-lg transition-all duration-200"
+              >
+                See Our Services
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
     </main>
   );
 }

@@ -1,246 +1,416 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowRightIcon, LinkedInIcon, CheckIcon } from "@/components/Icons";
+"use client";
 
-export const metadata: Metadata = {
-  title: "About Us",
-  description:
-    "Meet the Bloom Social team. A Michigan-based, women-owned boutique social media agency helping businesses and executives bloom since 2015.",
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowRightIcon,
+  CheckIcon,
+  BMark,
+  RocketIcon,
+  UsersIcon,
+  StarIcon,
+  SparklesIcon,
+} from "@/components/Icons";
+
+// ─── Animation variants ────────────────────────────────────────────────────
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
 };
 
-const TEAM = [
-  {
-    name: "Kirsten Pipp",
-    role: "Founder & CEO",
-    image:
-      "https://static.wixstatic.com/media/341fff_c0fdb8c9233f445ea5ecea7e0f115aab~mv2.jpg/v1/fill/w_100,h_100,fp_0.51_0.40,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/kirsten-headshot.jpg",
-    bio: "Kirsten started Bloom Social as a side hustle in 2015 while working full-time at a corporate job. She made the leap to full-time in 2020 and hasn't looked back. With over a decade of experience in social media strategy, she leads the team with a passion for helping executives find their voice online.",
-  },
-  {
-    name: "Jeff Pipp",
-    role: "Operations & Strategy",
-    image:
-      "https://static.wixstatic.com/media/341fff_ce25eba8cfb341bcbb178cf5e7b64a1a~mv2.jpg/v1/fill/w_100,h_100,fp_0.49_0.40,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/jeff-headshot.jpg",
-    bio: "Jeff keeps Bloom Social running smoothly behind the scenes. From operations to client strategy, he makes sure every project hits its goals and every client gets the attention they deserve.",
-  },
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+};
+
+// ─── Data ──────────────────────────────────────────────────────────────────
+
+const teamMembers = [
   {
     name: "Ethan Weliver",
     role: "Creative & Content",
-    image:
-      "https://static.wixstatic.com/media/341fff_1708be88ce2c4fa7a9180c1d89c7c017~mv2.jpg/v1/fill/w_100,h_100,fp_0.50_0.39,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ethan-headshot.jpg",
-    bio: "Ethan brings the creative vision to life. Whether it's photography, video, or content creation, he makes sure everything Bloom Social produces looks sharp and tells the right story.",
+    image: "/images/team-ethan-bloom-social.webp",
+    bio: "Ethan brings the creative vision to life. Whether it's photography, video, or written content, he makes sure everything Bloom Social produces looks sharp and tells the right story.",
   },
   {
     name: "Carly",
     role: "Social Media Manager",
-    image:
-      "https://static.wixstatic.com/media/341fff_993ce4c6541f4c56a6ddf9d3e7771bde~mv2.jpg/v1/fill/w_100,h_100,fp_0.49_0.40,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/carly-headshot.jpg",
+    image: "/images/team-carly-bloom-social.webp",
     bio: "Carly manages the day-to-day social presence for Bloom Social's clients. From scheduling posts to engaging with audiences, she keeps brands active and growing across every platform.",
   },
   {
     name: "Abbie",
     role: "Social Media Coordinator",
-    image:
-      "https://static.wixstatic.com/media/6f7b33_98d17a22e1574dc2817c398d8131f61f~mv2.jpg/v1/fill/w_100,h_100,fp_0.49_0.46,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/bloom-social-biz-headshot-square-abbie.jpg",
-    bio: "Abbie supports the team with content coordination, community management, and making sure nothing falls through the cracks. She keeps things organized so the creative work can shine.",
+    image: "/images/team-abbie-bloom-social.webp",
+    bio: "Abbie supports the team with content coordination and community management. She keeps everything organized so the creative work can shine, and nothing falls through the cracks.",
   },
 ];
 
-const VALUES = [
+const values = [
   {
-    title: "Results Over Vanity Metrics",
-    description:
-      "We care about leads, authority, and real business outcomes. Not just likes.",
+    icon: <RocketIcon className="w-6 h-6" />,
+    title: "Growth Mindset",
+    body: "We invest in our craft, stay current on every platform, and constantly look for smarter ways to deliver results for the people we serve.",
   },
   {
-    title: "Your Voice, Not Ours",
-    description:
-      "Every piece of content sounds like you because we take the time to learn how you think and speak.",
+    icon: <UsersIcon className="w-6 h-6" />,
+    title: "Respect for Others",
+    body: "Every client interaction, every piece of content, every team decision is grounded in mutual respect: for your time, your voice, and your goals.",
   },
   {
-    title: "Transparency Always",
-    description:
-      "You see exactly what we're doing, why we're doing it, and how it's performing. No black boxes.",
+    icon: <StarIcon />,
+    title: "Happy Clients",
+    body: "We measure success by yours. When your profile is growing, your inbox is active, and you feel good about your brand online. That's our win.",
   },
   {
-    title: "Creative with Purpose",
-    description:
-      "Every post, every photo, every strategy is built to move the needle for your business.",
+    icon: <SparklesIcon className="w-6 h-6" />,
+    title: "Impact + Value Driven",
+    body: "We don't do vanity metrics. Every strategy we build is designed to create real business impact: visibility, relationships, and revenue.",
   },
 ];
+
+const badges = ["Women-Owned", "Founded 2020", "Grand Rapids, MI", "Nationwide Clients", "Built on EOS"];
+
+// ─── Component ─────────────────────────────────────────────────────────────
 
 export default function AboutPage() {
   return (
-    <main className="pt-16">
-      {/* HERO */}
-      <section className="bg-gradient-to-br from-bloom-green via-bloom-dark to-bloom-purple">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-          <div className="max-w-3xl">
-            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
+    <main className="overflow-x-hidden">
+
+      {/* ═══════════════════════════════════════════════════════════════
+          HERO
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="hero-mesh relative min-h-[65vh] flex items-center overflow-hidden">
+        <div className="noise-overlay opacity-[0.055] z-[1]" aria-hidden="true" />
+
+        {/* Orb */}
+        <motion.div
+          aria-hidden="true"
+          className="absolute rounded-full blur-[120px] pointer-events-none z-[1]"
+          style={{ width: 600, height: 600, top: "-15%", right: "-5%", backgroundColor: "#004845" }}
+          animate={{ scale: [1, 1.06, 1], opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute rounded-full blur-[140px] pointer-events-none z-[1]"
+          style={{ width: 400, height: 400, bottom: "-10%", left: "-5%", backgroundColor: "#301730" }}
+          animate={{ scale: [1, 1.08, 1], opacity: [0.6, 0.85, 0.6] }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        />
+
+        {/* Ghost B mark */}
+        <div
+          aria-hidden="true"
+          className="absolute right-[-8%] top-1/2 -translate-y-1/2 w-[55vw] max-w-[700px] pointer-events-none z-[2] select-none"
+          style={{ opacity: 0.13, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+        </div>
+
+        <div className="relative z-[3] max-w-7xl mx-auto px-6 lg:px-8 py-24 md:py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-3xl"
+          >
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4"
+            >
               About Bloom Social
-            </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1]">
-              Storytellers, Creatives,
-              <span className="text-bloom-orange"> and Experts.</span>
-            </h1>
-            <p className="mt-6 text-xl text-gray-300 leading-relaxed max-w-2xl">
-              We are a boutique social media agency with a passion for helping
-              businesses bloom. Michigan-based, women-owned, and serving clients
-              nationwide.
-            </p>
-          </div>
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.25 }}
+              className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.06] tracking-tight mb-6"
+            >
+              Meet the Team Behind Your
+              <span className="text-bloom-orange"> LinkedIn Success</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
+              className="text-xl text-white/65 leading-relaxed max-w-2xl"
+            >
+              We&apos;re a boutique social media agency based in Grand Rapids, Michigan, built to help executives and B2B companies show up with confidence and clarity online.
+            </motion.p>
+          </motion.div>
         </div>
       </section>
 
-      {/* TEAM PHOTOS */}
-      <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
-                Our Story
-              </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-bloom-green leading-tight">
-                Started as a side hustle. Now we help executives nationwide.
-              </h2>
-              <p className="mt-6 text-gray-600 text-lg leading-relaxed">
-                Bloom Social was founded in 2015 by Kirsten Pipp while she was
-                still working her corporate job. What started as a passion
-                project grew into something bigger. By 2020, Kirsten went
-                all-in, building a team of creatives and strategists who share
-                the same goal: helping businesses tell their story and get
-                results through social media.
-              </p>
-              <p className="mt-4 text-gray-600 text-lg leading-relaxed">
-                Today, we specialize in executive LinkedIn management, content
-                creation, photography, social media strategy, and community
-                management. We are not a one-size-fits-all agency. We work
-                collaboratively with each client to craft strategies that
-                actually fit their goals.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-4">
-                {["Women-Owned", "Est. 2015", "Grand Rapids, MI", "Nationwide Clients"].map(
-                  (badge) => (
-                    <span
-                      key={badge}
-                      className="px-4 py-2 bg-bloom-green/10 text-bloom-green text-sm font-semibold rounded-full"
-                    >
-                      {badge}
-                    </span>
-                  )
-                )}
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <img
-                src="https://static.wixstatic.com/media/341fff_7de18eb3df214a42b9a222994b548ed5~mv2.jpg/v1/fill/w_387,h_506,fp_0.56_0.25,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/20250827-Bloom-Chamber-27.jpg"
-                alt="Bloom Social team at work"
-                className="w-full h-64 object-cover rounded-2xl"
-              />
-              <img
-                src="https://static.wixstatic.com/media/341fff_ca6f9bb833f943b69014b2394587bd4f~mv2.jpg/v1/fill/w_387,h_506,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/20250827-Bloom-Chamber-11.jpg"
-                alt="Bloom Social team collaboration"
-                className="w-full h-64 object-cover rounded-2xl mt-8"
-              />
-              <img
-                src="https://static.wixstatic.com/media/341fff_e2f6472d583b4234a55d1a8974b7ba27~mv2.jpg/v1/crop/x_0,y_898,w_4672,h_6110/fill/w_387,h_506,fp_0.50_0.50,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/20250827-Bloom-Chamber-4.jpg"
-                alt="Bloom Social behind the scenes"
-                className="w-full h-64 object-cover rounded-2xl col-span-2"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* VALUES */}
-      <section className="bg-bloom-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="text-center mb-14">
-            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
-              What Drives Us
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-bloom-green">
-              Our Values
+      {/* ═══════════════════════════════════════════════════════════════
+          FOUNDERS
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-white py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-3">The Founders</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-bloom-green leading-tight">
+              Jeff &amp; Kirsten Pipp
             </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {VALUES.map((v) => (
-              <div key={v.title} className="bg-white rounded-2xl p-7">
-                <div className="w-10 h-10 bg-bloom-orange/10 rounded-xl flex items-center justify-center mb-4">
-                  <CheckIcon className="w-5 h-5 text-bloom-orange" />
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={staggerContainer}
+          >
+            {/* Photo pair */}
+            <motion.div variants={fadeUp} className="grid grid-cols-2 gap-5">
+              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/team-jeff-pipp-bloom-social.webp"
+                  alt="Jeff Pipp — Co-founder, Bloom Social"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                />
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 p-4">
+                  <p className="text-white font-bold text-sm">Jeff Pipp</p>
+                  <p className="text-white/65 text-xs">Co-Owner</p>
                 </div>
-                <h3 className="text-lg font-bold text-bloom-green mb-2">
-                  {v.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {v.description}
+              </div>
+              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden mt-8">
+                <Image
+                  src="/images/team-kirsten-pipp-bloom-social.webp"
+                  alt="Kirsten Pipp — Co-founder, Bloom Social"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                />
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 p-4">
+                  <p className="text-white font-bold text-sm">Kirsten Pipp</p>
+                  <p className="text-white/65 text-xs">Co-Owner</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Story copy */}
+            <motion.div variants={fadeUp}>
+              <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">Our Story</p>
+              <h3 className="text-3xl md:text-4xl font-extrabold text-bloom-green leading-tight mb-6">
+                Built from passion.<br />Grown through results.
+              </h3>
+              <div className="space-y-4 text-gray-600 text-lg leading-relaxed">
+                <p>
+                  Jeff and Kirsten Pipp founded Bloom Social in 2020 in Grand Rapids, Michigan. What started as a vision to bring boutique-quality social media strategy to executives and B2B companies has grown into a nationwide practice with clients across the country.
+                </p>
+                <p>
+                  They run Bloom Social on the Entrepreneurial Operating System (EOS), which means every part of the business, from client onboarding to content delivery, runs on clear processes, measurable goals, and genuine accountability.
+                </p>
+                <p>
+                  Today, Bloom Social serves executives, founders, and growth-stage companies who want to show up powerfully online without spending their own time doing it.
                 </p>
               </div>
-            ))}
-          </div>
+
+              {/* Badges */}
+              <div className="flex flex-wrap gap-3 mt-8">
+                {badges.map((badge) => (
+                  <span
+                    key={badge}
+                    className="px-4 py-2 bg-bloom-green/[0.08] text-bloom-green text-sm font-semibold rounded-full border border-bloom-green/15"
+                  >
+                    {badge}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Full team photo */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="relative w-full aspect-[16/7] rounded-3xl overflow-hidden"
+          >
+            <Image
+              src="/images/bloom-social-grand-rapids-team.webp"
+              alt="The full Bloom Social team, Grand Rapids, Michigan"
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 1280px) 100vw, 1280px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-bloom-green/60 via-transparent to-transparent" />
+            <div className="absolute bottom-8 left-8 md:bottom-10 md:left-10">
+              <p className="text-white text-xl md:text-2xl font-extrabold">The Bloom Social Team, Grand Rapids, MI</p>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* TEAM */}
-      <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="text-center mb-14">
-            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
-              The Team
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-bloom-green">
+      {/* ═══════════════════════════════════════════════════════════════
+          TEAM
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-bloom-light py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-3">The Team</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-bloom-green leading-tight">
               Meet the People Behind the Posts
             </h2>
-            <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-lg">
-              We are a tight-knit team of strategists, writers, and creatives
-              who genuinely care about your success.
+            <p className="mt-4 text-gray-500 text-lg max-w-2xl mx-auto">
+              A tight-knit group of strategists, writers, and creatives who genuinely care about your success.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {TEAM.map((member) => (
-              <div
-                key={member.name}
-                className="bg-bloom-light rounded-2xl p-8 hover:shadow-lg transition-shadow"
-              >
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-20 h-20 rounded-full object-cover mb-5"
-                />
-                <h3 className="text-xl font-bold text-bloom-green">
-                  {member.name}
-                </h3>
-                <p className="text-bloom-orange font-medium text-sm mb-3">
-                  {member.role}
-                </p>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {member.bio}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="bg-bloom-green">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
-            Want to work with us?
-          </h2>
-          <p className="mt-4 text-gray-300 text-lg">
-            Let&apos;s talk about how we can help you bloom.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-8 inline-flex items-center gap-2 px-10 py-5 bg-bloom-orange hover:bg-bloom-orange/90 text-white font-bold rounded-lg text-lg tracking-wide uppercase transition-all duration-200 shadow-lg shadow-bloom-orange/30 hover:shadow-xl hover:-translate-y-1"
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-3 gap-7"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={staggerContainer}
           >
-            Get in Touch
-            <ArrowRightIcon className="w-5 h-5" />
-          </Link>
+            {teamMembers.map((member, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                whileHover={{ y: -4 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-shadow duration-300"
+              >
+                <div className="relative aspect-square overflow-hidden">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                  />
+                </div>
+                <div className="p-7">
+                  <h3 className="text-xl font-bold text-bloom-green mb-0.5">{member.name}</h3>
+                  <p className="text-bloom-orange font-semibold text-sm mb-4">{member.role}</p>
+                  <p className="text-gray-500 text-sm leading-relaxed">{member.bio}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          VALUES
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-white py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-3">What Drives Us</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-bloom-green leading-tight">
+              Our Core Values
+            </h2>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={staggerContainer}
+          >
+            {values.map((value, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                className="group bg-bloom-light hover:bg-bloom-green rounded-2xl p-7 transition-all duration-300 hover:shadow-xl"
+              >
+                <div className="w-12 h-12 bg-bloom-green/[0.08] group-hover:bg-white/15 rounded-xl flex items-center justify-center text-bloom-green group-hover:text-white transition-colors duration-300 mb-5">
+                  {value.icon}
+                </div>
+                <h3 className="text-lg font-bold text-bloom-green group-hover:text-white transition-colors duration-300 mb-3">
+                  {value.title}
+                </h3>
+                <p className="text-gray-500 group-hover:text-white/70 transition-colors duration-300 text-sm leading-relaxed">
+                  {value.body}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          CTA
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-bloom-green relative overflow-hidden py-24 md:py-32">
+        {/* Ghost B mark */}
+        <div
+          aria-hidden="true"
+          className="absolute right-[-8%] top-1/2 -translate-y-1/2 w-[42vw] max-w-[540px] pointer-events-none select-none"
+          style={{ opacity: 0.12, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
+              Work With Us
+            </p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5">
+              Ready to Work With a Team<br />That Gets It?
+            </h2>
+            <p className="text-white/65 text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+              Book a free strategy call and let&apos;s talk about what&apos;s possible for your brand on social in the next 90 days.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 px-10 py-5 bg-bloom-orange hover:bg-bloom-orange/90 text-white font-bold rounded-full text-lg transition-all duration-200 shadow-xl shadow-bloom-orange/30 hover:-translate-y-0.5"
+              >
+                Book a Free Strategy Session <ArrowRightIcon />
+              </Link>
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-2 px-10 py-5 bg-white/[0.10] border border-white/20 hover:bg-white/[0.18] text-white font-semibold rounded-full text-lg transition-all duration-200"
+              >
+                See Our Services
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
     </main>
   );
 }

@@ -1,229 +1,393 @@
-import type { Metadata } from "next";
+"use client";
+
+import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   ArrowRightIcon,
   PenIcon,
-  TargetIcon,
-  ChartIcon,
-  UsersIcon,
-  CameraIcon,
   MegaphoneIcon,
-  SparklesIcon,
-  ChatBubbleIcon,
   CheckIcon,
+  CalendarIcon,
+  ChartIcon,
+  SparklesIcon,
 } from "@/components/Icons";
 
-export const metadata: Metadata = {
-  title: "Services",
-  description:
-    "Social media management, executive LinkedIn management, content creation, photography, strategy, and community management. See how Bloom Social can help your business grow.",
+// ─── Animation variants ────────────────────────────────────────────────────
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
 };
 
-const SERVICES = [
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+};
+
+// ─── Data ──────────────────────────────────────────────────────────────────
+
+const capabilities = [
+  "LinkedIn Ghostwriting",
+  "Instagram Content",
+  "Facebook Management",
+  "TikTok & Reels",
+  "YouTube Shorts",
+  "Brand Strategy",
+  "Visual Design",
+  "Content Calendars",
+  "Analytics & Reporting",
+  "Community Engagement",
+  "Profile Optimization",
+  "Competitor Research",
+];
+
+const linkedInIncludes = [
+  "Ghostwritten posts, published monthly",
+  "Profile optimization at kickoff",
+  "Content strategy & topic pillars",
+  "Approval in one batch via Monday.com",
+  "Strategic commenting & engagement",
+  "Monthly performance report",
+];
+
+const socialIncludes = [
+  "Multi-platform strategy (IG, FB, TikTok, YT Shorts, LinkedIn)",
+  "Branded graphics & short-form video",
+  "Up to 20 posts/month per platform",
+  "Approval in one batch via Monday.com",
+  "Community engagement & reply management",
+  "Monthly analytics report",
+];
+
+const differentiators = [
   {
-    title: "Executive LinkedIn Management",
-    description:
-      "We help executives elevate their presence on LinkedIn with a strategic mix of thought leadership, personal branding, and consistent content. We help you build influence, attract opportunities, and lead industry conversations.",
-    icon: PenIcon,
-    features: [
-      "Ghostwritten posts in your voice",
-      "Profile optimization and headline strategy",
-      "Strategic commenting and engagement",
-      "Connection building with decision-makers",
-      "Monthly analytics and reporting",
-    ],
+    icon: <SparklesIcon className="w-6 h-6" />,
+    title: "Your voice, always",
+    body: "We interview you at kickoff and build a voice guide. Every piece of content sounds like you wrote it yourself.",
   },
   {
-    title: "Social Media Management",
-    description:
-      "We handle your social media presence from top to bottom so you can focus on running your business. From content planning to daily engagement, we keep your brand active and growing.",
-    icon: ChartIcon,
-    features: [
-      "Custom content calendars",
-      "Daily posting and scheduling",
-      "Community monitoring and engagement",
-      "Platform-specific strategies",
-      "Monthly performance reports",
-    ],
+    icon: <CalendarIcon className="w-6 h-6" />,
+    title: "One hour a month, max",
+    body: "Review and approve your full month of content in a single batch. That's your entire time commitment.",
   },
   {
-    title: "Content Creation",
-    description:
-      "We create content that captures attention and keeps your audience coming back. From graphics and captions to video, every piece is crafted to reflect your brand and drive results.",
-    icon: SparklesIcon,
-    features: [
-      "Graphic design and visual content",
-      "Copywriting and captions",
-      "Video content and reels",
-      "Brand-aligned creative direction",
-      "Content repurposing across platforms",
-    ],
-  },
-  {
-    title: "Photography",
-    description:
-      "Professional photography that tells your brand story. We capture the real moments, the team, the products, and the culture that make your business unique.",
-    icon: CameraIcon,
-    features: [
-      "Brand photography sessions",
-      "Team headshots and portraits",
-      "Product and lifestyle shoots",
-      "Event coverage",
-      "Social-ready image editing",
-    ],
-  },
-  {
-    title: "Social Media Strategy",
-    description:
-      "Social media is not one-size-fits-all. We build custom strategies specifically designed to fit your goals, your audience, and your industry. Data-driven, creative, and actionable.",
-    icon: TargetIcon,
-    features: [
-      "Audience research and analysis",
-      "Competitive landscape review",
-      "Platform selection and prioritization",
-      "Content pillars and messaging framework",
-      "KPI setting and measurement plans",
-    ],
-  },
-  {
-    title: "Community Management",
-    description:
-      "Building a brand means building a community. We manage your online conversations, respond to comments, and foster genuine engagement that turns followers into advocates.",
-    icon: UsersIcon,
-    features: [
-      "Comment and DM management",
-      "Audience engagement and growth",
-      "Reputation monitoring",
-      "Influencer relationship building",
-      "Community feedback reporting",
-    ],
-  },
-  {
-    title: "Paid Social Campaigns",
-    description:
-      "We build and manage paid campaigns that get your content in front of the right people. Targeted, optimized, and built to generate real ROI.",
-    icon: MegaphoneIcon,
-    features: [
-      "Campaign strategy and setup",
-      "Audience targeting and segmentation",
-      "Ad creative and copywriting",
-      "A/B testing and optimization",
-      "Budget management and reporting",
-    ],
-  },
-  {
-    title: "Consulting",
-    description:
-      "Need guidance but want to keep things in-house? We offer consulting sessions where we audit your current strategy, identify opportunities, and give you a clear roadmap to follow.",
-    icon: ChatBubbleIcon,
-    features: [
-      "Social media audits",
-      "Strategy workshops",
-      "Team training sessions",
-      "Best practices and playbooks",
-      "Ongoing advisory support",
-    ],
+    icon: <ChartIcon className="w-6 h-6" />,
+    title: "Real results, no fluff",
+    body: "Monthly reports that connect directly to your goals. Impressions, engagement, growth — tracked and actioned.",
   },
 ];
 
+// ─── Component ─────────────────────────────────────────────────────────────
+
 export default function ServicesPage() {
   return (
-    <main className="pt-16">
-      {/* HERO */}
-      <section className="bg-gradient-to-br from-bloom-green via-bloom-dark to-bloom-purple">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-          <div className="max-w-3xl">
-            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
-              Our Services
-            </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1]">
-              Everything You Need to
-              <span className="text-bloom-orange"> Bloom Online.</span>
-            </h1>
-            <p className="mt-6 text-xl text-gray-300 leading-relaxed max-w-2xl">
-              From executive LinkedIn management to full-service social media,
-              we have the tools and the talent to get your brand seen by the
-              right people.
-            </p>
-          </div>
-        </div>
-      </section>
+    <main className="overflow-x-hidden">
 
-      {/* SERVICES LIST */}
-      <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="space-y-16">
-            {SERVICES.map((service, i) => {
-              const Icon = service.icon;
-              const isReversed = i % 2 !== 0;
-              return (
-                <div
-                  key={service.title}
-                  className={`grid md:grid-cols-2 gap-10 items-center ${
-                    isReversed ? "md:direction-rtl" : ""
-                  }`}
-                >
-                  <div className={isReversed ? "md:order-2" : ""}>
-                    <div className="w-14 h-14 bg-bloom-green/10 rounded-2xl flex items-center justify-center mb-5">
-                      <Icon className="w-7 h-7 text-bloom-green" />
-                    </div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-bloom-green mb-4">
-                      {service.title}
-                    </h2>
-                    <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                      {service.description}
-                    </p>
-                    <ul className="space-y-3">
-                      {service.features.map((feature) => (
-                        <li
-                          key={feature}
-                          className="flex items-center gap-3 text-gray-700"
-                        >
-                          <CheckIcon className="w-5 h-5 text-bloom-orange shrink-0" />
-                          <span className="text-sm">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div
-                    className={`bg-bloom-light rounded-2xl p-12 flex items-center justify-center ${
-                      isReversed ? "md:order-1" : ""
-                    }`}
-                  >
-                    <div className="text-center">
-                      <Icon className="w-16 h-16 text-bloom-green/20 mx-auto mb-4" />
-                      <p className="text-bloom-green font-bold text-xl">
-                        {service.title}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* ═══════════════════════════════════════════════════════════════
+          HERO
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="hero-mesh relative min-h-[62vh] flex items-center overflow-hidden">
+        <div className="noise-overlay opacity-[0.055] z-[1]" aria-hidden="true" />
 
-      {/* CTA */}
-      <section className="bg-bloom-green">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
-            Not sure which service is right for you?
-          </h2>
-          <p className="mt-4 text-gray-300 text-lg max-w-2xl mx-auto">
-            Book a free strategy session. We will walk through your goals and
-            recommend the exact services that will move the needle for your
-            business.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-8 inline-flex items-center gap-2 px-10 py-5 bg-bloom-orange hover:bg-bloom-orange/90 text-white font-bold rounded-lg text-lg tracking-wide uppercase transition-all duration-200 shadow-lg shadow-bloom-orange/30 hover:shadow-xl hover:-translate-y-1"
+        {/* Orbs */}
+        <motion.div
+          aria-hidden="true"
+          className="absolute rounded-full blur-[120px] pointer-events-none z-[1]"
+          style={{ width: 550, height: 550, top: "-15%", right: "-5%", backgroundColor: "#004845" }}
+          animate={{ scale: [1, 1.07, 1], opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute rounded-full blur-[130px] pointer-events-none z-[1]"
+          style={{ width: 380, height: 380, bottom: "-10%", left: "-4%", backgroundColor: "#301730" }}
+          animate={{ scale: [1, 1.09, 1], opacity: [0.6, 0.9, 0.6] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        />
+
+        {/* B-mark watermark */}
+        <div
+          aria-hidden="true"
+          className="absolute right-[-8%] top-1/2 -translate-y-1/2 w-[55vw] max-w-[700px] pointer-events-none z-[2] select-none"
+          style={{ opacity: 0.13, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+        </div>
+
+        <div className="relative z-[3] max-w-7xl mx-auto px-6 lg:px-8 py-24 md:py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-3xl"
           >
-            Book a Free Strategy Session
-            <ArrowRightIcon className="w-5 h-5" />
-          </Link>
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4"
+            >
+              What We Do
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.25 }}
+              className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.06] tracking-tight mb-6"
+            >
+              Social media,{" "}
+              <span className="text-bloom-orange">handled.</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-xl text-white/65 leading-relaxed max-w-2xl"
+            >
+              Strategy, content, publishing, engagement, and reporting — built around your brand and managed by a team that treats it like their own.
+            </motion.p>
+          </motion.div>
         </div>
       </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          CAPABILITIES BAR
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-[#001a19] py-12 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-xs font-semibold tracking-widest uppercase text-white/30 text-center mb-7"
+          >
+            One team. Full coverage.
+          </motion.p>
+          <motion.div
+            className="flex flex-wrap justify-center gap-3"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            {capabilities.map((cap) => (
+              <motion.span
+                key={cap}
+                variants={fadeUp}
+                className="px-4 py-2 rounded-full border border-white/[0.12] text-white/60 text-sm font-medium tracking-wide"
+              >
+                {cap}
+              </motion.span>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          TWO OFFERINGS — SIDE BY SIDE CARDS
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-white py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          {/* Section header */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-2xl mx-auto mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-extrabold text-bloom-green leading-tight mb-4">
+              Two ways to work with us
+            </h2>
+            <p className="text-lg text-gray-500 leading-relaxed">
+              Most clients start with one and add the other as they grow.
+            </p>
+          </motion.div>
+
+          {/* Cards */}
+          <motion.div
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={staggerContainer}
+          >
+
+            {/* Card A — Executive LinkedIn */}
+            <motion.div
+              variants={fadeUp}
+              className="bg-bloom-green rounded-3xl p-10 flex flex-col"
+            >
+              <div className="mb-8">
+                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-5">
+                  <PenIcon className="w-6 h-6 text-white" />
+                </div>
+                <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-2">
+                  Personal Brand
+                </p>
+                <h3 className="text-3xl font-extrabold text-white leading-tight mb-4">
+                  Executive LinkedIn
+                </h3>
+                <p className="text-white/70 leading-relaxed">
+                  We become your LinkedIn ghostwriter. Your thinking, your voice, our strategy — published consistently to grow your authority and generate real opportunities.
+                </p>
+              </div>
+
+              <ul className="space-y-3 mb-10 flex-1">
+                {linkedInIncludes.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-white/80">
+                    <CheckIcon className="w-5 h-5 text-bloom-orange shrink-0 mt-0.5" />
+                    <span className="text-sm leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/lp/executive-linkedin"
+                className="inline-flex items-center gap-2 text-white font-semibold text-sm hover:text-bloom-orange transition-colors duration-200"
+              >
+                Learn more <ArrowRightIcon />
+              </Link>
+            </motion.div>
+
+            {/* Card B — Social Media Management */}
+            <motion.div
+              variants={fadeUp}
+              className="bg-white border border-gray-100 shadow-lg rounded-3xl p-10 flex flex-col"
+            >
+              <div className="mb-8">
+                <div className="w-12 h-12 bg-bloom-orange/10 rounded-2xl flex items-center justify-center mb-5">
+                  <MegaphoneIcon className="w-6 h-6 text-bloom-orange" />
+                </div>
+                <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-2">
+                  Brand Social
+                </p>
+                <h3 className="text-3xl font-extrabold text-bloom-green leading-tight mb-4">
+                  Social Media Management
+                </h3>
+                <p className="text-gray-500 leading-relaxed">
+                  Full-service management across every platform your audience uses. We handle strategy, creative, publishing, and reporting so your brand shows up consistently without consuming your time.
+                </p>
+              </div>
+
+              <ul className="space-y-3 mb-10 flex-1">
+                {socialIncludes.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-gray-600">
+                    <CheckIcon className="w-5 h-5 text-bloom-orange shrink-0 mt-0.5" />
+                    <span className="text-sm leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/lp/social-media"
+                className="inline-flex items-center gap-2 text-bloom-green font-semibold text-sm hover:text-bloom-orange transition-colors duration-200"
+              >
+                Learn more <ArrowRightIcon />
+              </Link>
+            </motion.div>
+
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          WHAT MAKES US DIFFERENT
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-bloom-light py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-xl mx-auto mb-14"
+          >
+            <h2 className="text-3xl md:text-4xl font-extrabold text-bloom-green leading-tight">
+              The Bloom Social difference
+            </h2>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={staggerContainer}
+          >
+            {differentiators.map((item, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm"
+              >
+                <div className="w-11 h-11 bg-bloom-green/10 rounded-xl flex items-center justify-center text-bloom-green mb-5">
+                  {item.icon}
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-3">{item.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{item.body}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          CTA
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-bloom-green relative overflow-hidden py-24 md:py-32">
+        <div
+          aria-hidden="true"
+          className="absolute right-[-8%] top-1/2 -translate-y-1/2 w-[42vw] max-w-[540px] pointer-events-none select-none"
+          style={{ opacity: 0.12, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
+              Not Sure Where to Start?
+            </p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5">
+              Let&apos;s Figure It Out Together
+            </h2>
+            <p className="text-white/65 text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+              Book a free strategy session. We&apos;ll walk through your goals and recommend exactly which services will move the needle for your business.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 px-10 py-5 bg-bloom-orange hover:bg-bloom-orange/90 text-white font-bold rounded-full text-lg transition-all duration-200 shadow-xl shadow-bloom-orange/30 hover:-translate-y-0.5"
+              >
+                Book a Free Strategy Session <ArrowRightIcon />
+              </Link>
+              <Link
+                href="/process"
+                className="inline-flex items-center gap-2 px-10 py-5 bg-white/[0.10] border border-white/20 hover:bg-white/[0.18] text-white font-semibold rounded-full text-lg transition-all duration-200"
+              >
+                See How We Work
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
     </main>
   );
 }

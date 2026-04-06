@@ -65,9 +65,9 @@ export function CheckIcon({ className = "w-5 h-5" }: { className?: string }) {
   );
 }
 
-export function StarIcon() {
+export function StarIcon({ className = "w-5 h-5 text-bloom-orange", filled }: { className?: string; filled?: boolean }) {
   return (
-    <svg className="w-5 h-5 text-bloom-orange" fill="currentColor" viewBox="0 0 20 20">
+    <svg className={className} fill={filled ? "currentColor" : "none"} stroke={filled ? "none" : "currentColor"} strokeWidth={filled ? undefined : 1.5} viewBox="0 0 20 20">
       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
     </svg>
   );
@@ -142,6 +142,28 @@ export function ChatBubbleIcon({ className = "w-6 h-6" }: { className?: string }
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+    </svg>
+  );
+}
+
+// The Bloom B mark — letter B where the two counter spaces are speech/comment bubbles
+export function BMark({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 200 280" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M 22 15 L 22 265 L 108 265 C 155 265 184 242 184 208 C 184 180 168 163 143 154 C 165 145 178 128 178 97 C 178 48 153 15 108 15 Z M 55 38 L 55 112 L 43 125 L 55 132 L 98 132 C 128 132 148 116 148 95 C 148 74 128 38 98 38 Z M 55 150 L 55 225 L 43 238 L 55 245 L 100 245 C 135 245 157 226 157 204 C 157 182 135 150 100 150 Z"
+      />
+    </svg>
+  );
+}
+
+// Standalone comment bubble (mirrors the B mark's counter motif)
+export function CommentBubble({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 64 52" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 0C2.686 0 0 2.686 0 6v28c0 3.314 2.686 6 6 6h12L9 52l22-18h27c3.314 0 6-2.686 6-6V6c0-3.314-2.686-6-6-6H6z" />
     </svg>
   );
 }

@@ -23,8 +23,8 @@ export default function Navigation() {
         {/* Logo */}
         <Link href="/">
           <img
-            src="https://static.wixstatic.com/media/6f7b33_06eaee4996b84de2b8bd5ca55943beaa~mv2.png/v1/crop/x_31,y_0,w_2280,h_750/fill/w_182,h_60,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Bloom_Primary-DkGreen%26Gray%20(1).png"
-            alt="Bloom Social"
+            src="/images/bloom-social-logo.png"
+            alt="Bloom Social — Social Media Agency Grand Rapids MI"
             className="h-9 w-auto"
           />
         </Link>

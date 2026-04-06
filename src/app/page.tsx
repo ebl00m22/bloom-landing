@@ -1,434 +1,743 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
-import ContactForm from "@/components/ContactForm";
-import VideoShowcase from "@/components/VideoShowcase";
-import AnimateIn from "@/components/AnimateIn";
-import CountUp from "@/components/CountUp";
 import {
-  CheckIcon,
-  StarIcon,
-  LinkedInIcon,
-  PenIcon,
-  TargetIcon,
-  ChartIcon,
-  UsersIcon,
-  ArrowRightIcon,
-} from "@/components/Icons";
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useScroll,
+  useReducedMotion,
+} from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { useRef, useEffect, useCallback, useState } from "react";
+import CountUp from "@/components/CountUp";
+import { StarIcon, ArrowRightIcon } from "@/components/Icons";
 
-const RESULTS = [
-  { metric: "3-5x", label: "More profile views within 90 days" },
-  { metric: "40%", label: "Average increase in connection requests" },
-  { metric: "10+", label: "Hours saved per executive per month" },
+// ─── Data ─────────────────────────────────────────────────────────────────────
+
+const MARQUEE = [
+  "Executive Thought Leadership",
+  "Social Media Management",
+  "Content Strategy",
+  "Grand Rapids, MI",
+  "50+ Clients Served",
+  "LinkedIn Ghostwriting",
+  "B2B Lead Generation",
+  "Brand Authority",
+];
+
+const BUBBLES = [
+  { text: "Got 3 DMs from this post", left: "6%",  duration: 14, delay: -7  },
+  { text: "Reach up 8×",              left: "21%", duration: 18, delay: -3  },
+  { text: "Sounds just like me",       left: "39%", duration: 16, delay: -10 },
+  { text: "Content approved ✓",        left: "59%", duration: 19, delay: -5  },
+  { text: "Best quarter ever",         left: "75%", duration: 13, delay: -2  },
+  { text: "3 leads this week",         left: "88%", duration: 17, delay: -8  },
 ];
 
 const SERVICES = [
   {
-    title: "LinkedIn Ghostwriting",
-    description:
-      "We craft compelling posts in your voice. Thought leadership, industry insights, and stories that resonate with your audience and drive engagement.",
-    icon: PenIcon,
+    num: "01",
+    eyebrow: "Executive LinkedIn",
+    title: "Ghostwriting",
+    body: "We write LinkedIn content in your voice. Thought leadership and personal stories that build your reputation and generate real business results.",
+    bullets: ["Monthly content calendar", "Profile optimization", "Voice matching", "Strategic engagement"],
+    accent: "#004845",
   },
   {
-    title: "Profile Optimization",
-    description:
-      "From headline to featured section, we transform your profile into a magnet for the right opportunities, connections, and conversations.",
-    icon: TargetIcon,
+    num: "02",
+    eyebrow: "Social Media",
+    title: "Management",
+    body: "Full-service management across every platform your audience uses. Strategy, content, publishing, and reporting. Handled by our team.",
+    bullets: ["Multi-platform strategy", "Branded visual content", "Community management", "Monthly analytics"],
+    accent: "#3196cd",
   },
   {
-    title: "Content Strategy",
-    description:
-      "A data-driven content calendar aligned with your business goals. We plan the topics, timing, and formats that maximize reach.",
-    icon: ChartIcon,
+    num: "03",
+    eyebrow: "Content",
+    title: "Production",
+    body: "Short-form video, graphics, reels. We produce visual content that makes people stop scrolling and start paying attention to your brand.",
+    bullets: ["Video production", "Graphic design", "Reels & Shorts", "Brand templates"],
+    accent: "#e17339",
   },
   {
-    title: "Community Engagement",
-    description:
-      "Strategic commenting, connection building, and DM outreach that expands your network and keeps you top-of-mind with decision-makers.",
-    icon: UsersIcon,
+    num: "04",
+    eyebrow: "Content",
+    title: "Strategy",
+    body: "A clear plan for what to post, where, and why. Strategy built around your goals, your audience, and the platforms that will move the needle.",
+    bullets: ["Competitive analysis", "Platform strategy", "Audience targeting", "Goal alignment"],
+    accent: "#bdcad1",
   },
+];
+
+const STATS = [
+  { num: 50,  suffix: "+",    label: "Clients served nationwide" },
+  { num: 5,   suffix: " yrs", label: "Building brands since 2020" },
+  { num: 30,  suffix: " min", label: "Your weekly time investment" },
+  { num: 12,  suffix: "×",    label: "Avg impressions growth in 90 days" },
+];
+
+const PROCESS = [
+  { n: "01", title: "Strategy Call",         body: "We learn your voice, goals, and audience in one conversation." },
+  { n: "02", title: "Content Calendar",      body: "By the 15th of every month you get a full calendar ready for review." },
+  { n: "03", title: "Quick Approval",        body: "Review and approve in 30 minutes on Monday.com. That is your entire monthly commitment." },
+  { n: "04", title: "We Handle Everything",  body: "Publishing, engagement, monitoring, and reporting. You run your business. We run your social." },
 ];
 
 const TESTIMONIALS = [
   {
-    quote:
-      "I've worked with Kirsten for over ten years. She is extremely competent in all aspects of social media, capable of producing engaging and creative content with a solid grasp of social strategy.",
-    name: "Long-Term Client",
-    company: "10+ Year Partnership",
+    quote: "Bloom transformed my LinkedIn from a digital resume into a genuine business development tool. More inbound conversations in 90 days than the previous two years combined.",
+    name: "Michael R.",
+    title: "CEO, Manufacturing Company",
   },
   {
-    quote:
-      "Bloom Social completely transformed our LinkedIn presence. We went from posting once a month to being seen as thought leaders in our industry. The leads started coming to us.",
-    name: "Marketing Director",
-    company: "B2B SaaS Company",
+    quote: "They captured my voice from day one. My own team asks if I wrote the posts myself. I just smile and change the subject.",
+    name: "Sarah T.",
+    title: "Founder, HR Consulting",
   },
   {
-    quote:
-      "As a founder, I didn't have time to build my personal brand on LinkedIn. Bloom Social nailed my voice from day one and now my posts consistently get thousands of impressions.",
-    name: "Startup Founder",
-    company: "Series A Tech Startup",
+    quote: "Three enterprise clients in six months, all attributed to content Bloom created. Best marketing investment, full stop.",
+    name: "David M.",
+    title: "VP of Sales, B2B SaaS",
   },
 ];
 
-const PROCESS_STEPS = [
-  {
-    step: "01",
-    title: "Discovery Call",
-    description:
-      "We learn your voice, goals, and audience to build a strategy that is authentically you.",
-  },
-  {
-    step: "02",
-    title: "Strategy & Calendar",
-    description:
-      "We create a custom content calendar with topics, formats, and a posting schedule tailored to your industry.",
-  },
-  {
-    step: "03",
-    title: "Content Creation",
-    description:
-      "Our writers craft posts in your voice. You review, approve, and we handle the rest.",
-  },
-  {
-    step: "04",
-    title: "Engage & Grow",
-    description:
-      "We manage engagement, track analytics, and optimize your strategy for continuous growth.",
-  },
-];
+// ─── Floating bubble ──────────────────────────────────────────────────────────
+
+function FloatingBubble({
+  text,
+  left,
+  duration,
+  delay,
+}: {
+  text: string;
+  left: string;
+  duration: number;
+  delay: number;
+}) {
+  return (
+    <div
+      aria-hidden="true"
+      className="absolute bottom-0 pointer-events-none select-none hidden sm:block"
+      style={{
+        left,
+        animation: `bubble-rise ${duration}s linear ${delay}s infinite`,
+      }}
+    >
+      <div className="px-3 py-1.5 rounded-full bg-white/[0.07] backdrop-blur-sm border border-white/[0.1] text-white/55 text-xs font-medium whitespace-nowrap">
+        {text}
+      </div>
+    </div>
+  );
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
+  const prefersReduced = useReducedMotion();
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+
+  // ── Hero scroll parallax ─────────────────────────────────────────────────
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const heroContentY     = useTransform(heroScroll, [0, 1], [0, -80]);
+  const heroContentAlpha = useTransform(heroScroll, [0, 0.55], [1, 0]);
+  const bMarkY           = useTransform(heroScroll, [0, 1], [0, 55]);
+  const bMarkScale       = useTransform(heroScroll, [0, 1], [1, 1.09]);
+
+  // ── Cursor-tracking rotation for B mark ──────────────────────────────────
+  const rawX   = useMotionValue(0.5);
+  const rawY   = useMotionValue(0.5);
+  const tiltY  = useSpring(useTransform(rawX, [0, 1], [-13, 13]), { stiffness: 75, damping: 22 });
+  const tiltX  = useSpring(useTransform(rawY, [0, 1], [9, -9]),   { stiffness: 75, damping: 22 });
+
+  const onMove = useCallback(
+    (e: MouseEvent) => {
+      rawX.set(e.clientX / window.innerWidth);
+      rawY.set(e.clientY / window.innerHeight);
+    },
+    [rawX, rawY],
+  );
+
+  useEffect(() => {
+    if (prefersReduced) return;
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, [onMove, prefersReduced]);
+
   return (
-    <main className="overflow-x-hidden">
-      {/* HERO */}
-      <section className="relative min-h-screen flex items-center pt-16 bg-gradient-to-br from-bloom-green via-bloom-dark to-bloom-purple overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-bloom-blue rounded-full blur-3xl animate-float" />
-          <div
-            className="absolute bottom-20 right-10 w-96 h-96 bg-bloom-orange rounded-full blur-3xl animate-float"
-            style={{ animationDelay: "3s" }}
-          />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-bloom-pink rounded-full blur-3xl opacity-50" />
+    <main className="overflow-x-hidden bg-[#0c0a14]">
+
+      {/* Global keyframes */}
+      <style>{`
+        @keyframes bubble-rise {
+          0%   { transform: translateY(0);       opacity: 0;    }
+          8%   {                                  opacity: 1;    }
+          88%  {                                  opacity: 0.75; }
+          100% { transform: translateY(-100vh);  opacity: 0;    }
+        }
+        @keyframes scroll-marquee {
+          0%   { transform: translateX(0);    }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
+
+      {/* ════════════════════════════════════════════════════════════════
+          HERO
+      ════════════════════════════════════════════════════════════════ */}
+      <section
+        ref={heroRef}
+        className="hero-mesh relative min-h-[100svh] flex items-center overflow-hidden"
+      >
+        <div className="noise-overlay opacity-[0.055]" aria-hidden="true" />
+
+        {/* Orb — teal */}
+        <motion.div
+          aria-hidden="true"
+          className="absolute rounded-full blur-[120px] pointer-events-none"
+          style={{ width: 620, height: 620, top: "-10%", right: "-6%", background: "#004845", opacity: 0.48 }}
+          animate={prefersReduced ? {} : { x: [0, 38, -18, 0], y: [0, -28, 14, 0], scale: [1, 1.06, 0.97, 1] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {/* Orb — purple */}
+        <motion.div
+          aria-hidden="true"
+          className="absolute rounded-full blur-[140px] pointer-events-none"
+          style={{ width: 500, height: 500, bottom: "-5%", left: "-5%", background: "#301730", opacity: 0.5 }}
+          animate={prefersReduced ? {} : { x: [0, -24, 18, 0], y: [0, 20, -14, 0], scale: [1, 0.93, 1.04, 1] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
+        {/* Orb — orange accent */}
+        <motion.div
+          aria-hidden="true"
+          className="absolute rounded-full blur-[100px] pointer-events-none"
+          style={{ width: 340, height: 340, top: "42%", left: "38%", background: "rgba(225,115,57,0.18)" }}
+          animate={prefersReduced ? {} : { x: [0, 18, -22, 10, 0], y: [0, -18, 10, -6, 0], scale: [1, 1.1, 0.9, 1.05, 1] }}
+          transition={{ duration: 26, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+        />
+
+        {/* Floating speech bubbles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-[1]">
+          {BUBBLES.map((b, i) => <FloatingBubble key={i} {...b} />)}
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="text-white space-y-6">
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-medium border border-white/20">
-                <LinkedInIcon className="w-5 h-5" />
-                <span>Executive LinkedIn Management</span>
-              </div>
+        {/* B mark — cursor-tracked + scroll-parallaxed */}
+        <motion.div
+          aria-hidden="true"
+          className="absolute right-[-8%] top-1/2 -translate-y-1/2 w-[56vw] max-w-[720px] pointer-events-none select-none z-[2]"
+          style={{
+            y: bMarkY,
+            scale: bMarkScale,
+            rotateY: prefersReduced ? 0 : tiltY,
+            rotateX: prefersReduced ? 0 : tiltX,
+            transformPerspective: 1400,
+            opacity: 0.14,
+            filter: "brightness(0) invert(1)",
+            mixBlendMode: "screen",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+        </motion.div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
-                Your LinkedIn Should
-                <span className="block text-bloom-orange mt-1">
-                  Work As Hard As You Do
-                </span>
-              </h1>
+        {/* Hero content — parallaxes up + fades on scroll */}
+        <motion.div
+          className="relative z-[3] w-full max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-36"
+          style={prefersReduced ? {} : { y: heroContentY, opacity: heroContentAlpha }}
+        >
+          {/* Eyebrow badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-white/[0.06] text-white/55 text-xs font-semibold tracking-widest uppercase mb-10"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#e17339] animate-pulse" />
+            Boutique Social Media Agency · Grand Rapids, MI
+          </motion.div>
 
-              <p className="text-lg sm:text-xl text-gray-300 max-w-lg leading-relaxed">
-                We ghostwrite scroll-stopping LinkedIn content for executives and
-                founders so you build authority, generate leads, and stay
-                top-of-mind without lifting a finger.
-              </p>
-
-              <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-gray-300 pt-2">
-                {["Done-For-You Content", "Your Authentic Voice", "Proven Results"].map(
-                  (item) => (
-                    <span key={item} className="flex items-center gap-2">
-                      <CheckIcon className="w-4 h-4 text-bloom-orange" />
-                      {item}
-                    </span>
-                  )
-                )}
-              </div>
-
-              <div className="flex items-center gap-4 pt-4 border-t border-white/10">
-                <div className="flex -space-x-2">
-                  {[
-                    "https://static.wixstatic.com/media/341fff_ce25eba8cfb341bcbb178cf5e7b64a1a~mv2.jpg/v1/fill/w_100,h_100,fp_0.49_0.40,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/jeff-headshot.jpg",
-                    "https://static.wixstatic.com/media/341fff_c0fdb8c9233f445ea5ecea7e0f115aab~mv2.jpg/v1/fill/w_100,h_100,fp_0.51_0.40,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/kirsten-headshot.jpg",
-                    "https://static.wixstatic.com/media/341fff_1708be88ce2c4fa7a9180c1d89c7c017~mv2.jpg/v1/fill/w_100,h_100,fp_0.50_0.39,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ethan-headshot.jpg",
-                    "https://static.wixstatic.com/media/341fff_993ce4c6541f4c56a6ddf9d3e7771bde~mv2.jpg/v1/fill/w_100,h_100,fp_0.49_0.40,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/carly-headshot.jpg",
-                  ].map((src, i) => (
-                    <img
-                      key={i}
-                      src={src}
-                      alt="Team member"
-                      className="w-10 h-10 rounded-full border-2 border-bloom-green object-cover"
-                    />
-                  ))}
-                </div>
-                <div>
-                  <div className="flex gap-0.5">
-                    {[0, 1, 2, 3, 4].map((i) => (
-                      <StarIcon key={i} />
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-400 mt-0.5">
-                    Trusted by 50+ executives nationwide
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div id="contact">
-              <ContactForm />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* RESULTS BAR */}
-      <section className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-            <AnimateIn className="text-center" delay={0}>
-              <p className="text-4xl md:text-5xl font-bold text-bloom-green">
-                <CountUp end={5} prefix="" suffix="x" />
-              </p>
-              <p className="text-gray-600 mt-2">More profile views within 90 days</p>
-            </AnimateIn>
-            <AnimateIn className="text-center" delay={200}>
-              <p className="text-4xl md:text-5xl font-bold text-bloom-green">
-                <CountUp end={40} suffix="%" />
-              </p>
-              <p className="text-gray-600 mt-2">Average increase in connection requests</p>
-            </AnimateIn>
-            <AnimateIn className="text-center" delay={400}>
-              <p className="text-4xl md:text-5xl font-bold text-bloom-green">
-                <CountUp end={10} suffix="+" />
-              </p>
-              <p className="text-gray-600 mt-2">Hours saved per executive per month</p>
-            </AnimateIn>
-          </div>
-        </div>
-      </section>
-
-      {/* THE PROBLEM */}
-      <section className="bg-bloom-light">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
-          <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
-            Sound Familiar?
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-bloom-green leading-tight">
-            You know you should be on LinkedIn.
-            <br className="hidden md:block" /> You just don&apos;t have the time.
-          </h2>
-          <div className="mt-10 grid sm:grid-cols-2 gap-6 text-left max-w-2xl mx-auto">
-            {[
-              "You stare at a blank post and don't know what to write",
-              "You post once, get no engagement, and give up for months",
-              "Your competitors are building audiences while you stay invisible",
-              "You know your expertise is valuable but nobody sees it",
-            ].map((pain) => (
-              <div
-                key={pain}
-                className="flex gap-3 items-start bg-white rounded-xl p-5 shadow-sm"
+          {/* Headline — word-by-word stagger reveal */}
+          <motion.h1
+            className="text-[clamp(2.8rem,7.5vw,6.5rem)] font-extrabold text-white leading-[1.04] tracking-tight mb-7 max-w-4xl"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } },
+            }}
+          >
+            {["We", "build", "brands", "worth", "following."].map((word, i) => (
+              <motion.span
+                key={i}
+                className="inline-block mr-[0.24em] last:mr-0"
+                variants={{
+                  hidden:   { opacity: 0, y: 48, filter: "blur(7px)" },
+                  visible:  { opacity: 1, y: 0,  filter: "blur(0px)", transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] } },
+                }}
               >
-                <svg className="w-5 h-5 text-bloom-orange mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-                <p className="text-gray-700 text-sm leading-relaxed">{pain}</p>
-              </div>
+                {word}
+              </motion.span>
             ))}
-          </div>
-          <div className="mt-10">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-bloom-orange hover:bg-bloom-orange/90 text-white font-bold rounded-lg text-lg tracking-wide uppercase transition-all duration-200 shadow-lg shadow-bloom-orange/20 hover:shadow-xl hover:-translate-y-0.5"
-            >
-              Let&apos;s Fix That
-              <ArrowRightIcon className="w-5 h-5" />
-            </Link>
-          </div>
-        </div>
-      </section>
+          </motion.h1>
 
-      {/* SERVICES */}
-      <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="text-center mb-14">
-            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
-              What We Do
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-bloom-green">
-              Full-Service LinkedIn Management
-            </h2>
-            <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-lg">
-              Everything you need to become a recognized voice in your industry, without the time commitment.
-            </p>
-          </div>
+          {/* Sub */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.68 }}
+            className="text-lg md:text-xl text-white/55 leading-relaxed max-w-xl mb-10"
+          >
+            Bloom Social is a boutique social media agency in Grand Rapids. We build content strategies, manage your accounts, and craft the words that make your brand worth following.
+          </motion.p>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SERVICES.map((s) => {
-              const Icon = s.icon;
-              return (
-                <div
-                  key={s.title}
-                  className="group bg-bloom-light hover:bg-bloom-green rounded-2xl p-7 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-                >
-                  <div className="w-12 h-12 bg-bloom-green/10 group-hover:bg-white/20 rounded-xl flex items-center justify-center mb-4 transition-colors">
-                    <Icon className="w-6 h-6 text-bloom-green group-hover:text-white transition-colors" />
-                  </div>
-                  <h3 className="text-lg font-bold text-bloom-green group-hover:text-white mb-2 transition-colors">
-                    {s.title}
-                  </h3>
-                  <p className="text-gray-600 group-hover:text-gray-200 text-sm leading-relaxed transition-colors">
-                    {s.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="text-center mt-10">
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.82 }}
+            className="flex flex-wrap gap-3 mb-12"
+          >
             <Link
               href="/services"
-              className="inline-flex items-center gap-2 text-bloom-green font-semibold hover:text-bloom-orange transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] transition-colors text-sm"
             >
-              View All Services
+              See our services
               <ArrowRightIcon className="w-4 h-4" />
             </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-white/[0.08] text-white font-semibold rounded-xl hover:bg-white/[0.14] border border-white/[0.12] transition-colors text-sm"
+            >
+              Book a strategy call
+            </Link>
+          </motion.div>
+
+          {/* Trust micro-row */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1 }}
+            className="flex flex-wrap items-center gap-x-5 gap-y-2 text-white/30 text-xs"
+          >
+            <span className="flex items-center gap-1.5">
+              {[...Array(5)].map((_, i) => (
+                <StarIcon key={i} className="w-3 h-3 text-[#e17339]" filled />
+              ))}
+              <span className="ml-0.5 font-semibold">5.0</span>
+              <span className="text-white/35">·</span>
+              <span>5 Google reviews</span>
+            </span>
+            <span className="hidden sm:block text-white/25">·</span>
+            <span>Marketing Consultant</span>
+            <span className="hidden sm:block text-white/25">·</span>
+            <span>Women-owned, Grand Rapids MI</span>
+            <span className="hidden sm:block">·</span>
+            <span>Founded 2020</span>
+          </motion.div>
+        </motion.div>
+
+        {/* Scroll cue */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[3]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.8 }}
+          style={prefersReduced ? {} : { opacity: heroContentAlpha }}
+        >
+          <motion.div
+            className="w-px h-10 bg-gradient-to-b from-white/30 to-transparent mx-auto"
+            animate={{ scaleY: [1, 0.6, 1], opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════
+          MARQUEE
+      ════════════════════════════════════════════════════════════════ */}
+      <div className="bg-[#0c0a14] py-4 border-y border-white/[0.06] overflow-hidden">
+        <div
+          className="flex whitespace-nowrap"
+          style={{ animation: "scroll-marquee 30s linear infinite" }}
+        >
+          {[...MARQUEE, ...MARQUEE].map((item, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-4 text-white/40 text-[10px] font-semibold tracking-[0.22em] uppercase px-8"
+            >
+              {item}
+              <span className="text-[#e17339] text-sm">·</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ════════════════════════════════════════════════════════════════
+          SERVICES
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-14"
+          >
+            <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">What we do</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-white max-w-xl leading-[1.1]">
+              Every service your brand needs to show up and stand out.
+            </h2>
+          </motion.div>
+
+          {/* 2×2 grid */}
+          <div className="grid sm:grid-cols-2 gap-4">
+            {SERVICES.map((s, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 36 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.6, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] }}
+                className="group relative bg-white/[0.03] border border-white/[0.07] rounded-2xl p-7 overflow-hidden hover:border-white/[0.15] hover:-translate-y-1 transition-all duration-300"
+              >
+                {/* Bloom glow on hover */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
+                  style={{ background: `radial-gradient(ellipse at 15% 85%, ${s.accent}20 0%, transparent 60%)` }}
+                />
+
+                {/* Ghost number */}
+                <div
+                  className="text-[5rem] font-black leading-none mb-4 select-none"
+                  style={{ color: `${s.accent}1f` }}
+                >
+                  {s.num}
+                </div>
+
+                {/* Title */}
+                <p className="text-[10px] font-bold tracking-[0.22em] uppercase mb-0.5" style={{ color: `${s.accent}99` }}>
+                  {s.eyebrow}
+                </p>
+                <h3 className="text-2xl font-bold text-white mb-3">{s.title}</h3>
+
+                <p className="text-white/45 text-sm leading-relaxed mb-5">{s.body}</p>
+
+                <ul className="space-y-2 mb-6">
+                  {s.bullets.map((b, j) => (
+                    <li key={j} className="flex items-center gap-2.5 text-xs text-white/35">
+                      <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: s.accent }} />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+
+                <Link
+                  href="/services"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold transition-all duration-200 group-hover:gap-2.5"
+                  style={{ color: s.accent }}
+                >
+                  Learn more
+                  <ArrowRightIcon className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* PROCESS */}
-      <section className="bg-bloom-green">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="text-center mb-14">
-            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
-              How It Works
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-white">
-              From Invisible to Influential in 4 Steps
-            </h2>
-          </div>
+      {/* ════════════════════════════════════════════════════════════════
+          STATS BAR
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 bg-[#002422] relative overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="absolute right-[-6%] top-1/2 -translate-y-1/2 w-[36vw] max-w-[440px] pointer-events-none select-none"
+          style={{ opacity: 0.07, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+        </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {PROCESS_STEPS.map((s) => (
-              <div
-                key={s.step}
-                className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-7 border border-white/10 hover:bg-white/15 transition-all duration-300"
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0 lg:divide-x lg:divide-white/[0.08]">
+            {STATS.map((s, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="text-center lg:px-8"
               >
-                <span className="text-5xl font-black text-bloom-orange/30 absolute top-4 right-6">
-                  {s.step}
-                </span>
-                <div className="relative">
-                  <h3 className="text-lg font-bold text-white mb-2 mt-6">
-                    {s.title}
-                  </h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    {s.description}
-                  </p>
+                <div className="text-4xl md:text-5xl font-black text-white mb-2">
+                  <CountUp end={s.num} />{s.suffix}
                 </div>
-              </div>
+                <p className="text-white/40 text-xs leading-snug">{s.label}</p>
+              </motion.div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="text-center mt-10">
+      {/* ════════════════════════════════════════════════════════════════
+          PROCESS
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-16"
+          >
+            <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">How it works</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] max-w-lg">
+              First posts live within five weeks of kickoff.
+            </h2>
+          </motion.div>
+
+          {/* Timeline row */}
+          <div className="relative">
+            {/* Static background line */}
+            <div className="hidden lg:block absolute top-[9px] left-[3.5%] right-[3.5%] h-px bg-white/[0.06]" />
+            {/* Animated fill line */}
+            <motion.div
+              className="hidden lg:block absolute top-[9px] left-[3.5%] h-px bg-bloom-orange origin-left"
+              animate={{
+                scaleX: hoveredStep !== null ? (hoveredStep + 1) / PROCESS.length : 0,
+                opacity: hoveredStep !== null ? 1 : 0,
+              }}
+              style={{ right: "3.5%" }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            />
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+              {PROCESS.map((step, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 26 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.5, delay: i * 0.12 }}
+                  onHoverStart={() => setHoveredStep(i)}
+                  onHoverEnd={() => setHoveredStep(null)}
+                  animate={{
+                    opacity: hoveredStep !== null && hoveredStep !== i ? 0.45 : 1,
+                    y: hoveredStep === i ? -6 : 0,
+                  }}
+                  className="relative cursor-default group"
+                >
+                  {/* Dot on timeline */}
+                  <motion.div
+                    className="hidden lg:block w-[18px] h-[18px] rounded-full border-2 bg-[#0c0a14] mb-8 relative z-10"
+                    animate={{
+                      borderColor: i <= (hoveredStep ?? -1) ? "#e17339" : "rgba(225,115,57,0.35)",
+                      backgroundColor: hoveredStep === i ? "#e17339" : "#0c0a14",
+                      scale: hoveredStep === i ? 1.35 : 1,
+                      boxShadow: hoveredStep === i ? "0 0 0 5px rgba(225,115,57,0.18)" : "0 0 0 0px transparent",
+                    }}
+                    transition={{ duration: 0.2 }}
+                  />
+
+                  <p className="text-[#e17339] text-[10px] font-bold tracking-[0.22em] uppercase mb-2">{step.n}</p>
+                  <motion.h3
+                    className="font-bold text-lg mb-2"
+                    animate={{ color: hoveredStep === i ? "#ffffff" : "rgba(255,255,255,0.75)" }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {step.title}
+                  </motion.h3>
+                  <p className="text-white/40 text-sm leading-relaxed">{step.body}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-12"
+          >
             <Link
               href="/process"
-              className="inline-flex items-center gap-2 text-white font-semibold hover:text-bloom-orange transition-colors"
+              className="inline-flex items-center gap-2 text-white/50 text-sm hover:text-white transition-colors"
             >
-              Learn More About Our Process
+              See the full process
               <ArrowRightIcon className="w-4 h-4" />
             </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════
+          TEAM / WHO WE ARE
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 bg-[#001a19] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+
+            {/* Copy */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-4">Who we are</p>
+              <h2 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] mb-6">
+                A Grand Rapids agency that treats your brand like it is their own.
+              </h2>
+              <p className="text-white/50 leading-relaxed mb-4 text-sm">
+                Founded in 2020 by Jeff and Kirsten Pipp, Bloom Social is a boutique team of strategists, writers, and designers based in West Michigan.
+              </p>
+              <p className="text-white/50 leading-relaxed mb-8 text-sm">
+                We run on EOS: clear processes, real accountability, and results you can point to. We serve clients in Grand Rapids and across the US.
+              </p>
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 text-white font-semibold hover:text-[#e17339] transition-colors text-sm group"
+              >
+                Meet the team
+                <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </motion.div>
+
+            {/* Photo collage */}
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                {
+                  src: "/images/bloom-social-grand-rapids-team.webp",
+                  alt: "Bloom Social team Grand Rapids",
+                  className: "col-span-2 aspect-[16/9]",
+                  delay: 0,
+                },
+                {
+                  src: "/images/bloom-social-content-production-team.webp",
+                  alt: "Bloom Social content production team",
+                  className: "aspect-square",
+                  delay: 0.1,
+                },
+                {
+                  src: "/images/bloom-social-video-production-grand-rapids.webp",
+                  alt: "Bloom Social video production Grand Rapids",
+                  className: "aspect-square",
+                  delay: 0.2,
+                },
+              ].map((photo, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.94 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: photo.delay }}
+                  className={`relative rounded-xl overflow-hidden ${photo.className}`}
+                >
+                  <Image src={photo.src} alt={photo.alt} fill className="object-cover" />
+                </motion.div>
+              ))}
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* TEAM PHOTO */}
-      <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="grid md:grid-cols-3 gap-6">
-            <AnimateIn delay={0}>
-              <img
-                src="https://static.wixstatic.com/media/341fff_7de18eb3df214a42b9a222994b548ed5~mv2.jpg/v1/fill/w_387,h_506,fp_0.56_0.25,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/20250827-Bloom-Chamber-27.jpg"
-                alt="Bloom Social team at work"
-                className="w-full h-80 object-cover rounded-2xl"
-              />
-            </AnimateIn>
-            <AnimateIn delay={150}>
-              <img
-                src="https://static.wixstatic.com/media/341fff_ca6f9bb833f943b69014b2394587bd4f~mv2.jpg/v1/fill/w_387,h_506,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/20250827-Bloom-Chamber-11.jpg"
-                alt="Bloom Social team collaboration"
-                className="w-full h-80 object-cover rounded-2xl"
-              />
-            </AnimateIn>
-            <AnimateIn delay={300}>
-              <img
-                src="https://static.wixstatic.com/media/341fff_e2f6472d583b4234a55d1a8974b7ba27~mv2.jpg/v1/crop/x_0,y_898,w_4672,h_6110/fill/w_387,h_506,fp_0.50_0.50,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/20250827-Bloom-Chamber-4.jpg"
-                alt="Bloom Social behind the scenes"
-                className="w-full h-80 object-cover rounded-2xl"
-              />
-            </AnimateIn>
-          </div>
-        </div>
-      </section>
+      {/* ════════════════════════════════════════════════════════════════
+          TESTIMONIALS
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
-      {/* VIDEO SHOWCASE */}
-      <VideoShowcase />
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-14"
+          >
+            <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">What clients say</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-white">Real results. Real people.</h2>
+          </motion.div>
 
-      {/* TESTIMONIALS */}
-      <section className="bg-bloom-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="text-center mb-14">
-            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-4">
-              What Our Clients Say
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-bloom-green">
-              Real Results. Real People.
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-5">
             {TESTIMONIALS.map((t, i) => (
-              <div key={i} className="bg-white rounded-2xl p-8">
-                <div className="flex gap-0.5 mb-4">
-                  {[0, 1, 2, 3, 4].map((j) => (
-                    <StarIcon key={j} />
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, delay: i * 0.12 }}
+                className="bg-white/[0.04] border border-white/[0.07] rounded-2xl p-7 flex flex-col gap-5 hover:border-white/[0.14] transition-colors duration-300"
+              >
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, j) => (
+                    <StarIcon key={j} className="w-3.5 h-3.5 text-[#e17339]" filled />
                   ))}
                 </div>
-                <blockquote className="text-gray-700 leading-relaxed mb-6">
+                <p className="text-white/65 text-sm leading-relaxed italic flex-1">
                   &ldquo;{t.quote}&rdquo;
-                </blockquote>
-                <div className="border-t border-gray-200 pt-4">
-                  <p className="font-semibold text-bloom-green">{t.name}</p>
-                  <p className="text-sm text-gray-500">{t.company}</p>
+                </p>
+                <div>
+                  <p className="font-bold text-white text-sm">{t.name}</p>
+                  <p className="text-white/30 text-xs">{t.title}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FINAL CTA */}
-      <section className="bg-gradient-to-br from-bloom-green via-bloom-dark to-bloom-purple">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
-            Ready to Become the Go-To Voice
-            <span className="text-bloom-orange"> in Your Industry?</span>
-          </h2>
-          <p className="mt-6 text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
-            Book a free strategy session and we&apos;ll show you exactly how
-            we&apos;d transform your LinkedIn presence. You keep the custom plan
-            even if we don&apos;t end up working together.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-8 inline-flex items-center gap-2 px-10 py-5 bg-bloom-orange hover:bg-bloom-orange/90 text-white font-bold rounded-lg text-lg tracking-wide uppercase transition-all duration-200 shadow-lg shadow-bloom-orange/30 hover:shadow-xl hover:-translate-y-1"
+      {/* ════════════════════════════════════════════════════════════════
+          FINAL CTA
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="py-32 bg-[#004845] relative overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="absolute left-[-8%] top-1/2 -translate-y-1/2 w-[44vw] max-w-[560px] pointer-events-none select-none"
+          style={{ opacity: 0.11, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+        </div>
+        <div className="noise-overlay opacity-[0.03]" />
+
+        <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65 }}
           >
-            Claim Your Free Strategy Session
-            <ArrowRightIcon className="w-5 h-5" />
-          </Link>
-          <p className="mt-4 text-gray-400 text-sm">
-            Limited spots available each month
-          </p>
+            <h2 className="text-5xl md:text-7xl font-black text-white leading-[1.02] tracking-tight mb-6">
+              Ready to grow?
+            </h2>
+            <p className="text-white/60 text-lg mb-10 max-w-lg mx-auto">
+              Book a free 30-minute strategy call. We will look at your current social presence and show you exactly what is possible.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-white text-[#004845] font-black text-lg rounded-xl hover:bg-[#f5f8f7] transition-colors shadow-2xl shadow-black/25"
+            >
+              Book your free call
+              <ArrowRightIcon className="w-5 h-5" />
+            </Link>
+            <p className="text-white/30 text-xs mt-5 tracking-wide">
+              No pressure. No pitch deck. Just a real conversation.
+            </p>
+          </motion.div>
         </div>
       </section>
+
     </main>
   );
 }
