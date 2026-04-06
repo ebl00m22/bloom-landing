@@ -125,7 +125,7 @@ function FloatingBubble({
         animation: `bubble-rise-light ${duration}s linear ${delay}s infinite`,
       }}
     >
-      <div className="px-3 py-1.5 rounded-full bg-[#0c0a14]/[0.06] backdrop-blur-sm border border-[#0c0a14]/[0.1] text-[#0c0a14]/50 text-xs font-medium whitespace-nowrap">
+      <div className="px-3 py-1.5 rounded-full bg-[#0c0a14]/[0.06] backdrop-blur-sm border border-[#0c0a14]/[0.1] text-[#004845]/50 text-xs font-medium whitespace-nowrap">
         {text}
       </div>
     </div>
@@ -248,7 +248,7 @@ export default function HomePageTwo() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#0c0a14]/[0.1] bg-[#0c0a14]/[0.04] text-[#0c0a14]/50 text-xs font-semibold tracking-widest uppercase mb-10"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#0c0a14]/[0.1] bg-[#0c0a14]/[0.04] text-[#004845]/50 text-xs font-semibold tracking-widest uppercase mb-10"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#e17339] animate-pulse" />
             Boutique Social Media Agency · Grand Rapids, MI
@@ -256,7 +256,7 @@ export default function HomePageTwo() {
 
           {/* Headline */}
           <motion.h1
-            className="text-[clamp(2.8rem,7.5vw,6.5rem)] font-extrabold text-[#0c0a14] leading-[1.04] tracking-tight mb-7 max-w-4xl"
+            className="text-[clamp(2.8rem,7.5vw,6.5rem)] font-extrabold text-[#004845] leading-[1.04] tracking-tight mb-7 max-w-4xl"
             initial="hidden"
             animate="visible"
             variants={{
@@ -283,7 +283,7 @@ export default function HomePageTwo() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.68 }}
-            className="text-lg md:text-xl text-[#0c0a14]/55 leading-relaxed max-w-xl mb-10"
+            className="text-lg md:text-xl text-[#004845]/55 leading-relaxed max-w-xl mb-10"
           >
             Bloom Social is a boutique social media agency in Grand Rapids. We build content strategies, manage your accounts, and craft the words that make your brand worth following.
           </motion.p>
@@ -304,7 +304,7 @@ export default function HomePageTwo() {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#0c0a14]/[0.06] text-[#0c0a14] font-semibold rounded-xl hover:bg-[#0c0a14]/[0.1] border border-[#0c0a14]/[0.1] transition-colors text-sm"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#0c0a14]/[0.06] text-[#004845] font-semibold rounded-xl hover:bg-[#0c0a14]/[0.1] border border-[#0c0a14]/[0.1] transition-colors text-sm"
             >
               Book a strategy call
             </Link>
@@ -315,21 +315,21 @@ export default function HomePageTwo() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 1 }}
-            className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[#0c0a14]/35 text-xs"
+            className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[#004845]/35 text-xs"
           >
             <span className="flex items-center gap-1.5">
               {[...Array(5)].map((_, i) => (
                 <StarIcon key={i} className="w-3 h-3 text-[#e17339]" filled />
               ))}
-              <span className="ml-0.5 font-semibold text-[#0c0a14]/60">5.0</span>
-              <span className="text-[#0c0a14]/25">·</span>
+              <span className="ml-0.5 font-semibold text-[#004845]/60">5.0</span>
+              <span className="text-[#004845]/25">·</span>
               <span>5 Google reviews</span>
             </span>
-            <span className="hidden sm:block text-[#0c0a14]/20">·</span>
+            <span className="hidden sm:block text-[#004845]/20">·</span>
             <span>Marketing Consultant</span>
-            <span className="hidden sm:block text-[#0c0a14]/20">·</span>
+            <span className="hidden sm:block text-[#004845]/20">·</span>
             <span>Women-owned, Grand Rapids MI</span>
-            <span className="hidden sm:block text-[#0c0a14]/20">·</span>
+            <span className="hidden sm:block text-[#004845]/20">·</span>
             <span>Founded 2020</span>
           </motion.div>
         </motion.div>
@@ -361,7 +361,7 @@ export default function HomePageTwo() {
           {[...MARQUEE, ...MARQUEE].map((item, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-4 text-[#0c0a14]/40 text-[10px] font-semibold tracking-[0.22em] uppercase px-8"
+              className="inline-flex items-center gap-4 text-[#004845]/40 text-[10px] font-semibold tracking-[0.22em] uppercase px-8"
             >
               {item}
               <span className="text-[#e17339] text-sm">·</span>
@@ -385,7 +385,7 @@ export default function HomePageTwo() {
             className="mb-14"
           >
             <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">What we do</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#0c0a14] max-w-xl leading-[1.1]">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#004845] max-w-xl leading-[1.1]">
               Every service your brand needs to show up and stand out.
             </h2>
           </motion.div>
@@ -418,12 +418,12 @@ export default function HomePageTwo() {
                 <p className="text-[10px] font-bold tracking-[0.22em] uppercase mb-0.5" style={{ color: s.accent }}>
                   {s.eyebrow}
                 </p>
-                <h3 className="text-2xl font-bold text-[#0c0a14] mb-3">{s.title}</h3>
-                <p className="text-[#0c0a14]/45 text-sm leading-relaxed mb-5">{s.body}</p>
+                <h3 className="text-2xl font-bold text-[#004845] mb-3">{s.title}</h3>
+                <p className="text-[#004845]/45 text-sm leading-relaxed mb-5">{s.body}</p>
 
                 <ul className="space-y-2 mb-6">
                   {s.bullets.map((b, j) => (
-                    <li key={j} className="flex items-center gap-2.5 text-xs text-[#0c0a14]/40">
+                    <li key={j} className="flex items-center gap-2.5 text-xs text-[#004845]/40">
                       <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: s.accent }} />
                       {b}
                     </li>
@@ -492,7 +492,7 @@ export default function HomePageTwo() {
             className="mb-16"
           >
             <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">How it works</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#0c0a14] leading-[1.1] max-w-lg">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#004845] leading-[1.1] max-w-lg">
               First posts live within five weeks of kickoff.
             </h2>
           </motion.div>
@@ -545,7 +545,7 @@ export default function HomePageTwo() {
                   >
                     {step.title}
                   </motion.h3>
-                  <p className="text-[#0c0a14]/40 text-sm leading-relaxed">{step.body}</p>
+                  <p className="text-[#004845]/40 text-sm leading-relaxed">{step.body}</p>
                 </motion.div>
               ))}
             </div>
@@ -560,7 +560,7 @@ export default function HomePageTwo() {
           >
             <Link
               href="/process"
-              className="inline-flex items-center gap-2 text-[#0c0a14]/45 text-sm hover:text-[#0c0a14] transition-colors"
+              className="inline-flex items-center gap-2 text-[#004845]/45 text-sm hover:text-[#004845] transition-colors"
             >
               See the full process
               <ArrowRightIcon className="w-4 h-4" />
@@ -584,13 +584,13 @@ export default function HomePageTwo() {
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
               <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-4">Who we are</p>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#0c0a14] leading-[1.1] mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#004845] leading-[1.1] mb-6">
                 A Grand Rapids agency that treats your brand like it is their own.
               </h2>
-              <p className="text-[#0c0a14]/50 leading-relaxed mb-4 text-sm">
+              <p className="text-[#004845]/50 leading-relaxed mb-4 text-sm">
                 Founded in 2020 by Jeff and Kirsten Pipp, Bloom Social is a boutique team of strategists, writers, and designers based in West Michigan.
               </p>
-              <p className="text-[#0c0a14]/50 leading-relaxed mb-8 text-sm">
+              <p className="text-[#004845]/50 leading-relaxed mb-8 text-sm">
                 We run on EOS: clear processes, real accountability, and results you can point to. We serve clients in Grand Rapids and across the US.
               </p>
               <Link
@@ -655,7 +655,7 @@ export default function HomePageTwo() {
             className="mb-14"
           >
             <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">What clients say</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#0c0a14]">Real results. Real people.</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#004845]">Real results. Real people.</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-5">
@@ -673,12 +673,12 @@ export default function HomePageTwo() {
                     <StarIcon key={j} className="w-3.5 h-3.5 text-[#e17339]" filled />
                   ))}
                 </div>
-                <p className="text-[#0c0a14]/60 text-sm leading-relaxed italic flex-1">
+                <p className="text-[#004845]/60 text-sm leading-relaxed italic flex-1">
                   &ldquo;{t.quote}&rdquo;
                 </p>
                 <div>
-                  <p className="font-bold text-[#0c0a14] text-sm">{t.name}</p>
-                  <p className="text-[#0c0a14]/35 text-xs">{t.title}</p>
+                  <p className="font-bold text-[#004845] text-sm">{t.name}</p>
+                  <p className="text-[#004845]/35 text-xs">{t.title}</p>
                 </div>
               </motion.div>
             ))}

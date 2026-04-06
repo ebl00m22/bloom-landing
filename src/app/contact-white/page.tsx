@@ -110,7 +110,7 @@ export default function ContactWhitePage() {
                 initial={{ opacity: 0, y: 25 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, delay: 0.2 }}
-                className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#0c0a14] leading-[1.06] tracking-tight mb-6"
+                className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#004845] leading-[1.06] tracking-tight mb-6"
               >
                 Let&apos;s Talk
               </motion.h1>
@@ -118,7 +118,7 @@ export default function ContactWhitePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.35 }}
-                className="text-xl text-[#0c0a14]/55 leading-relaxed mb-10 max-w-lg"
+                className="text-xl text-[#004845]/55 leading-relaxed mb-10 max-w-lg"
               >
                 Book a free strategy session. We&apos;ll learn about your goals and show you exactly what&apos;s possible for your brand in the next 90 days.
               </motion.p>
@@ -136,8 +136,8 @@ export default function ContactWhitePage() {
                       {item.icon}
                     </div>
                     <div>
-                      <p className="text-[#0c0a14] font-semibold text-sm mb-0.5">{item.title}</p>
-                      <p className="text-[#0c0a14]/50 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: item.body }} />
+                      <p className="text-[#004845] font-semibold text-sm mb-0.5">{item.title}</p>
+                      <p className="text-[#004845]/50 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: item.body }} />
                     </div>
                   </motion.div>
                 ))}
@@ -150,15 +150,15 @@ export default function ContactWhitePage() {
                 transition={{ duration: 0.5, delay: 0.75 }}
                 className="border-t border-[#0c0a14]/[0.08] pt-8 space-y-4"
               >
-                <div className="flex items-center gap-3 text-[#0c0a14]/50 text-sm">
+                <div className="flex items-center gap-3 text-[#004845]/50 text-sm">
                   <MapPinIcon className="w-4 h-4 text-[#e17339]" />
                   Grand Rapids, Michigan, serving clients nationwide
                 </div>
-                <div className="flex items-center gap-3 text-[#0c0a14]/50 text-sm">
+                <div className="flex items-center gap-3 text-[#004845]/50 text-sm">
                   <svg className="w-4 h-4 text-[#e17339]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253M3 12a8.959 8.959 0 01.284-2.253" />
                   </svg>
-                  <a href="https://www.bloomsocialbiz.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#0c0a14] transition-colors">
+                  <a href="https://www.bloomsocialbiz.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#004845] transition-colors">
                     bloomsocialbiz.com
                   </a>
                 </div>
@@ -170,7 +170,7 @@ export default function ContactWhitePage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.label}
-                      className="w-9 h-9 rounded-lg bg-[#0c0a14]/[0.05] hover:bg-[#e17339] hover:text-white text-[#0c0a14]/40 flex items-center justify-center transition-all duration-200"
+                      className="w-9 h-9 rounded-lg bg-[#0c0a14]/[0.05] hover:bg-[#e17339] hover:text-white text-[#004845]/40 flex items-center justify-center transition-all duration-200"
                     >
                       {social.icon}
                     </a>
@@ -215,7 +215,7 @@ export default function ContactWhitePage() {
             {trustSignals.map((signal, i) => (
               <motion.div key={i} variants={fadeUp} className="flex items-center gap-3 bg-[#f0f7f6] rounded-2xl px-6 py-5">
                 <CheckIcon className="w-5 h-5 text-[#e17339] shrink-0" />
-                <span className="text-[#0c0a14]/65 text-sm font-medium">{signal}</span>
+                <span className="text-[#004845]/65 text-sm font-medium">{signal}</span>
               </motion.div>
             ))}
           </motion.div>
@@ -229,7 +229,7 @@ export default function ContactWhitePage() {
             <div className="flex gap-1">
               {[...Array(5)].map((_, i) => <StarIcon key={i} className="w-4 h-4 text-[#e17339]" filled />)}
             </div>
-            <p className="text-[#0c0a14]/35 text-sm">5.0 rated. Trusted by 50+ executives nationwide.</p>
+            <p className="text-[#004845]/35 text-sm">5.0 rated. Trusted by 50+ executives nationwide.</p>
           </motion.div>
         </div>
       </section>
@@ -261,7 +261,7 @@ export default function ContactWhitePage() {
             ].map((faq, i) => (
               <motion.div key={i} variants={fadeUp} className="bg-white rounded-2xl p-7 border border-[#0c0a14]/[0.07] shadow-sm">
                 <p className="font-bold text-[#004845] mb-2 text-sm">{faq.q}</p>
-                <p className="text-[#0c0a14]/50 text-sm leading-relaxed">{faq.a}</p>
+                <p className="text-[#004845]/50 text-sm leading-relaxed">{faq.a}</p>
               </motion.div>
             ))}
           </motion.div>
