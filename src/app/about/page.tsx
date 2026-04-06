@@ -34,21 +34,21 @@ const staggerContainer = {
 const teamMembers = [
   {
     name: "Ethan Weliver",
-    role: "Creative & Content",
+    role: "Social Media Specialist",
     image: "/images/team-ethan-bloom-social.webp",
-    bio: "Ethan brings the creative vision to life. Whether it's photography, video, or written content, he makes sure everything Bloom Social produces looks sharp and tells the right story.",
+    bio: "Ethan brings the creative vision to life. From photography and video to written content and strategy, he makes sure everything Bloom Social produces looks sharp and tells the right story.",
   },
   {
     name: "Carly",
-    role: "Social Media Manager",
+    role: "Social Media Specialist",
     image: "/images/team-carly-bloom-social.webp",
-    bio: "Carly manages the day-to-day social presence for Bloom Social's clients. From scheduling posts to engaging with audiences, she keeps brands active and growing across every platform.",
+    bio: "Carly manages the day-to-day social presence for Bloom Social's clients. From strategy to scheduling to engagement, she keeps brands active and growing across every platform.",
   },
   {
     name: "Abbie",
-    role: "Social Media Coordinator",
+    role: "Social Media Specialist",
     image: "/images/team-abbie-bloom-social.webp",
-    bio: "Abbie supports the team with content coordination and community management. She keeps everything organized so the creative work can shine, and nothing falls through the cracks.",
+    bio: "Abbie brings precision and creativity to content and community management. She keeps every client's social presence consistent, on-brand, and always moving forward.",
   },
 ];
 
@@ -75,7 +75,25 @@ const values = [
   },
 ];
 
-const badges = ["Women-Owned", "Founded 2020", "Grand Rapids, MI", "Nationwide Clients", "Built on EOS"];
+const badges = ["Women-Owned", "Founded 2020", "Grand Rapids, MI", "Nationwide Clients", "Built on EOS", "Diverse Business Enterprise"];
+
+const TESTIMONIALS = [
+  {
+    quote: "Working with Bloom Social has made our lives so much easier. We knew social media was important for our business and goals, but it always landed at the bottom of the to-do list. Not only have we gotten so much time back, but the team does a better job keeping on top of trends, knowing our numbers, and pushing us to grow strategically. They've made our voice and presence stronger, while keeping us true to the work we do every day.",
+    name: "Grace Gavin",
+    company: "Know Honesty",
+  },
+  {
+    quote: "I have had the pleasure of working with Kirsten and Jeff from Bloom Social for nearly five years, and I can genuinely say that they are a remarkable team. Their approach is personal, ethical, and consistently prompt, which are just a few of the many competencies you'd expect from a top-notch social media consultancy.",
+    name: "Gwen Sandefur",
+    company: "Loud Minds",
+  },
+  {
+    quote: "Bloom Social has been a rock star partner for Corewell Health for years. We've been able to count on Kirsten and her team through the pandemic to help us effectively deliver lifesaving information to our community. Their creativity and technical skills have led to a huge increase in our social channel following and engagement.",
+    name: "Cheryl Welch",
+    company: "Corewell Health",
+  },
+];
 
 // ─── Component ─────────────────────────────────────────────────────────────
 
@@ -137,7 +155,7 @@ export default function AboutPage() {
               className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.06] tracking-tight mb-6"
             >
               Meet the Team Behind Your
-              <span className="text-bloom-orange"> LinkedIn Success</span>
+              <span className="text-bloom-orange"> Social Presence</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -360,6 +378,126 @@ export default function AboutPage() {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          TESTIMONIALS
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-bloom-light py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-3">What Clients Say</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-bloom-green leading-tight">
+              Real People. Real Results.
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {TESTIMONIALS.map((t, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, delay: i * 0.12 }}
+                className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm flex flex-col gap-5"
+              >
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, j) => (
+                    <StarIcon key={j} className="w-4 h-4 text-bloom-orange" filled />
+                  ))}
+                </div>
+                <p className="text-gray-600 text-sm leading-relaxed italic flex-1">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div className="border-t border-gray-100 pt-4">
+                  <p className="font-bold text-bloom-green text-sm">{t.name}</p>
+                  <p className="text-gray-400 text-xs mt-0.5">{t.company}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          COMMUNITY / GIVING BACK
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="bg-[#001a19] py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-3">Community</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight">
+              Giving Back to Grand Rapids
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-10">
+            {/* Helen DeVos */}
+            <motion.div
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-8"
+            >
+              <div className="w-12 h-12 bg-bloom-orange/15 rounded-xl flex items-center justify-center mb-5">
+                <SparklesIcon className="w-6 h-6 text-bloom-orange" />
+              </div>
+              <h3 className="text-white font-bold text-xl mb-3">Helen DeVos Children&apos;s Hospital</h3>
+              <p className="text-white/55 text-sm leading-relaxed mb-4">
+                Working with Helen DeVos Children&apos;s Hospital is very near and dear to Kirsten&apos;s heart. She has seen first-hand how donations can brighten up a child&apos;s stay — and the team members, patients, and families never cease to amaze her.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3 text-sm text-white/60">
+                  <CheckIcon className="w-4 h-4 text-bloom-orange shrink-0 mt-0.5" />
+                  <span><span className="text-white font-semibold">November 2023:</span> Bloom Social donated over 300 toys and crafts to patients and families.</span>
+                </li>
+                <li className="flex items-start gap-3 text-sm text-white/60">
+                  <CheckIcon className="w-4 h-4 text-bloom-orange shrink-0 mt-0.5" />
+                  <span><span className="text-white font-semibold">November 2024:</span> Our team gifted 100 custom teddy bears with glasses to the ophthalmology clinic at Corewell Health Helen DeVos Children&apos;s Hospital — honoring our tiniest Bloom team member, Roy (Kirsten and Jeff&apos;s son, a patient there since he was 3 days old). Sewing the glasses on each bear was a labor of love.</span>
+                </li>
+              </ul>
+              <p className="text-white/40 text-xs mt-5 italic">We&apos;re looking forward to continuing this donation effort each year with a portion of our profits.</p>
+            </motion.div>
+
+            {/* DVE Certification */}
+            <motion.div
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.12 }}
+              className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-8"
+            >
+              <div className="w-12 h-12 bg-bloom-green/25 rounded-xl flex items-center justify-center mb-5">
+                <StarIcon className="w-6 h-6 text-bloom-orange" filled />
+              </div>
+              <h3 className="text-white font-bold text-xl mb-3">Diverse Business Enterprise</h3>
+              <p className="text-white/55 text-sm leading-relaxed mb-4">
+                Bloom Social is proud to be a certified women-owned business through the Grand Rapids Chamber. These certifications increase transparency and create opportunities for procurement with supplier diversity programs with the area&apos;s largest companies.
+              </p>
+              <p className="text-white/55 text-sm leading-relaxed">
+                It gives West Michigan organizations a competitive advantage when working with the greater business community — and it reflects our commitment to building something that matters here in Grand Rapids.
+              </p>
+              <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-bloom-green/15 border border-bloom-green/25 rounded-full">
+                <div className="w-2 h-2 rounded-full bg-bloom-orange" />
+                <span className="text-bloom-orange text-xs font-semibold tracking-wide uppercase">Grand Rapids Chamber Certified</span>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 

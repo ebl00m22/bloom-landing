@@ -1,15 +1,19 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import CountUp from "@/components/CountUp";
 import {
   StarIcon,
   ArrowRightIcon,
   ChartIcon,
-  CameraIcon,
   MegaphoneIcon,
   SparklesIcon,
+  CalendarIcon,
+  CheckIcon,
+  UsersIcon,
+  RocketIcon,
 } from "@/components/Icons";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -21,12 +25,12 @@ const BENEFITS = [
     body: "Instagram, Facebook, LinkedIn, TikTok. One strategy, consistently executed.",
   },
   {
-    icon: CameraIcon,
+    icon: ChartIcon,
     title: "Content that fits your brand",
     body: "We build a monthly calendar, design the visuals, write the copy. You approve and we post.",
   },
   {
-    icon: ChartIcon,
+    icon: SparklesIcon,
     title: "Numbers that mean something",
     body: "Monthly performance reports showing real growth, not just vanity metrics.",
   },
@@ -45,23 +49,137 @@ const STEPS = [
   { n: "04", title: "We Handle It", body: "We post, engage, and report back monthly." },
 ];
 
-const TESTIMONIALS = [
+const WHY_BLOOM = [
   {
-    quote: "We went from zero strategy to a full content calendar and our engagement tripled in the first month.",
-    name: "Owner, Restaurant Group",
-    title: "Grand Rapids, MI",
+    icon: CalendarIcon,
+    title: "Monthly content calendar",
+    body: "Planned, written, and designed by the 15th.",
   },
   {
-    quote: "After two other agencies, Bloom finally felt like a partner who understood our business.",
-    name: "Marketing Director, B2B SaaS",
-    title: "Chicago, IL",
+    icon: CheckIcon,
+    title: "One approval batch",
+    body: "30 minutes in Monday.com. That's your entire monthly commitment.",
   },
   {
-    quote: "The reporting alone changed how we think about social. We understand what is working now.",
-    name: "Founder, E-commerce Brand",
-    title: "Detroit, MI",
+    icon: ChartIcon,
+    title: "Real performance data",
+    body: "Monthly reports connecting content to actual business goals.",
+  },
+  {
+    icon: UsersIcon,
+    title: "Community engagement",
+    body: "We reply, engage, and build your audience daily.",
+  },
+  {
+    icon: SparklesIcon,
+    title: "Branded visual content",
+    body: "Graphics, Reels, Shorts — designed in your brand voice.",
+  },
+  {
+    icon: RocketIcon,
+    title: "Live within 5 weeks",
+    body: "From kickoff to published content in under a month.",
   },
 ];
+
+const WHO_FOR = [
+  {
+    title: "Local businesses",
+    body: "You know social matters but you don't have the time or team to do it well.",
+  },
+  {
+    title: "Growth-stage companies",
+    body: "You've outgrown DIY but aren't ready for a 6-person in-house team.",
+  },
+  {
+    title: "B2B brands",
+    body: "Your audience is on LinkedIn, Instagram, and more. You need to show up consistently.",
+  },
+];
+
+const FAQS = [
+  {
+    q: "What platforms do you manage?",
+    a: "Instagram, Facebook, LinkedIn, TikTok, and YouTube Shorts. We'll recommend what makes sense for your audience.",
+  },
+  {
+    q: "How much of my time does this take?",
+    a: "About 30 minutes a month. You review your content calendar, leave any comments, and approve. We handle everything else.",
+  },
+  {
+    q: "When do posts go live?",
+    a: "Within 5 weeks of your kickoff call. We spend the first two weeks on strategy, then your first calendar is ready by the 15th.",
+  },
+  {
+    q: "Do I own the content?",
+    a: "Yes, 100%. Everything we create belongs to you.",
+  },
+];
+
+const BUBBLES = [
+  { size: 110, left: "8%",  delay: 0,    bg: "rgba(225,115,57,0.05)",  blur: 0 },
+  { size: 80,  left: "22%", delay: -4,   bg: "rgba(255,255,255,0.05)", blur: 1 },
+  { size: 140, left: "40%", delay: -8,   bg: "rgba(225,115,57,0.04)",  blur: 2 },
+  { size: 70,  left: "57%", delay: -13,  bg: "rgba(255,255,255,0.04)", blur: 0 },
+  { size: 100, left: "72%", delay: -6,   bg: "rgba(225,115,57,0.06)",  blur: 1 },
+  { size: 90,  left: "88%", delay: -10,  bg: "rgba(255,255,255,0.05)", blur: 2 },
+];
+
+// ─── FAQ Accordion ─────────────────────────────────────────────────────────────
+
+function FaqItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <motion.div
+      className="border-b border-[#004845]/30 last:border-0"
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.45 }}
+    >
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between gap-4 py-5 text-left group"
+        aria-expanded={open}
+      >
+        <span className="font-semibold text-[#003330] text-base leading-snug group-hover:text-[#e17339] transition-colors">
+          {q}
+        </span>
+        <span
+          className={`flex-shrink-0 w-6 h-6 rounded-full border border-[#004845]/40 flex items-center justify-center transition-transform duration-300 ${
+            open ? "rotate-45 bg-[#e17339] border-[#e17339]" : ""
+          }`}
+        >
+          <svg
+            className={`w-3 h-3 transition-colors ${open ? "text-white" : "text-[#004845]"}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2.5}
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+        </span>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="answer"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            style={{ overflow: "hidden" }}
+          >
+            <p className="text-[#003330]/65 text-sm leading-relaxed pb-5">{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -71,8 +189,25 @@ export default function SocialMediaLP() {
   return (
     <main className="overflow-x-hidden bg-[#0c0a14]">
 
+      {/* Bubble keyframes */}
+      <style>{`
+        @keyframes bubble-rise {
+          0%   { transform: translateY(0)   scale(1);    opacity: 0; }
+          8%   { opacity: 1; }
+          90%  { opacity: 0.6; }
+          100% { transform: translateY(-110vh) scale(1.12); opacity: 0; }
+        }
+        .bubble {
+          position: absolute;
+          bottom: -20px;
+          border-radius: 50%;
+          animation: bubble-rise 16s ease-in infinite;
+          pointer-events: none;
+        }
+      `}</style>
+
       {/* ════════════════════════════════════════════════════════════════
-          HERO
+          HERO — two-column
       ════════════════════════════════════════════════════════════════ */}
       <section className="hero-mesh relative min-h-[100svh] flex items-center overflow-hidden">
         <div className="noise-overlay opacity-[0.055]" aria-hidden="true" />
@@ -102,88 +237,205 @@ export default function SocialMediaLP() {
           transition={{ duration: 26, repeat: Infinity, ease: "easeInOut", delay: 4 }}
         />
 
-        {/* Ghost B mark */}
+        {/* Ghost B mark — behind right column */}
         <motion.div
           aria-hidden="true"
-          className="absolute right-[-8%] top-1/2 -translate-y-1/2 w-[55vw] max-w-[700px] pointer-events-none select-none z-[2]"
-          style={{ opacity: 0.13, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+          className="absolute right-[-4%] top-1/2 -translate-y-1/2 w-[50vw] max-w-[640px] pointer-events-none select-none z-[2]"
+          style={{ opacity: 0.10, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.13 }}
+          animate={{ opacity: 0.10 }}
           transition={{ duration: 1.2, delay: 0.4 }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
         </motion.div>
 
-        {/* Hero content */}
-        <div className="relative z-[3] w-full max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-36">
-
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-white/[0.06] text-white/55 text-xs font-semibold tracking-widest uppercase mb-10"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#e17339] animate-pulse" />
-            Social Media Management
-          </motion.div>
-
-          {/* Headline */}
-          <motion.h1
-            className="text-[clamp(2.6rem,6.5vw,5.8rem)] font-extrabold text-white leading-[1.04] tracking-tight mb-7 max-w-4xl"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.065, delayChildren: 0.2 } },
+        {/* Floating speech bubbles */}
+        {BUBBLES.map((b, i) => (
+          <div
+            key={i}
+            className="bubble"
+            style={{
+              width: b.size,
+              height: b.size,
+              left: b.left,
+              background: b.bg,
+              filter: b.blur ? `blur(${b.blur}px)` : undefined,
+              animationDelay: `${b.delay}s`,
+              animationDuration: `${14 + i * 2}s`,
             }}
-          >
-            {["Social", "media", "done", "right,", "so", "you", "can", "focus", "on", "everything", "else."].map((word, i) => (
-              <motion.span
-                key={i}
-                className="inline-block mr-[0.22em] last:mr-0"
+          />
+        ))}
+
+        {/* Hero content — two columns */}
+        <div className="relative z-[3] w-full max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-24">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+            {/* ── LEFT COL ── */}
+            <div>
+              {/* Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-white/[0.06] text-white/55 text-xs font-semibold tracking-widest uppercase mb-10"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#e17339] animate-pulse" />
+                Social Media Management
+              </motion.div>
+
+              {/* Headline — word stagger */}
+              <motion.h1
+                className="text-[clamp(2.4rem,5.5vw,4.8rem)] font-extrabold text-white leading-[1.04] tracking-tight mb-7"
+                initial="hidden"
+                animate="visible"
                 variants={{
-                  hidden:  { opacity: 0, y: 48, filter: "blur(7px)" },
-                  visible: { opacity: 1, y: 0,  filter: "blur(0px)", transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] } },
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.065, delayChildren: 0.2 } },
                 }}
               >
-                {word}
-              </motion.span>
-            ))}
-          </motion.h1>
+                {["Social", "media", "done", "right,", "so", "you", "can", "focus", "on", "everything", "else."].map((word, i) => (
+                  <motion.span
+                    key={i}
+                    className="inline-block mr-[0.22em] last:mr-0"
+                    variants={{
+                      hidden:  { opacity: 0, y: 48, filter: "blur(7px)" },
+                      visible: { opacity: 1, y: 0,  filter: "blur(0px)", transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] } },
+                    }}
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </motion.h1>
 
-          {/* Sub */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.78 }}
-            className="text-lg md:text-xl text-white/55 leading-relaxed max-w-xl mb-10"
-          >
-            Full-service content, community management, and monthly reporting across every platform that matters to your audience.
-          </motion.p>
+              {/* Subtext */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.78 }}
+                className="text-lg text-white/55 leading-relaxed mb-8"
+              >
+                Full-service content, community management, and monthly reporting across every platform that matters to your audience.
+              </motion.p>
 
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.92 }}
-            className="flex flex-wrap gap-3"
-          >
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] transition-colors text-sm"
+              {/* Trust signals */}
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.92 }}
+                className="flex flex-wrap gap-x-5 gap-y-3"
+              >
+                {/* Stars */}
+                <div className="flex items-center gap-1.5">
+                  <div className="flex gap-0.5">
+                    {[...Array(5)].map((_, j) => (
+                      <StarIcon key={j} className="w-3.5 h-3.5 text-[#e17339]" filled />
+                    ))}
+                  </div>
+                  <span className="text-white/50 text-xs font-medium">5 Google reviews</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[#e17339] font-bold text-xs">50+</span>
+                  <span className="text-white/50 text-xs">clients served</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-white/50 text-xs">Women-owned · Grand Rapids, MI</span>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* ── RIGHT COL — contact form card ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 32, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.72, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-[4]"
             >
-              Book a free call
-              <ArrowRightIcon className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-white/[0.08] text-white font-semibold rounded-xl hover:bg-white/[0.14] border border-white/[0.12] transition-colors text-sm"
-            >
-              See our services
-            </Link>
-          </motion.div>
+              <div className="bg-white/[0.06] border border-white/[0.10] rounded-2xl p-8 backdrop-blur-sm">
+                <h2 className="text-white font-bold text-xl mb-1">Get a Free Strategy Call</h2>
+                <p className="text-white/45 text-sm mb-6">Tell us about your business and we'll reach out within one business day.</p>
+
+                <form
+                  onSubmit={(e) => e.preventDefault()}
+                  className="flex flex-col gap-4"
+                >
+                  {/* Name + Email row */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Name</label>
+                      <input
+                        type="text"
+                        placeholder="Jane Smith"
+                        className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Email</label>
+                      <input
+                        type="email"
+                        placeholder="jane@company.com"
+                        className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Company */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Company</label>
+                    <input
+                      type="text"
+                      placeholder="Acme Co."
+                      className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
+                    />
+                  </div>
+
+                  {/* Platform select */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Which platforms?</label>
+                    <div className="relative">
+                      <select
+                        defaultValue=""
+                        className="w-full appearance-none bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all pr-10"
+                        style={{ colorScheme: "dark" }}
+                      >
+                        <option value="" disabled className="bg-[#1a1630] text-white/40">Select platforms…</option>
+                        <option value="instagram" className="bg-[#1a1630] text-white">Instagram</option>
+                        <option value="facebook" className="bg-[#1a1630] text-white">Facebook</option>
+                        <option value="linkedin" className="bg-[#1a1630] text-white">LinkedIn</option>
+                        <option value="tiktok" className="bg-[#1a1630] text-white">TikTok</option>
+                        <option value="multiple" className="bg-[#1a1630] text-white">Multiple</option>
+                      </select>
+                      <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/35 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Message */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Message</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Tell us a bit about your goals…"
+                      className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all resize-none"
+                    />
+                  </div>
+
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] active:scale-[0.98] transition-all text-sm mt-1"
+                  >
+                    Book My Free Strategy Call
+                    <ArrowRightIcon className="w-4 h-4" />
+                  </button>
+
+                  <p className="text-center text-white/30 text-xs">We respond within 1 business day.</p>
+                </form>
+              </div>
+            </motion.div>
+
+          </div>
         </div>
 
         {/* Scroll cue */}
@@ -191,7 +443,7 @@ export default function SocialMediaLP() {
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[3]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.8 }}
+          transition={{ delay: 2 }}
         >
           <motion.div
             className="w-px h-10 bg-gradient-to-b from-white/30 to-transparent mx-auto"
@@ -206,7 +458,6 @@ export default function SocialMediaLP() {
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-[#0c0a14]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -279,11 +530,62 @@ export default function SocialMediaLP() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════
+          WHY BLOOM
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32 bg-[#001a19] relative overflow-hidden">
+        {/* Ghost B — left */}
+        <div
+          aria-hidden="true"
+          className="absolute left-[-8%] top-1/2 -translate-y-1/2 w-[40vw] max-w-[500px] pointer-events-none select-none"
+          style={{ opacity: 0.06, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-14"
+          >
+            <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">Why Bloom</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] max-w-2xl">
+              What you get when you work with us
+            </h2>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {WHY_BLOOM.map((card, i) => {
+              const Icon = card.icon;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.55, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-6 hover:border-[#e17339]/30 hover:bg-white/[0.06] hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-[#e17339]/10 text-[#e17339] flex items-center justify-center mb-4">
+                    <Icon className="w-4.5 h-4.5" />
+                  </div>
+                  <h3 className="text-white font-bold text-base mb-1.5">{card.title}</h3>
+                  <p className="text-white/40 text-sm leading-relaxed">{card.body}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════
           HOW IT WORKS
       ════════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-[#0c0a14]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -299,7 +601,6 @@ export default function SocialMediaLP() {
 
           <div className="relative">
             <div className="hidden lg:block absolute top-[9px] left-[3.5%] right-[3.5%] h-px bg-white/[0.08]" />
-
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
               {STEPS.map((step, i) => (
                 <motion.div
@@ -322,11 +623,10 @@ export default function SocialMediaLP() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════
-          TESTIMONIALS
+          WHO THIS IS FOR
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-24 md:py-32 bg-[#0c0a14]">
+      <section className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -334,33 +634,62 @@ export default function SocialMediaLP() {
             transition={{ duration: 0.6 }}
             className="mb-14"
           >
-            <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">What clients say</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white">Real results. Real businesses.</h2>
+            <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">Who this is for</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#0c0a14] leading-[1.08] max-w-2xl">
+              Built for businesses that are done winging it on social
+            </h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-5">
-            {TESTIMONIALS.map((t, i) => (
+          <div className="grid md:grid-cols-3 gap-6">
+            {WHO_FOR.map((w, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 28 }}
+                initial={{ opacity: 0, y: 26 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.55, delay: i * 0.12 }}
-                className="bg-white/[0.04] border border-white/[0.07] rounded-2xl p-7 flex flex-col gap-5 hover:border-white/[0.14] transition-colors duration-300"
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.55, delay: i * 0.1 }}
+                className="border border-[#0c0a14]/10 rounded-2xl p-7 bg-[#f8f8f6] hover:border-[#e17339]/40 hover:shadow-lg transition-all duration-300"
               >
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, j) => (
-                    <StarIcon key={j} className="w-3.5 h-3.5 text-[#e17339]" filled />
-                  ))}
-                </div>
-                <p className="text-white/65 text-sm leading-relaxed italic flex-1">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div>
-                  <p className="font-bold text-white text-sm">{t.name}</p>
-                  <p className="text-white/30 text-xs">{t.title}</p>
-                </div>
+                <div className="w-2 h-2 rounded-full bg-[#e17339] mb-5" />
+                <h3 className="text-[#0c0a14] font-bold text-xl mb-3">{w.title}</h3>
+                <p className="text-[#0c0a14]/55 text-sm leading-relaxed">{w.body}</p>
               </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════
+          FAQ
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32 bg-bloom-light relative overflow-hidden">
+        {/* Ghost B — right */}
+        <div
+          aria-hidden="true"
+          className="absolute right-[-6%] top-1/2 -translate-y-1/2 w-[38vw] max-w-[460px] pointer-events-none select-none"
+          style={{ opacity: 0.06, filter: "brightness(0) saturate(0)", mixBlendMode: "multiply" }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
+        </div>
+
+        <div className="relative max-w-3xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-12"
+          >
+            <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">FAQ</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#003330] leading-[1.08]">
+              Common questions
+            </h2>
+          </motion.div>
+
+          <div className="divide-y divide-[#004845]/20 border border-[#004845]/15 rounded-2xl bg-white/50 px-7">
+            {FAQS.map((faq, i) => (
+              <FaqItem key={i} q={faq.q} a={faq.a} />
             ))}
           </div>
         </div>

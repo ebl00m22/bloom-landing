@@ -87,19 +87,19 @@ const PROCESS = [
 
 const TESTIMONIALS = [
   {
-    quote: "Bloom transformed my LinkedIn from a digital resume into a genuine business development tool. More inbound conversations in 90 days than the previous two years combined.",
-    name: "Michael R.",
-    title: "CEO, Manufacturing Company",
+    quote: "Working with Bloom Social has made our lives so much easier. Not only have we gotten so much time back, but the team does a better job keeping on top of trends, knowing our numbers, and pushing us to grow strategically.",
+    name: "Grace Gavin",
+    title: "Know Honesty",
   },
   {
-    quote: "They captured my voice from day one. My own team asks if I wrote the posts myself. I just smile and change the subject.",
-    name: "Sarah T.",
-    title: "Founder, HR Consulting",
+    quote: "I have had the pleasure of working with Kirsten and Jeff from Bloom Social for nearly five years. Their approach is personal, ethical, and consistently prompt — just a few of the many competencies you'd expect from a top-notch social media consultancy.",
+    name: "Gwen Sandefur",
+    title: "Loud Minds",
   },
   {
-    quote: "Three enterprise clients in six months, all attributed to content Bloom created. Best marketing investment, full stop.",
-    name: "David M.",
-    title: "VP of Sales, B2B SaaS",
+    quote: "Bloom Social has been a rock star partner for Corewell Health for years. Their creativity and technical skills have led to a huge increase in our social channel following and engagement.",
+    name: "Cheryl Welch",
+    title: "Corewell Health",
   },
 ];
 
