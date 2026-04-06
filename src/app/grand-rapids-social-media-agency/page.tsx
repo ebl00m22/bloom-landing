@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import {
   StarIcon,
@@ -126,7 +127,7 @@ export default function GrandRapidsSocialMediaAgency() {
         </motion.div>
 
         {/* Hero content */}
-        <div className="relative z-[3] w-full max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-36">
+        <div className="relative z-[3] w-full max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* Badge */}
           <motion.div
@@ -216,6 +217,29 @@ export default function GrandRapidsSocialMediaAgency() {
             <span>Founded 2020</span>
           </motion.div>
         </div>
+
+        {/* Team photo — right column */}
+        <motion.div
+          className="hidden lg:block relative z-[3]"
+          initial={{ opacity: 0, x: 40, scale: 0.96 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          transition={{ duration: 0.85, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-2xl shadow-black/40 border border-white/[0.08]">
+            <Image
+              src="/images/bloom-social-grand-rapids-team.webp"
+              alt="Bloom Social team — Grand Rapids, Michigan"
+              fill
+              className="object-cover object-top"
+              sizes="50vw"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+            <div className="absolute bottom-4 left-4">
+              <span className="text-white text-xs font-semibold tracking-wide opacity-70">The Bloom Social Team · Grand Rapids, MI</span>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Scroll cue */}
         <motion.div

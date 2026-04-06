@@ -8,7 +8,6 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/process", label: "Our Process" },
-  { href: "/bloom-process", label: "B.L.O.O.M." },
   { href: "/services", label: "Services" },
   { href: "/contact", label: "Contact" },
 ];

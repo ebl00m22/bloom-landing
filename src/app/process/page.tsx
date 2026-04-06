@@ -34,7 +34,8 @@ const staggerContainer = {
 
 const timelineSteps = [
   {
-    number: "01",
+    number: "B",
+    acronym: "Begin",
     icon: <LightBulbIcon className="w-6 h-6" />,
     title: "Strategy Alignment",
     timing: "Week 1–2 after signing",
@@ -48,7 +49,8 @@ const timelineSteps = [
     ],
   },
   {
-    number: "02",
+    number: "L",
+    acronym: "Launch",
     icon: <CalendarIcon className="w-6 h-6" />,
     title: "Content Calendar Delivered",
     timing: "15th of each month",
@@ -63,7 +65,8 @@ const timelineSteps = [
     ],
   },
   {
-    number: "03",
+    number: "O",
+    acronym: "Observe",
     icon: <PenIcon className="w-6 h-6" />,
     title: "You Approve in One Batch",
     timing: "30–60 minutes, your call",
@@ -78,7 +81,8 @@ const timelineSteps = [
     ],
   },
   {
-    number: "04",
+    number: "O",
+    acronym: "Optimize",
     icon: <RocketIcon className="w-6 h-6" />,
     title: "Publishing & Engagement",
     timing: "First week of each month",
@@ -92,7 +96,8 @@ const timelineSteps = [
     ],
   },
   {
-    number: "05",
+    number: "M",
+    acronym: "Measure",
     icon: <ChartIcon className="w-6 h-6" />,
     title: "Monthly Reporting",
     timing: "5th of each month",
@@ -150,9 +155,9 @@ function TimelineStep({
 }) {
   return (
     <div className="relative flex gap-6 md:gap-8">
-      {/* Step bubble */}
+      {/* Step bubble — letter + acronym */}
       <motion.div
-        className="hidden md:flex shrink-0 w-14 h-14 rounded-2xl items-center justify-center text-white font-extrabold text-sm relative z-10"
+        className="hidden md:flex shrink-0 w-16 h-16 rounded-2xl flex-col items-center justify-center text-white relative z-10 gap-0.5"
         animate={{
           backgroundColor: isCurrent ? "#e17339" : "#004845",
           boxShadow: isCurrent
@@ -161,12 +166,22 @@ function TimelineStep({
         }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        {step.number}
+        <span className="text-2xl font-black leading-none">{step.number}</span>
+        {"acronym" in step && (
+          <span className="text-[9px] font-semibold tracking-widest uppercase opacity-80 leading-none">
+            {step.acronym as string}
+          </span>
+        )}
       </motion.div>
 
-      {/* Mobile number */}
-      <div className="md:hidden w-10 h-10 bg-bloom-green rounded-xl flex items-center justify-center text-white font-bold text-xs shrink-0 mt-1">
-        {step.number}
+      {/* Mobile bubble */}
+      <div className="md:hidden flex-col w-12 h-12 bg-bloom-green rounded-xl flex items-center justify-center text-white shrink-0 mt-1 gap-0.5">
+        <span className="text-lg font-black leading-none">{step.number}</span>
+        {"acronym" in step && (
+          <span className="text-[7px] font-semibold tracking-wider uppercase opacity-75 leading-none">
+            {step.acronym as string}
+          </span>
+        )}
       </div>
 
       <div className="flex-1 pt-1">
@@ -408,9 +423,27 @@ export default function ProcessPage() {
             className="text-center mb-16"
           >
             <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-3">Step by Step</p>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-bloom-green leading-tight">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-bloom-green leading-tight mb-4">
               The Bloom Social Process
             </h2>
+            {/* B.L.O.O.M. acronym display */}
+            <div className="flex items-center justify-center gap-1 flex-wrap">
+              {[
+                { letter: "B", word: "Begin" },
+                { letter: "L", word: "Launch" },
+                { letter: "O", word: "Observe" },
+                { letter: "O", word: "Optimize" },
+                { letter: "M", word: "Measure" },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-1">
+                  <div className="flex flex-col items-center px-3 py-2 rounded-xl bg-bloom-green/[0.06]">
+                    <span className="text-xl font-black text-bloom-green leading-none">{item.letter}</span>
+                    <span className="text-[9px] font-semibold tracking-widest text-bloom-orange uppercase mt-0.5">{item.word}</span>
+                  </div>
+                  {i < 4 && <span className="text-bloom-green/20 font-bold text-lg">·</span>}
+                </div>
+              ))}
+            </div>
           </motion.div>
 
           <ProcessTimeline />
