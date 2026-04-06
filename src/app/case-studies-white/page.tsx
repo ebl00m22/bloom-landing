@@ -222,7 +222,7 @@ export default function CaseStudiesWhitePage() {
         <div
           aria-hidden="true"
           className="absolute left-[-8%] top-1/2 -translate-y-1/2 w-[44vw] max-w-[560px] pointer-events-none select-none"
-          style={{ opacity: 0.08, filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+          style={{ opacity: 0.08, mixBlendMode: "multiply" }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
