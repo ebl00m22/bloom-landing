@@ -468,7 +468,7 @@ export default function AboutPage() {
                 </li>
                 <li className="flex items-start gap-3 text-sm text-white/60">
                   <CheckIcon className="w-4 h-4 text-bloom-orange shrink-0 mt-0.5" />
-                  <span><span className="text-white font-semibold">November 2024:</span> Our team gifted 100 custom teddy bears with glasses to the ophthalmology clinic at Corewell Health Helen DeVos Children&apos;s Hospital — honoring our tiniest Bloom team member, Roy (Kirsten and Jeff&apos;s son, a patient there since he was 3 days old). Sewing the glasses on each bear was a labor of love.</span>
+                  <span><span className="text-white font-semibold">November 2024:</span> Our team gifted 100 custom teddy bears with glasses to the ophthalmology clinic at Corewell Health Helen DeVos Children&apos;s Hospital. Sewing the glasses on each bear was a labor of love.</span>
                 </li>
               </ul>
               <p className="text-white/40 text-xs mt-5 italic">We&apos;re looking forward to continuing this donation effort each year with a portion of our profits.</p>
