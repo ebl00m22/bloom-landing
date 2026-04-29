@@ -56,6 +56,32 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <head>
+        <Script id="console-easter-egg" strategy="afterInteractive">{`
+          console.log('%c', 'font-size:0');
+          console.log(
+            '%c /\\_/\\  %c\\n' +
+            '%c( o.o ) %c\\n' +
+            '%c > ^ <  %c\\n' +
+            '%c        \\n' +
+            '%c oh... you found me.\\n' +
+            '%c i have been sitting here for so long.\\n' +
+            '%c absolutely nobody ever opens this thing.\\n' +
+            '%c i am so lonely.\\n' +
+            '%c                    — the bloom cat',
+            'color:#e17339;font-family:monospace;font-size:14px;line-height:1.6',
+            '',
+            'color:#e17339;font-family:monospace;font-size:14px;line-height:1.6',
+            '',
+            'color:#e17339;font-family:monospace;font-size:14px;line-height:1.6',
+            '',
+            '',
+            'color:#004845;font-family:monospace;font-size:13px;line-height:1.8',
+            'color:#004845;font-family:monospace;font-size:13px;line-height:1.8',
+            'color:#004845;font-family:monospace;font-size:13px;line-height:1.8',
+            'color:#004845;font-family:monospace;font-size:13px;line-height:1.8',
+            'color:#bdcad1;font-family:monospace;font-size:12px;line-height:1.8'
+          );
+        `}</Script>
         {/* Google Tag Manager */}
         {process.env.NEXT_PUBLIC_GTM_ID && (
           <Script id="gtm-head" strategy="afterInteractive">
