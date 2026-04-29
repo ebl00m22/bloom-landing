@@ -7,13 +7,11 @@ import {
   useTransform,
   useScroll,
   useReducedMotion,
-  useVelocity,
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useEffect, useCallback, useState } from "react";
 import CountUp from "@/components/CountUp";
-import Magnetic from "@/components/Magnetic";
 import { StarIcon, ArrowRightIcon } from "@/components/Icons";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -33,21 +31,17 @@ const BUBBLES = [
   { text: "Got 3 DMs from this post",     left: "5%",  duration: 14, delay: -7  },
   { text: "Reach up 8×",                  left: "12%", duration: 21, delay: -14 },
   { text: "Sounds just like me",           left: "20%", duration: 16, delay: -3  },
-  { text: "I'm famous at work now",        left: "29%", duration: 18, delay: -10 },
   { text: "Content approved ✓",            left: "38%", duration: 19, delay: -5  },
   { text: "CEO loved it",                  left: "47%", duration: 13, delay: -1  },
   { text: "3 leads this week",             left: "56%", duration: 17, delay: -8  },
-  { text: "Post went mini-viral",          left: "65%", duration: 20, delay: -11 },
-  { text: "Inbox is popping rn",           left: "74%", duration: 15, delay: -4  },
+  { text: "Profile views up 3×",           left: "65%", duration: 20, delay: -11 },
   { text: "Follower count tripled",        left: "83%", duration: 22, delay: -6  },
-  { text: "Just got a referral from it",   left: "10%", duration: 25, delay: -18 },
-  { text: "My clients keep asking",        left: "35%", duration: 23, delay: -2  },
-  { text: "Comments section is fire",      left: "53%", duration: 18, delay: -15 },
-  { text: "Saved by 400 people",           left: "72%", duration: 24, delay: -9  },
-  { text: "Whole team shared it",          left: "90%", duration: 16, delay: -13 },
+  { text: "Got a referral from it",        left: "10%", duration: 25, delay: -18 },
   { text: "Closed a deal from a post",     left: "43%", duration: 26, delay: -20 },
   { text: "Finally sounds like me",        left: "16%", duration: 20, delay: -7  },
   { text: "Best quarter ever",             left: "60%", duration: 22, delay: -3  },
+  { text: "Booked a podcast spot",         left: "72%", duration: 24, delay: -9  },
+  { text: "+340% impressions",             left: "29%", duration: 18, delay: -10 },
 ];
 
 const SERVICES = [
@@ -155,35 +149,6 @@ function TypewriterWord() {
       {text}
       <span className="inline-block w-[3px] h-[0.9em] bg-white/70 ml-1 align-middle animate-[cursor-blink_0.75s_step-end_infinite]" />
     </span>
-  );
-}
-
-// ─── Velocity marquee (skews on scroll velocity) ─────────────────────────────
-
-function VelocityMarquee({ items, theme }: { items: string[]; theme: "dark" | "light" }) {
-  const { scrollY } = useScroll();
-  const scrollVelocity = useVelocity(scrollY);
-  const smooth = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
-  const skew = useTransform(smooth, [-2200, 0, 2200], ["6deg", "0deg", "-6deg"], { clamp: true });
-
-  const styles = theme === "dark"
-    ? { wrapper: "bg-[#0c0a14] border-y border-white/[0.06]", text: "text-white/40", dot: "text-[#e17339]" }
-    : { wrapper: "bg-[#f0f0ee] border-y border-[#0c0a14]/[0.06]", text: "text-[#004845]/40", dot: "text-[#e17339]" };
-
-  return (
-    <div className={`${styles.wrapper} py-4 overflow-hidden`}>
-      <motion.div
-        className="flex whitespace-nowrap"
-        style={{ animation: `scroll-marquee 30s linear infinite`, skewX: skew }}
-      >
-        {[...items, ...items].map((item, i) => (
-          <span key={i} className={`inline-flex items-center gap-4 ${styles.text} text-[10px] font-semibold tracking-[0.22em] uppercase px-8`}>
-            {item}
-            <span className={`${styles.dot} text-sm`}>·</span>
-          </span>
-        ))}
-      </motion.div>
-    </div>
   );
 }
 
@@ -346,58 +311,60 @@ export default function HomePage() {
           className="relative z-[3] w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-24 sm:pb-32"
           style={prefersReduced ? {} : { y: heroContentY, opacity: heroContentAlpha }}
         >
-          <div className="max-w-3xl">
-            {/* Headline — typewriter on its own line */}
-            <motion.h1
-              className="text-[clamp(2.8rem,7.5vw,6.5rem)] font-extrabold text-white leading-[1.04] tracking-tight mb-7"
-              initial="hidden"
-              animate="visible"
-              variants={{
-                hidden: {},
-                visible: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } },
-              }}
-            >
-              {["We", "build", "brands", "worth"].map((word, i) => (
-                <motion.span
-                  key={i}
-                  className="inline-block mr-[0.24em]"
-                  variants={{
-                    hidden:   { opacity: 0, y: 48, filter: "blur(7px)" },
-                    visible:  { opacity: 1, y: 0,  filter: "blur(0px)", transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] } },
-                  }}
-                >
-                  {word}
-                </motion.span>
-              ))}
-              <motion.span
-                className="block"
+          <div className="grid lg:grid-cols-[1fr_440px] xl:grid-cols-[1fr_500px] gap-12 xl:gap-16 items-center">
+
+            {/* Left: text */}
+            <div>
+              {/* Headline — typewriter on its own line */}
+              <motion.h1
+                className="text-[clamp(2.8rem,6.5vw,5.5rem)] font-extrabold text-white leading-[1.04] tracking-tight mb-7"
+                initial="hidden"
+                animate="visible"
                 variants={{
-                  hidden:  { opacity: 0, y: 48, filter: "blur(7px)" },
-                  visible: { opacity: 1, y: 0,  filter: "blur(0px)", transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] } },
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } },
                 }}
               >
-                <TypewriterWord />
-              </motion.span>
-            </motion.h1>
+                {["We", "build", "brands", "worth"].map((word, i) => (
+                  <motion.span
+                    key={i}
+                    className="inline-block mr-[0.24em]"
+                    variants={{
+                      hidden:   { opacity: 0, y: 48, filter: "blur(7px)" },
+                      visible:  { opacity: 1, y: 0,  filter: "blur(0px)", transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] } },
+                    }}
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+                <motion.span
+                  className="block"
+                  variants={{
+                    hidden:  { opacity: 0, y: 48, filter: "blur(7px)" },
+                    visible: { opacity: 1, y: 0,  filter: "blur(0px)", transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] } },
+                  }}
+                >
+                  <TypewriterWord />
+                </motion.span>
+              </motion.h1>
 
-            {/* Sub */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.68 }}
-              className="text-lg md:text-xl text-white/55 leading-relaxed max-w-xl mb-10"
-            >
-              We take over your social media. The strategy, the content, the writing. So you can stay focused on running your business.
-            </motion.p>
+              {/* Sub */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.68 }}
+                className="text-lg md:text-xl text-white/55 leading-relaxed max-w-lg mb-10"
+              >
+                We take over your social media. The strategy, the content, the writing. So you can stay focused on running your business.
+              </motion.p>
 
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.82 }}
-              className="flex flex-wrap gap-3 mb-12"
-            >
-              <Magnetic strength={0.3}>
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.82 }}
+                className="flex flex-wrap gap-3 mb-12"
+              >
                 <Link
                   href="/services"
                   className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] transition-colors text-sm"
@@ -405,61 +372,61 @@ export default function HomePage() {
                   See our services
                   <ArrowRightIcon className="w-4 h-4" />
                 </Link>
-              </Magnetic>
-              <Magnetic strength={0.25}>
                 <Link
                   href="/contact"
                   className="inline-flex items-center gap-2 px-6 py-3.5 bg-white/[0.08] text-white font-semibold rounded-xl hover:bg-white/[0.14] border border-white/[0.12] transition-colors text-sm"
                 >
                   Book a strategy call
                 </Link>
-              </Magnetic>
-            </motion.div>
+              </motion.div>
 
-            {/* Trust micro-row */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1 }}
-              className="flex flex-wrap items-center gap-x-5 gap-y-2 text-white/30 text-xs"
-            >
-              <a
-                href="https://www.google.com/search?q=Bloom+Social+Grand+Rapids+MI+reviews"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 hover:text-white/60 transition-colors group"
-                aria-label="Read or leave a Google review"
+              {/* Trust micro-row */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 1 }}
+                className="flex flex-wrap items-center gap-x-5 gap-y-2 text-white/30 text-xs"
               >
-                {[...Array(5)].map((_, i) => (
-                  <StarIcon key={i} className="w-3 h-3 text-[#e17339]" filled />
-                ))}
-                <span className="ml-0.5 font-semibold">5.0</span>
-                <span className="text-white/35">·</span>
-                <span className="group-hover:underline">5 Google reviews</span>
-              </a>
-              <span className="hidden sm:block text-white/25">·</span>
-              <span>Women-owned · Grand Rapids, MI</span>
-              <span className="hidden sm:block text-white/25">·</span>
-              <span>Founded 2020</span>
-            </motion.div>
-          </div>
-
-          {/* Full-width team photo */}
-          <motion.div
-            className="mt-14 lg:mt-20"
-            initial={{ opacity: 0, scale: 0.97, y: 24 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/50 ring-1 ring-white/[0.08]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/bloom-social-grand-rapids-team.webp"
-                alt="Bloom Social team Grand Rapids"
-                className="w-full h-auto block"
-              />
+                <a
+                  href="https://www.google.com/search?q=Bloom+Social+Grand+Rapids+MI+reviews"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 hover:text-white/60 transition-colors group"
+                  aria-label="Read or leave a Google review"
+                >
+                  {[...Array(5)].map((_, i) => (
+                    <StarIcon key={i} className="w-3 h-3 text-[#e17339]" filled />
+                  ))}
+                  <span className="ml-0.5 font-semibold">5.0</span>
+                  <span className="text-white/35">·</span>
+                  <span className="group-hover:underline">5 Google reviews</span>
+                </a>
+                <span className="hidden sm:block text-white/25">·</span>
+                <span>Women-owned · Grand Rapids, MI</span>
+                <span className="hidden sm:block text-white/25">·</span>
+                <span>Founded 2020</span>
+              </motion.div>
             </div>
-          </motion.div>
+
+            {/* Right: team photo */}
+            <motion.div
+              className="hidden lg:block"
+              initial={{ opacity: 0, scale: 0.95, y: 24 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.85, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-2xl shadow-black/50 ring-1 ring-white/[0.08]">
+                <Image
+                  src="/images/bloom-social-grand-rapids-team.webp"
+                  alt="Bloom Social team Grand Rapids"
+                  fill
+                  className="object-cover object-left"
+                  priority
+                />
+              </div>
+            </motion.div>
+
+          </div>
         </motion.div>
 
         {/* Scroll cue */}
@@ -479,9 +446,24 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════
-          MARQUEE — skews with scroll velocity
+          MARQUEE
       ════════════════════════════════════════════════════════════════ */}
-      <VelocityMarquee items={MARQUEE} theme="dark" />
+      <div className="bg-[#0c0a14] py-4 border-y border-white/[0.06] overflow-hidden">
+        <div
+          className="flex whitespace-nowrap"
+          style={{ animation: "scroll-marquee 30s linear infinite" }}
+        >
+          {[...MARQUEE, ...MARQUEE].map((item, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-4 text-white/40 text-[10px] font-semibold tracking-[0.22em] uppercase px-8"
+            >
+              {item}
+              <span className="text-[#e17339] text-sm">·</span>
+            </span>
+          ))}
+        </div>
+      </div>
 
       {/* ════════════════════════════════════════════════════════════════
           SERVICES
@@ -831,15 +813,13 @@ export default function HomePage() {
             <p className="text-white/60 text-lg mb-10 max-w-lg mx-auto">
               Book a free 30-minute strategy call. We will look at your current social presence and show you exactly what is possible.
             </p>
-            <Magnetic strength={0.35}>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-white text-[#004845] font-black text-lg rounded-xl hover:bg-[#f5f8f7] transition-colors shadow-2xl shadow-black/25"
-              >
-                Book your free call
-                <ArrowRightIcon className="w-5 h-5" />
-              </Link>
-            </Magnetic>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-white text-[#004845] font-black text-lg rounded-xl hover:bg-[#f5f8f7] transition-colors shadow-2xl shadow-black/25"
+            >
+              Book your free call
+              <ArrowRightIcon className="w-5 h-5" />
+            </Link>
             <p className="text-white/30 text-xs mt-5 tracking-wide">
               No pressure. No pitch deck. Just a real conversation.
             </p>
