@@ -244,7 +244,7 @@ export default function HomePage() {
             rotateY: prefersReduced ? 0 : tiltY,
             rotateX: prefersReduced ? 0 : tiltX,
             transformPerspective: 1400,
-            opacity: 0.14,
+            opacity: 0.22,
             filter: "brightness(0) invert(1)",
             mixBlendMode: "screen",
           }}
@@ -258,95 +258,126 @@ export default function HomePage() {
           className="relative z-[3] w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-24 sm:pb-32"
           style={prefersReduced ? {} : { y: heroContentY, opacity: heroContentAlpha }}
         >
-          {/* Eyebrow badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-white/[0.06] text-white/55 text-xs font-semibold tracking-widest uppercase mb-10"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#e17339] animate-pulse" />
-            Boutique Social Media Agency · Grand Rapids, MI
-          </motion.div>
+          <div className="grid lg:grid-cols-[1fr_440px] xl:grid-cols-[1fr_500px] gap-12 xl:gap-16 items-center">
 
-          {/* Headline — word-by-word stagger reveal */}
-          <motion.h1
-            className="text-[clamp(2.8rem,7.5vw,6.5rem)] font-extrabold text-white leading-[1.04] tracking-tight mb-7 max-w-4xl"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } },
-            }}
-          >
-            {["We", "build", "brands", "worth", "following."].map((word, i) => (
-              <motion.span
-                key={i}
-                className="inline-block mr-[0.24em] last:mr-0"
+            {/* Left: text */}
+            <div>
+              {/* Eyebrow badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-white/[0.06] text-white/55 text-xs font-semibold tracking-widest uppercase mb-10"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#e17339] animate-pulse" />
+                Boutique Social Media Agency · Grand Rapids, MI
+              </motion.div>
+
+              {/* Headline — word-by-word stagger reveal */}
+              <motion.h1
+                className="text-[clamp(2.8rem,6.5vw,5.5rem)] font-extrabold text-white leading-[1.04] tracking-tight mb-7"
+                initial="hidden"
+                animate="visible"
                 variants={{
-                  hidden:   { opacity: 0, y: 48, filter: "blur(7px)" },
-                  visible:  { opacity: 1, y: 0,  filter: "blur(0px)", transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] } },
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } },
                 }}
               >
-                {word}
-              </motion.span>
-            ))}
-          </motion.h1>
+                {["We", "build", "brands", "worth", "following."].map((word, i) => (
+                  <motion.span
+                    key={i}
+                    className="inline-block mr-[0.24em] last:mr-0"
+                    variants={{
+                      hidden:   { opacity: 0, y: 48, filter: "blur(7px)" },
+                      visible:  { opacity: 1, y: 0,  filter: "blur(0px)", transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] } },
+                    }}
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </motion.h1>
 
-          {/* Sub */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.68 }}
-            className="text-lg md:text-xl text-white/55 leading-relaxed max-w-xl mb-10"
-          >
-            Bloom Social is a boutique social media agency in Grand Rapids. We build content strategies, manage your accounts, and craft the words that make your brand worth following.
-          </motion.p>
+              {/* Sub */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.68 }}
+                className="text-lg md:text-xl text-white/55 leading-relaxed max-w-lg mb-10"
+              >
+                Bloom Social is a boutique social media agency in Grand Rapids. We build content strategies, manage your accounts, and craft the words that make your brand worth following.
+              </motion.p>
 
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.82 }}
-            className="flex flex-wrap gap-3 mb-12"
-          >
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] transition-colors text-sm"
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.82 }}
+                className="flex flex-wrap gap-3 mb-12"
+              >
+                <Link
+                  href="/services"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] transition-colors text-sm"
+                >
+                  See our services
+                  <ArrowRightIcon className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-white/[0.08] text-white font-semibold rounded-xl hover:bg-white/[0.14] border border-white/[0.12] transition-colors text-sm"
+                >
+                  Book a strategy call
+                </Link>
+              </motion.div>
+
+              {/* Trust micro-row */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 1 }}
+                className="flex flex-wrap items-center gap-x-5 gap-y-2 text-white/30 text-xs"
+              >
+                <span className="flex items-center gap-1.5">
+                  {[...Array(5)].map((_, i) => (
+                    <StarIcon key={i} className="w-3 h-3 text-[#e17339]" filled />
+                  ))}
+                  <span className="ml-0.5 font-semibold">5.0</span>
+                  <span className="text-white/35">·</span>
+                  <span>5 Google reviews</span>
+                </span>
+                <span className="hidden sm:block text-white/25">·</span>
+                <span>Marketing Consultant</span>
+                <span className="hidden sm:block text-white/25">·</span>
+                <span>Women-owned, Grand Rapids MI</span>
+                <span className="hidden sm:block">·</span>
+                <span>Founded 2020</span>
+              </motion.div>
+            </div>
+
+            {/* Right: team photo */}
+            <motion.div
+              className="hidden lg:block"
+              initial={{ opacity: 0, scale: 0.95, y: 24 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.85, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
-              See our services
-              <ArrowRightIcon className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-white/[0.08] text-white font-semibold rounded-xl hover:bg-white/[0.14] border border-white/[0.12] transition-colors text-sm"
-            >
-              Book a strategy call
-            </Link>
-          </motion.div>
+              <div className="relative rounded-2xl overflow-hidden aspect-[3/4] shadow-2xl shadow-black/50 ring-1 ring-white/[0.08]">
+                <Image
+                  src="/images/bloom-social-grand-rapids-team.webp"
+                  alt="Bloom Social team Grand Rapids"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                {/* Floating badge */}
+                <div className="absolute bottom-5 left-5 right-5 flex items-center gap-3 px-4 py-3 rounded-xl bg-black/50 backdrop-blur-sm border border-white/[0.1]">
+                  <div className="w-2 h-2 rounded-full bg-[#e17339] shrink-0 animate-pulse" />
+                  <p className="text-white/80 text-xs font-medium">Grand Rapids, MI · Serving clients nationwide</p>
+                </div>
+              </div>
+            </motion.div>
 
-          {/* Trust micro-row */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1 }}
-            className="flex flex-wrap items-center gap-x-5 gap-y-2 text-white/30 text-xs"
-          >
-            <span className="flex items-center gap-1.5">
-              {[...Array(5)].map((_, i) => (
-                <StarIcon key={i} className="w-3 h-3 text-[#e17339]" filled />
-              ))}
-              <span className="ml-0.5 font-semibold">5.0</span>
-              <span className="text-white/35">·</span>
-              <span>5 Google reviews</span>
-            </span>
-            <span className="hidden sm:block text-white/25">·</span>
-            <span>Marketing Consultant</span>
-            <span className="hidden sm:block text-white/25">·</span>
-            <span>Women-owned, Grand Rapids MI</span>
-            <span className="hidden sm:block">·</span>
-            <span>Founded 2020</span>
-          </motion.div>
+          </div>
         </motion.div>
 
         {/* Scroll cue */}
@@ -425,7 +456,7 @@ export default function HomePage() {
                 {/* Ghost number */}
                 <div
                   className="text-[5rem] font-black leading-none mb-4 select-none"
-                  style={{ color: `${s.accent}1f` }}
+                  style={{ color: `${s.accent}55` }}
                 >
                   {s.num}
                 </div>
@@ -638,8 +669,8 @@ export default function HomePage() {
                   delay: 0.1,
                 },
                 {
-                  src: "/images/bloom-social-video-production-grand-rapids.webp",
-                  alt: "Bloom Social video production Grand Rapids",
+                  src: "/images/bloom-social-content-creation-team.webp",
+                  alt: "Bloom Social content creation team",
                   className: "aspect-square",
                   delay: 0.2,
                 },

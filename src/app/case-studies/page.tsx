@@ -1,12 +1,12 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useRef } from "react";
 import CountUp from "@/components/CountUp";
 import { ArrowRightIcon, StarIcon } from "@/components/Icons";
 
-// ─── Animated number ──────────────────────────────────────────────────────────
+// ─── Animated stat ─────────────────────────────────────────────────────────────
 
 function BigStat({ end, suffix, label, index }: { end: number; suffix?: string; label: string; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -24,6 +24,145 @@ function BigStat({ end, suffix, label, index }: { end: number; suffix?: string; 
       </div>
       <p className="text-white/35 text-xs tracking-wide leading-snug">{label}</p>
     </motion.div>
+  );
+}
+
+// ─── Growth chart (scroll-driven) ─────────────────────────────────────────────
+
+function GrowthChart() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.35"] });
+  const pathLength = useTransform(scrollYProgress, [0, 0.7], [0, 1]);
+  const areaOpacity = useTransform(scrollYProgress, [0.1, 0.6], [0, 0.35]);
+
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  // SVG viewBox: 0 0 760 200
+  // X positions: Month 0 (before)=60, Bloom joins=180, M1=300, M2=460, M3=620, M4=720
+  // Y positions: normalized to 0=bottom(190), 130K=top(18)
+  const linePath = "M 60,182 C 100,182 140,178 180,174 C 240,166 270,140 320,108 C 380,72 430,48 500,34 C 560,22 630,16 720,12";
+  const areaPath = "M 60,182 C 100,182 140,178 180,174 C 240,166 270,140 320,108 C 380,72 430,48 500,34 C 560,22 630,16 720,12 L 720,196 L 60,196 Z";
+
+  const months = ["Before", "Month 1", "Month 2", "Month 3", "90 Days"];
+  const xPositions = [60, 180, 320, 500, 720];
+  const yPositions = [182, 174, 108, 34, 12];
+
+  return (
+    <div ref={ref} className="mt-12">
+      <div className="mb-6 flex items-center gap-6">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-px bg-[#e17339]" />
+          <span className="text-white/40 text-xs">Impressions growth</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-px border-t border-dashed border-white/30" />
+          <span className="text-white/40 text-xs">Bloom joins</span>
+        </div>
+      </div>
+
+      <div className="relative overflow-hidden rounded-xl bg-white/[0.03] border border-white/[0.06] p-4 sm:p-6">
+        <svg viewBox="0 0 760 210" className="w-full" style={{ height: "220px" }}>
+          {/* Grid lines */}
+          {[50, 100, 150].map((y) => (
+            <line key={y} x1="50" y1={y} x2="730" y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+          ))}
+
+          {/* Area fill */}
+          <motion.path
+            d={areaPath}
+            fill="url(#growthGrad)"
+            style={{ opacity: areaOpacity }}
+          />
+
+          {/* Gradient def */}
+          <defs>
+            <linearGradient id="growthGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#e17339" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#e17339" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
+          {/* Bloom joins marker */}
+          <motion.line
+            x1="180" y1="10" x2="180" y2="196"
+            stroke="rgba(255,255,255,0.25)"
+            strokeWidth="1"
+            strokeDasharray="4 4"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.3, duration: 0.4 }}
+          />
+          <motion.text
+            x="186" y="24"
+            fill="rgba(255,255,255,0.45)"
+            fontSize="9"
+            fontFamily="monospace"
+            fontWeight="600"
+            letterSpacing="0.05em"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.5, duration: 0.4 }}
+          >
+            BLOOM JOINS
+          </motion.text>
+
+          {/* Main line */}
+          <motion.path
+            d={linePath}
+            fill="none"
+            stroke="#e17339"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{ pathLength }}
+          />
+
+          {/* Data points */}
+          {xPositions.map((x, i) => (
+            <motion.circle
+              key={i}
+              cx={x}
+              cy={yPositions[i]}
+              r="4"
+              fill={i === 0 ? "#0c0a14" : "#e17339"}
+              stroke={i === 0 ? "rgba(255,255,255,0.3)" : "#e17339"}
+              strokeWidth="2"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ delay: 0.4 + i * 0.12, duration: 0.3, ease: "backOut" }}
+            />
+          ))}
+
+          {/* X-axis labels */}
+          {months.map((label, i) => (
+            <motion.text
+              key={i}
+              x={xPositions[i]}
+              y="208"
+              textAnchor="middle"
+              fill="rgba(255,255,255,0.3)"
+              fontSize="9"
+              fontFamily="sans-serif"
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ delay: 0.2 + i * 0.08, duration: 0.3 }}
+            >
+              {label}
+            </motion.text>
+          ))}
+
+          {/* Final value callout */}
+          <motion.g
+            initial={{ opacity: 0, y: 6 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 1.0, duration: 0.5 }}
+          >
+            <rect x="640" y="0" width="102" height="22" rx="4" fill="rgba(225,115,57,0.15)" stroke="rgba(225,115,57,0.35)" strokeWidth="1" />
+            <text x="691" y="14" textAnchor="middle" fill="#e17339" fontSize="10" fontWeight="700" fontFamily="monospace">127K impressions</text>
+          </motion.g>
+        </svg>
+      </div>
+    </div>
   );
 }
 
@@ -64,7 +203,7 @@ export default function CaseStudiesPage() {
               transition={{ duration: 0.6, delay: 0.25 }}
               className="text-lg text-white/45 leading-relaxed"
             >
-              Real clients. Real numbers. No fluff, no cherry-picked screenshots — just what actually happened.
+              Real clients. Real numbers. No fluff, no cherry-picked screenshots. Just what actually happened when we got to work.
             </motion.p>
           </div>
         </div>
@@ -98,19 +237,18 @@ export default function CaseStudiesPage() {
             className="rounded-3xl bg-[#0d1a18] border border-white/[0.07] overflow-hidden"
           >
 
-            {/* Top: name + big result statement */}
+            {/* Top: name + result statement */}
             <div className="px-8 md:px-14 pt-12 pb-10 border-b border-white/[0.06]">
-              <p className="text-white/35 text-sm mb-2">Nena Shimp · Fractional CFO & Business Strategist</p>
+              <p className="text-white/35 text-sm mb-2">Nena Shimp · Fractional CFO and Business Strategist</p>
               <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-[1.1] tracking-tight max-w-2xl">
                 More reach. Less posting.<br />
                 <span className="text-[#e17339]">Way better results.</span>
               </h2>
             </div>
 
-            {/* Middle: before / after — clean, simple */}
+            {/* Before / After */}
             <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/[0.06]">
 
-              {/* Before */}
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -121,9 +259,9 @@ export default function CaseStudiesPage() {
                 <p className="text-white/25 text-[10px] font-bold tracking-[0.25em] uppercase mb-6">Before Bloom</p>
                 <ul className="space-y-4">
                   {[
-                    "Posting 5 times a week — burning time with no clear ROI",
+                    "Posting five times a week with no clear return on the effort",
                     "AI-generated content that didn't sound like her",
-                    "Flat engagement, no inbound leads",
+                    "Flat engagement and no inbound leads",
                     "No real positioning or thought leadership angle",
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm text-white/40 leading-relaxed">
@@ -134,7 +272,6 @@ export default function CaseStudiesPage() {
                 </ul>
               </motion.div>
 
-              {/* After */}
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -145,7 +282,7 @@ export default function CaseStudiesPage() {
                 <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-6">After Bloom</p>
                 <ul className="space-y-4">
                   {[
-                    "2 posts a week — higher quality, a fraction of the effort",
+                    "Two posts a week with higher quality and a fraction of the effort",
                     "Authentic content that sounds exactly like her",
                     "Consistent inbound inquiries from ideal clients",
                     "A recognized voice in her space",
@@ -159,17 +296,26 @@ export default function CaseStudiesPage() {
               </motion.div>
             </div>
 
-            {/* Bottom: 4 big numbers */}
+            {/* Growth chart + stats */}
             <div className="px-8 md:px-14 py-14 bg-[#004845]/20 border-t border-white/[0.06]">
-              <p className="text-white/25 text-[10px] font-bold tracking-[0.25em] uppercase mb-10 text-center">90-Day Results</p>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-12">
+              <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-4">
+                <div>
+                  <p className="text-white/25 text-[10px] font-bold tracking-[0.25em] uppercase mb-1">90-Day Results</p>
+                  <p className="text-white/40 text-sm">Impressions trajectory from day one through the full quarter.</p>
+                </div>
+                <p className="text-[#e17339] text-xs font-semibold">No paid promotion</p>
+              </div>
+
+              <GrowthChart />
+
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 mt-14">
                 <BigStat end={127379} label="Total impressions" index={0} />
                 <BigStat end={54} suffix="K+" label="People reached" index={1} />
                 <BigStat end={4718} label="Reactions" index={2} />
                 <BigStat end={47651} label="Unique viewers" index={3} />
               </div>
               <p className="text-center text-white/25 text-xs mt-10 leading-relaxed">
-                Her top post alone reached <span className="text-white/55 font-semibold">12,000+ people</span> — no paid promotion.
+                Her top post reached <span className="text-white/55 font-semibold">12,000+ people</span> on its own.
               </p>
             </div>
 

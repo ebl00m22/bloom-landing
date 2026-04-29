@@ -410,7 +410,7 @@ export default function HomePageTwo() {
                 {/* Ghost number */}
                 <div
                   className="text-[5rem] font-black leading-none mb-4 select-none"
-                  style={{ color: `${s.accent}15` }}
+                  style={{ color: `${s.accent}45` }}
                 >
                   {s.num}
                 </div>
