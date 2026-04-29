@@ -16,26 +16,6 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    // Fire Google Ads conversion event
-    if (typeof window !== "undefined" && (window as any).gtag) {
-      (window as any).gtag("event", "conversion", {
-        send_to: "AW-XXXXXXX/CONVERSION_LABEL",
-        event_callback: () => console.log("Conversion tracked"),
-      });
-    }
-
-    // Push to dataLayer for GTM
-    if (typeof window !== "undefined" && (window as any).dataLayer) {
-      (window as any).dataLayer.push({
-        event: "form_submission",
-        formType: "contact_form",
-        formData: {
-          name: data.get("name"),
-          company: data.get("company"),
-        },
-      });
-    }
-
     await fetch("/api/subscribe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -47,6 +27,10 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
         extra: { role: data.get("role"), message: data.get("message") },
       }),
     });
+
+    if (typeof window !== "undefined") {
+      (window as any).dataLayer?.push({ event: "form_submission", formType: "contact_form" });
+    }
 
     setLoading(false);
     setSubmitted(true);

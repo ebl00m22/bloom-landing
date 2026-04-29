@@ -203,6 +203,9 @@ export default function SocialMediaLP() {
         extra: { platform: data.get("platform"), message: data.get("message") },
       }),
     });
+    if (typeof window !== "undefined") {
+      (window as any).dataLayer?.push({ event: "form_submission", formType: "social_media_lp" });
+    }
     setFormLoading(false);
     setFormSubmitted(true);
   }
