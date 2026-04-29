@@ -7,11 +7,13 @@ import {
   useTransform,
   useScroll,
   useReducedMotion,
+  useVelocity,
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useEffect, useCallback, useState } from "react";
 import CountUp from "@/components/CountUp";
+import Magnetic from "@/components/Magnetic";
 import { StarIcon, ArrowRightIcon } from "@/components/Icons";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -153,6 +155,31 @@ function TypewriterWordLight() {
       {text}
       <span className="inline-block w-[3px] h-[0.9em] bg-[#004845]/60 ml-1 align-middle animate-[cursor-blink-light_0.75s_step-end_infinite]" />
     </span>
+  );
+}
+
+// ─── Velocity marquee (skews on scroll velocity) ─────────────────────────────
+
+function VelocityMarqueeLight({ items }: { items: string[] }) {
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const smooth = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
+  const skew = useTransform(smooth, [-2200, 0, 2200], ["6deg", "0deg", "-6deg"], { clamp: true });
+
+  return (
+    <div className="bg-[#f0f0ee] py-4 border-y border-[#0c0a14]/[0.06] overflow-hidden">
+      <motion.div
+        className="flex whitespace-nowrap"
+        style={{ animation: `scroll-marquee-light 30s linear infinite`, skewX: skew }}
+      >
+        {[...items, ...items].map((item, i) => (
+          <span key={i} className="inline-flex items-center gap-4 text-[#004845]/40 text-[10px] font-semibold tracking-[0.22em] uppercase px-8">
+            {item}
+            <span className="text-[#e17339] text-sm">·</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
   );
 }
 
@@ -351,19 +378,23 @@ export default function HomePageTwo() {
               transition={{ duration: 0.5, delay: 0.82 }}
               className="flex flex-wrap gap-3 mb-12"
             >
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] transition-colors text-sm shadow-lg shadow-[#e17339]/25"
-              >
-                See our services
-                <ArrowRightIcon className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#0c0a14]/[0.06] text-[#004845] font-semibold rounded-xl hover:bg-[#0c0a14]/[0.1] border border-[#0c0a14]/[0.1] transition-colors text-sm"
-              >
-                Book a strategy call
-              </Link>
+              <Magnetic strength={0.3}>
+                <Link
+                  href="/services"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] transition-colors text-sm shadow-lg shadow-[#e17339]/25"
+                >
+                  See our services
+                  <ArrowRightIcon className="w-4 h-4" />
+                </Link>
+              </Magnetic>
+              <Magnetic strength={0.25}>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#0c0a14]/[0.06] text-[#004845] font-semibold rounded-xl hover:bg-[#0c0a14]/[0.1] border border-[#0c0a14]/[0.1] transition-colors text-sm"
+                >
+                  Book a strategy call
+                </Link>
+              </Magnetic>
             </motion.div>
 
             {/* Trust micro-row */}
@@ -429,24 +460,9 @@ export default function HomePageTwo() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════
-          MARQUEE
+          MARQUEE — skews with scroll velocity
       ════════════════════════════════════════════════════════════════ */}
-      <div className="bg-[#f0f0ee] py-4 border-y border-[#0c0a14]/[0.06] overflow-hidden">
-        <div
-          className="flex whitespace-nowrap"
-          style={{ animation: "scroll-marquee-light 30s linear infinite" }}
-        >
-          {[...MARQUEE, ...MARQUEE].map((item, i) => (
-            <span
-              key={i}
-              className="inline-flex items-center gap-4 text-[#004845]/40 text-[10px] font-semibold tracking-[0.22em] uppercase px-8"
-            >
-              {item}
-              <span className="text-[#e17339] text-sm">·</span>
-            </span>
-          ))}
-        </div>
-      </div>
+      <VelocityMarqueeLight items={MARQUEE} />
 
       {/* ════════════════════════════════════════════════════════════════
           SERVICES

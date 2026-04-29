@@ -7,11 +7,13 @@ import {
   useTransform,
   useScroll,
   useReducedMotion,
+  useVelocity,
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useEffect, useCallback, useState } from "react";
 import CountUp from "@/components/CountUp";
+import Magnetic from "@/components/Magnetic";
 import { StarIcon, ArrowRightIcon } from "@/components/Icons";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -153,6 +155,35 @@ function TypewriterWord() {
       {text}
       <span className="inline-block w-[3px] h-[0.9em] bg-white/70 ml-1 align-middle animate-[cursor-blink_0.75s_step-end_infinite]" />
     </span>
+  );
+}
+
+// ─── Velocity marquee (skews on scroll velocity) ─────────────────────────────
+
+function VelocityMarquee({ items, theme }: { items: string[]; theme: "dark" | "light" }) {
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const smooth = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
+  const skew = useTransform(smooth, [-2200, 0, 2200], ["6deg", "0deg", "-6deg"], { clamp: true });
+
+  const styles = theme === "dark"
+    ? { wrapper: "bg-[#0c0a14] border-y border-white/[0.06]", text: "text-white/40", dot: "text-[#e17339]" }
+    : { wrapper: "bg-[#f0f0ee] border-y border-[#0c0a14]/[0.06]", text: "text-[#004845]/40", dot: "text-[#e17339]" };
+
+  return (
+    <div className={`${styles.wrapper} py-4 overflow-hidden`}>
+      <motion.div
+        className="flex whitespace-nowrap"
+        style={{ animation: `scroll-marquee 30s linear infinite`, skewX: skew }}
+      >
+        {[...items, ...items].map((item, i) => (
+          <span key={i} className={`inline-flex items-center gap-4 ${styles.text} text-[10px] font-semibold tracking-[0.22em] uppercase px-8`}>
+            {item}
+            <span className={`${styles.dot} text-sm`}>·</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
   );
 }
 
@@ -366,19 +397,23 @@ export default function HomePage() {
               transition={{ duration: 0.5, delay: 0.82 }}
               className="flex flex-wrap gap-3 mb-12"
             >
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] transition-colors text-sm"
-              >
-                See our services
-                <ArrowRightIcon className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-white/[0.08] text-white font-semibold rounded-xl hover:bg-white/[0.14] border border-white/[0.12] transition-colors text-sm"
-              >
-                Book a strategy call
-              </Link>
+              <Magnetic strength={0.3}>
+                <Link
+                  href="/services"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] transition-colors text-sm"
+                >
+                  See our services
+                  <ArrowRightIcon className="w-4 h-4" />
+                </Link>
+              </Magnetic>
+              <Magnetic strength={0.25}>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-white/[0.08] text-white font-semibold rounded-xl hover:bg-white/[0.14] border border-white/[0.12] transition-colors text-sm"
+                >
+                  Book a strategy call
+                </Link>
+              </Magnetic>
             </motion.div>
 
             {/* Trust micro-row */}
@@ -444,24 +479,9 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════
-          MARQUEE
+          MARQUEE — skews with scroll velocity
       ════════════════════════════════════════════════════════════════ */}
-      <div className="bg-[#0c0a14] py-4 border-y border-white/[0.06] overflow-hidden">
-        <div
-          className="flex whitespace-nowrap"
-          style={{ animation: "scroll-marquee 30s linear infinite" }}
-        >
-          {[...MARQUEE, ...MARQUEE].map((item, i) => (
-            <span
-              key={i}
-              className="inline-flex items-center gap-4 text-white/40 text-[10px] font-semibold tracking-[0.22em] uppercase px-8"
-            >
-              {item}
-              <span className="text-[#e17339] text-sm">·</span>
-            </span>
-          ))}
-        </div>
-      </div>
+      <VelocityMarquee items={MARQUEE} theme="dark" />
 
       {/* ════════════════════════════════════════════════════════════════
           SERVICES
@@ -811,13 +831,15 @@ export default function HomePage() {
             <p className="text-white/60 text-lg mb-10 max-w-lg mx-auto">
               Book a free 30-minute strategy call. We will look at your current social presence and show you exactly what is possible.
             </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-white text-[#004845] font-black text-lg rounded-xl hover:bg-[#f5f8f7] transition-colors shadow-2xl shadow-black/25"
-            >
-              Book your free call
-              <ArrowRightIcon className="w-5 h-5" />
-            </Link>
+            <Magnetic strength={0.35}>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-white text-[#004845] font-black text-lg rounded-xl hover:bg-[#f5f8f7] transition-colors shadow-2xl shadow-black/25"
+              >
+                Book your free call
+                <ArrowRightIcon className="w-5 h-5" />
+              </Link>
+            </Magnetic>
             <p className="text-white/30 text-xs mt-5 tracking-wide">
               No pressure. No pitch deck. Just a real conversation.
             </p>
