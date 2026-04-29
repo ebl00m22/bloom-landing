@@ -414,7 +414,7 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.6, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative bg-white/[0.03] border border-white/[0.07] rounded-2xl p-7 overflow-hidden hover:border-white/[0.15] hover:-translate-y-1 transition-all duration-300"
+                className="group relative bg-white/[0.08] border border-white/[0.12] rounded-2xl p-7 overflow-hidden hover:border-white/[0.22] hover:-translate-y-1 transition-all duration-300"
               >
                 {/* Bloom glow on hover */}
                 <div
@@ -436,11 +436,11 @@ export default function HomePage() {
                 </p>
                 <h3 className="text-2xl font-bold text-white mb-3">{s.title}</h3>
 
-                <p className="text-white/45 text-sm leading-relaxed mb-5">{s.body}</p>
+                <p className="text-white/70 text-sm leading-relaxed mb-5">{s.body}</p>
 
                 <ul className="space-y-2 mb-6">
                   {s.bullets.map((b, j) => (
-                    <li key={j} className="flex items-center gap-2.5 text-xs text-white/35">
+                    <li key={j} className="flex items-center gap-2.5 text-xs text-white/60">
                       <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: s.accent }} />
                       {b}
                     </li>
