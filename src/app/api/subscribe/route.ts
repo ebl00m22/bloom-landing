@@ -1,5 +1,13 @@
 import { NextResponse } from "next/server";
 
+const FORM_ID = 5017308;
+
+const SOURCE_LABELS: Record<string, string> = {
+  contact_form: "Contact Form",
+  social_media_lp: "Social Media LP",
+  executive_linkedin_lp: "Executive LinkedIn LP",
+};
+
 export async function POST(request: Request) {
   try {
     const { name, email, company, source, extra } = await request.json();
@@ -8,20 +16,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email required" }, { status: 400 });
     }
 
-    const res = await fetch("https://api.kit.com/v4/subscribers", {
+    const firstName = name?.split(" ")[0] ?? "";
+
+    const res = await fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.KIT_API_KEY}`,
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email_address: email,
-        first_name: name?.split(" ")[0] ?? "",
-        state: "active",
+        api_key: process.env.KIT_API_KEY,
+        email,
+        first_name: firstName,
         fields: {
-          last_name: name?.split(" ").slice(1).join(" ") ?? "",
           company: company ?? "",
-          source: source ?? "website",
+          source: SOURCE_LABELS[source] ?? source ?? "Website",
           ...extra,
         },
       }),
