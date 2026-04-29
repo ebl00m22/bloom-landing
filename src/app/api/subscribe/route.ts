@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 
-const FORM_ID = 5017308;
+const FORM_IDS: Record<string, number> = {
+  contact_form: 9384718,
+  social_media_lp: 9384725,
+  executive_linkedin_lp: 9384728,
+};
 
 const SOURCE_LABELS: Record<string, string> = {
   contact_form: "Contact Form",
@@ -17,8 +21,9 @@ export async function POST(request: Request) {
     }
 
     const firstName = name?.split(" ")[0] ?? "";
+    const formId = FORM_IDS[source] ?? 9384718;
 
-    const res = await fetch(`https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`, {
+    const res = await fetch(`https://api.convertkit.com/v3/forms/${formId}/subscribe`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
