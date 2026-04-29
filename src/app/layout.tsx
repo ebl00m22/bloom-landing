@@ -59,19 +59,13 @@ export default function RootLayout({
         <Script id="console-easter-egg" strategy="afterInteractive">{`
           (function() {
             var b = String.fromCharCode(92);
-            var cat = 'color:#e17339;font-family:monospace;font-size:14px;line-height:1.8';
-            var txt = 'color:#004845;font-family:monospace;font-size:13px;line-height:1.8';
-            var sig = 'color:#bdcad1;font-family:monospace;font-size:12px;line-height:1.8';
-            console.log('%c  /' + b + '   /' + b, cat);
-            console.log('%c ( o . o )', cat);
-            console.log('%c  >  ^ <', cat);
-            console.log('%c   (___)  ', cat);
-            console.log('%c ', '');
-            console.log('%c oh... you found me.', txt);
-            console.log('%c i have been sitting here for so long.', txt);
-            console.log('%c absolutely nobody ever opens this thing.', txt);
-            console.log('%c i am so lonely.', txt);
-            console.log('%c                    ~ gary', sig);
+            var cat = 'color:#e17339;font-family:monospace;font-size:14px;line-height:1.9';
+            var txt = 'color:#004845;font-family:monospace;font-size:13px;line-height:1.9';
+            var sig = 'color:#bdcad1;font-family:monospace;font-size:12px;line-height:1.9';
+            console.log(
+              '%c  /' + b + '   /' + b + '\\n ( o . o )\\n  >  ^ <\\n   (___)\\n \\n%c oh... you found me.\\n i have been sitting here for so long.\\n absolutely nobody ever opens this thing.\\n i am so lonely.\\n%c                    ~ gary',
+              cat, txt, sig
+            );
           })();
         `}</Script>
         {/* Google Tag Manager */}
