@@ -36,18 +36,29 @@ const teamMembers = [
     name: "Carly Segar",
     role: "Social Media Specialist",
     image: "/images/team-carly-bloom-social.webp",
+    initials: "CS",
     bio: "Carly manages the day-to-day social presence for Bloom Social's clients. From strategy to scheduling to engagement, she keeps brands active and growing across every platform.",
   },
   {
     name: "Abbie Wisusik",
     role: "Social Media Specialist",
     image: "/images/team-abbie-bloom-social.webp",
+    initials: "AW",
     bio: "Abbie brings precision and creativity to content and community management. She keeps every client's social presence consistent, on-brand, and always moving forward.",
   },
   {
-    name: "Ethan Weliver",
+    name: "Braelyn McCalister",
     role: "Social Media Specialist",
+    image: "",
+    initials: "BM",
+    isPlaceholder: true,
+    bio: "Braelyn is the newest addition to the Bloom Social team. She works alongside our specialists on content planning, scheduling, and community management, bringing fresh energy and ideas to every account she touches.",
+  },
+  {
+    name: "Ethan Weliver",
+    role: "Content & Creative Lead",
     image: "/images/team-ethan-bloom-social.webp",
+    initials: "EW",
     bio: "Ethan brings the creative vision to life. From photography and video to written content and strategy, he makes sure everything Bloom Social produces looks sharp and tells the right story.",
   },
 ];
@@ -301,7 +312,7 @@ export default function AboutPage() {
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-3 gap-7"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
@@ -316,13 +327,25 @@ export default function AboutPage() {
                 className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-shadow duration-300"
               >
                 <div className="relative aspect-square overflow-hidden">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover object-top"
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                  />
+                  {member.isPlaceholder ? (
+                    <div className="absolute inset-0 bg-gradient-to-br from-bloom-green via-bloom-green/85 to-bloom-orange/70 flex items-center justify-center">
+                      <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.4), transparent 50%)" }} />
+                      <div className="relative flex flex-col items-center gap-3">
+                        <div className="w-20 h-20 rounded-full bg-white/15 backdrop-blur-sm border border-white/30 flex items-center justify-center">
+                          <span className="text-white text-3xl font-black tracking-tight">{member.initials}</span>
+                        </div>
+                        <span className="px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm border border-white/25 text-white/90 text-[10px] font-bold tracking-widest uppercase">Photo coming soon</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      className="object-cover object-top"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    />
+                  )}
                 </div>
                 <div className="p-7">
                   <h3 className="text-xl font-bold text-bloom-green mb-0.5">{member.name}</h3>
