@@ -185,6 +185,27 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 
 export default function SocialMediaLP() {
   const prefersReduced = useReducedMotion();
+  const [formLoading, setFormLoading] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setFormLoading(true);
+    const data = new FormData(e.currentTarget);
+    await fetch("/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: data.get("name"),
+        email: data.get("email"),
+        company: data.get("company"),
+        source: "social_media_lp",
+        extra: { platform: data.get("platform"), message: data.get("message") },
+      }),
+    });
+    setFormLoading(false);
+    setFormSubmitted(true);
+  }
 
   return (
     <main className="overflow-x-hidden bg-[#0c0a14]">
@@ -356,7 +377,7 @@ export default function SocialMediaLP() {
                 <p className="text-white/45 text-sm mb-6">Tell us about your business and we'll reach out within one business day.</p>
 
                 <form
-                  onSubmit={(e) => e.preventDefault()}
+                  onSubmit={handleFormSubmit}
                   className="flex flex-col gap-4"
                 >
                   {/* Name + Email row */}
@@ -365,6 +386,7 @@ export default function SocialMediaLP() {
                       <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Name</label>
                       <input
                         type="text"
+                        name="name"
                         placeholder="Jane Smith"
                         className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
                       />
@@ -373,6 +395,7 @@ export default function SocialMediaLP() {
                       <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Email</label>
                       <input
                         type="email"
+                        name="email"
                         placeholder="jane@company.com"
                         className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
                       />
@@ -384,6 +407,7 @@ export default function SocialMediaLP() {
                     <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Company</label>
                     <input
                       type="text"
+                      name="company"
                       placeholder="Acme Co."
                       className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
                     />
@@ -394,6 +418,7 @@ export default function SocialMediaLP() {
                     <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Which platforms?</label>
                     <div className="relative">
                       <select
+                        name="platform"
                         defaultValue=""
                         className="w-full appearance-none bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all pr-10"
                         style={{ colorScheme: "dark" }}
@@ -415,6 +440,7 @@ export default function SocialMediaLP() {
                   <div className="flex flex-col gap-1.5">
                     <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Message</label>
                     <textarea
+                      name="message"
                       rows={3}
                       placeholder="Tell us a bit about your goals…"
                       className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all resize-none"
@@ -422,15 +448,23 @@ export default function SocialMediaLP() {
                   </div>
 
                   {/* Submit */}
-                  <button
-                    type="submit"
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] active:scale-[0.98] transition-all text-sm mt-1"
-                  >
-                    Book My Free Strategy Call
-                    <ArrowRightIcon className="w-4 h-4" />
-                  </button>
-
-                  <p className="text-center text-white/30 text-xs">We respond within 1 business day.</p>
+                  {formSubmitted ? (
+                    <div className="text-center py-2">
+                      <p className="text-[#e17339] font-semibold text-sm">✓ Got it! We'll be in touch within 24 hours.</p>
+                    </div>
+                  ) : (
+                    <>
+                      <button
+                        type="submit"
+                        disabled={formLoading}
+                        className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] active:scale-[0.98] transition-all text-sm mt-1 disabled:opacity-60"
+                      >
+                        {formLoading ? "Sending…" : "Book My Free Strategy Call"}
+                        {!formLoading && <ArrowRightIcon className="w-4 h-4" />}
+                      </button>
+                      <p className="text-center text-white/30 text-xs">We respond within 1 business day.</p>
+                    </>
+                  )}
                 </form>
               </div>
             </motion.div>

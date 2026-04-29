@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import CountUp from "@/components/CountUp";
@@ -122,6 +123,27 @@ const BUBBLES = [
 
 export default function ExecutiveLinkedInLP() {
   const prefersReduced = useReducedMotion();
+  const [formLoading, setFormLoading] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setFormLoading(true);
+    const data = new FormData(e.currentTarget);
+    await fetch("/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: data.get("name"),
+        email: data.get("email"),
+        company: data.get("company"),
+        source: "executive_linkedin_lp",
+        extra: { platform: data.get("platform"), message: data.get("message") },
+      }),
+    });
+    setFormLoading(false);
+    setFormSubmitted(true);
+  }
 
   return (
     <main className="overflow-x-hidden bg-[#0c0a14]">
@@ -289,13 +311,14 @@ export default function ExecutiveLinkedInLP() {
                 <h2 className="text-xl font-bold text-white mb-1">Book a Free Strategy Call</h2>
                 <p className="text-white/40 text-sm mb-7">Tell us about your goals and we will show you what is possible.</p>
 
-                <form className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
+                <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
                   {/* Name + Company */}
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
                       <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">Your Name</label>
                       <input
                         type="text"
+                        name="name"
                         placeholder="Jane Smith"
                         className="w-full px-4 py-3 rounded-xl bg-white/[0.08] border border-white/[0.10] text-white placeholder-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
                       />
@@ -304,6 +327,7 @@ export default function ExecutiveLinkedInLP() {
                       <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">Company</label>
                       <input
                         type="text"
+                        name="company"
                         placeholder="Acme Corp"
                         className="w-full px-4 py-3 rounded-xl bg-white/[0.08] border border-white/[0.10] text-white placeholder-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
                       />
@@ -315,6 +339,7 @@ export default function ExecutiveLinkedInLP() {
                     <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">Email Address</label>
                     <input
                       type="email"
+                      name="email"
                       placeholder="jane@company.com"
                       className="w-full px-4 py-3 rounded-xl bg-white/[0.08] border border-white/[0.10] text-white placeholder-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
                     />
@@ -323,7 +348,7 @@ export default function ExecutiveLinkedInLP() {
                   {/* Platform */}
                   <div className="flex flex-col gap-1.5">
                     <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">What platform are you focused on?</label>
-                    <select className="w-full px-4 py-3 rounded-xl bg-white/[0.08] border border-white/[0.10] text-white text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all appearance-none" style={{ color: "rgba(255,255,255,0.85)" }}>
+                    <select name="platform" className="w-full px-4 py-3 rounded-xl bg-white/[0.08] border border-white/[0.10] text-white text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all appearance-none" style={{ color: "rgba(255,255,255,0.85)" }}>
                       <option value="" style={{ background: "#1a1527" }}>Select a platform</option>
                       <option value="linkedin" style={{ background: "#1a1527" }}>LinkedIn</option>
                       <option value="instagram" style={{ background: "#1a1527" }}>Instagram</option>
@@ -336,6 +361,7 @@ export default function ExecutiveLinkedInLP() {
                   <div className="flex flex-col gap-1.5">
                     <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">Tell us about your goals</label>
                     <textarea
+                      name="message"
                       rows={3}
                       placeholder="I want to grow my LinkedIn presence and generate more inbound leads..."
                       className="w-full px-4 py-3 rounded-xl bg-white/[0.08] border border-white/[0.10] text-white placeholder-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all resize-none"
@@ -343,15 +369,23 @@ export default function ExecutiveLinkedInLP() {
                   </div>
 
                   {/* Submit */}
-                  <button
-                    type="submit"
-                    className="w-full py-3.5 bg-[#e17339] hover:bg-[#c8622a] text-white font-bold rounded-xl transition-colors text-sm flex items-center justify-center gap-2 mt-1"
-                  >
-                    Book My Free Strategy Call
-                    <ArrowRightIcon className="w-4 h-4" />
-                  </button>
-
-                  <p className="text-white/30 text-xs text-center">We respond within 1 business day. No obligation.</p>
+                  {formSubmitted ? (
+                    <div className="text-center py-2">
+                      <p className="text-[#e17339] font-semibold text-sm">✓ Got it! We'll be in touch within 24 hours.</p>
+                    </div>
+                  ) : (
+                    <>
+                      <button
+                        type="submit"
+                        disabled={formLoading}
+                        className="w-full py-3.5 bg-[#e17339] hover:bg-[#c8622a] text-white font-bold rounded-xl transition-colors text-sm flex items-center justify-center gap-2 mt-1 disabled:opacity-60"
+                      >
+                        {formLoading ? "Sending…" : "Book My Free Strategy Call"}
+                        {!formLoading && <ArrowRightIcon className="w-4 h-4" />}
+                      </button>
+                      <p className="text-white/30 text-xs text-center">We respond within 1 business day. No obligation.</p>
+                    </>
+                  )}
                 </form>
               </div>
             </motion.div>

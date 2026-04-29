@@ -36,8 +36,17 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
       });
     }
 
-    // TODO: Replace with your form endpoint
-    await new Promise((r) => setTimeout(r, 800));
+    await fetch("/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: data.get("name"),
+        email: data.get("email"),
+        company: data.get("company"),
+        source: "contact_form",
+        extra: { role: data.get("role"), message: data.get("message") },
+      }),
+    });
 
     setLoading(false);
     setSubmitted(true);
