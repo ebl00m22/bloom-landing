@@ -7,6 +7,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
 import PageTransition from "@/components/PageTransition";
 import ScrollProgress from "@/components/ScrollProgress";
+import BloomEasterEgg from "@/components/BloomEasterEgg";
 import "./globals.css";
 
 const inter = Inter({
@@ -32,11 +33,6 @@ export const metadata: Metadata = {
     "B2B social media agency",
     "content strategy Grand Rapids",
   ],
-  icons: {
-    icon: "/images/bloom-social-b-mark-favicon.png",
-    shortcut: "/images/bloom-social-b-mark-favicon.png",
-    apple: "/images/bloom-social-b-mark-favicon.png",
-  },
   openGraph: {
     title: "Bloom Social | Social Media Agency | Grand Rapids, MI",
     description:
@@ -77,6 +73,22 @@ export default function RootLayout({
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_GTM_ID}');`}
           </Script>
+        )}
+        {/* Google Ads (gtag.js) */}
+        {process.env.NEXT_PUBLIC_GOOGLE_ADS_ID && (
+          <>
+            <Script
+              id="google-ads-loader"
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-ads-init" strategy="afterInteractive">
+              {`window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}');`}
+            </Script>
+          </>
         )}
         {/* Meta Pixel */}
         {process.env.NEXT_PUBLIC_META_PIXEL_ID && (
@@ -164,6 +176,7 @@ export default function RootLayout({
         <ScrollProgress />
         <CustomCursor />
         <SmoothScroll />
+        <BloomEasterEgg />
         <Navigation />
         <PageTransition>
           <div className="flex-1">{children}</div>

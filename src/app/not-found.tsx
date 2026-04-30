@@ -2,9 +2,44 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { ArrowRightIcon } from "@/components/Icons";
 
+const VARIANTS = [
+  {
+    headline: "This page doesn't exist.",
+    accent: "Your social strategy shouldn't either.",
+    sub: "Looks like this URL went off-brand. Let's get you back somewhere useful.",
+  },
+  {
+    headline: "404: Content unfollowed.",
+    accent: "Don't worry, we'll write something better.",
+    sub: "This page is missing in action. The good news? Writing better content is literally what we do.",
+  },
+  {
+    headline: "We can't find this page.",
+    accent: "But we found you.",
+    sub: "Hi. Welcome. While you're here, let's talk about something that does exist — your social presence.",
+  },
+  {
+    headline: "This URL is having an off day.",
+    accent: "It happens to the best of us.",
+    sub: "Take a breath. Pick a real page below. Move on with your life.",
+  },
+  {
+    headline: "Off-brand. Off-strategy. Off the map.",
+    accent: "Three things we don't tolerate.",
+    sub: "This page broke at least two of our core values. Let's get you somewhere we actually built.",
+  },
+];
+
 export default function NotFound() {
+  const [variant, setVariant] = useState(VARIANTS[0]);
+
+  useEffect(() => {
+    setVariant(VARIANTS[Math.floor(Math.random() * VARIANTS.length)]);
+  }, []);
+
   return (
     <main className="min-h-screen bg-[#0c0a14] flex items-center justify-center overflow-hidden relative px-6">
 
@@ -65,23 +100,25 @@ export default function NotFound() {
         </motion.p>
 
         <motion.h1
+          key={variant.headline}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.25 }}
           className="text-4xl md:text-5xl font-black text-white leading-[1.05] tracking-tight mb-5"
         >
-          This page doesn&apos;t exist.
+          {variant.headline}
           <br />
-          <span className="text-white/30">Your social strategy shouldn&apos;t either.</span>
+          <span className="text-white/30">{variant.accent}</span>
         </motion.h1>
 
         <motion.p
+          key={variant.sub}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.35 }}
           className="text-white/40 text-base mb-10 leading-relaxed"
         >
-          Looks like this URL went off-brand. Let&apos;s get you back somewhere useful.
+          {variant.sub}
         </motion.p>
 
         <motion.div
@@ -127,6 +164,24 @@ export default function NotFound() {
             </Link>
           ))}
         </motion.div>
+      </motion.div>
+
+      {/* Gary cameo — tiny, only the curious will notice */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 1.4 }}
+        className="absolute bottom-6 right-6 text-right pointer-events-none select-none hidden md:block"
+        aria-hidden="true"
+      >
+        <pre className="text-[9px] leading-[1.05] font-mono text-white/15 mb-1">
+{`  /\\   /\\
+ ( o.o )
+  >  ^ <`}
+        </pre>
+        <p className="text-[9px] text-white/20 font-mono tracking-wide">
+          gary saw it happen.
+        </p>
       </motion.div>
     </main>
   );
