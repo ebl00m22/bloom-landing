@@ -52,7 +52,7 @@ const teamMembers = [
     image: "",
     initials: "BM",
     isPlaceholder: true,
-    bio: "Braelyn works alongside our specialists on content planning, scheduling, and community management. She brings fresh energy and sharp ideas to every account she touches.",
+    bio: "Braelyn runs content planning, scheduling, and community management for Bloom Social's clients. She brings sharp instincts and a fresh perspective to every account she manages.",
   },
   {
     name: "Ethan Weliver",
