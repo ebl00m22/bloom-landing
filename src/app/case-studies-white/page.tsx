@@ -1,10 +1,20 @@
 "use client";
 
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import CountUp from "@/components/CountUp";
 import { ArrowRightIcon, StarIcon } from "@/components/Icons";
+
+// LinkedIn icon
+function LinkedInIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+    </svg>
+  );
+}
 
 function BigStat({ end, suffix, label, color, index }: { end: number; suffix?: string; label: string; color: string; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -118,7 +128,10 @@ export default function CaseStudiesWhitePage() {
             className="flex flex-wrap items-center gap-4 mb-8">
             <span className="text-[#004845]/20 text-xs font-bold tracking-widest uppercase">01</span>
             <div className="h-px flex-1 bg-[#0c0a14]/[0.07]" />
-            <span className="px-3 py-1 rounded-full bg-[#004845]/10 border border-[#004845]/20 text-[#004845] text-[10px] font-bold tracking-widest uppercase">Executive LinkedIn</span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#004845]/10 border border-[#004845]/20 text-[#004845] text-[10px] font-bold tracking-widest uppercase">
+              <LinkedInIcon className="w-3 h-3" />
+              Executive LinkedIn
+            </span>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -132,8 +145,14 @@ export default function CaseStudiesWhitePage() {
               </div>
               <motion.div initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
                 className="flex items-center gap-3 mb-8">
-                <div className="w-11 h-11 rounded-full bg-[#004845]/10 border border-[#004845]/20 flex items-center justify-center shrink-0">
-                  <span className="text-[#004845] text-sm font-black">NS</span>
+                <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-[#004845]/30 shrink-0 ring-2 ring-[#e17339]/15">
+                  <Image
+                    src="/images/case-study-nena-shimp.png"
+                    alt="Nena Shimp"
+                    fill
+                    className="object-cover"
+                    sizes="48px"
+                  />
                 </div>
                 <div>
                   <p className="text-[#004845]/80 text-sm font-semibold leading-tight">Nena Shimp</p>
@@ -196,10 +215,10 @@ export default function CaseStudiesWhitePage() {
                 <span className="text-[#e17339] text-[10px] font-bold tracking-widest uppercase">No paid promotion</span>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <BigStat end={127379} label="Total impressions" color="#e17339"  index={0} />
-                <BigStat end={54}     suffix="K+" label="People reached"  color="#004845" index={1} />
-                <BigStat end={4718}   label="Reactions"          color="#e17339"  index={2} />
-                <BigStat end={47651}  label="Unique viewers"     color="#004845" index={3} />
+                <BigStat end={127379} label="Total impressions" color="#e17339" index={0} />
+                <BigStat end={54000}  suffix="+" label="People reached" color="#004845" index={1} />
+                <BigStat end={4718}   label="Reactions"         color="#e17339" index={2} />
+                <BigStat end={47651}  label="Unique viewers"    color="#004845" index={3} />
               </div>
               <p className="text-center text-[#004845]/25 text-xs mt-6">
                 Her top post alone reached <span className="text-[#004845]/55 font-semibold">12,000+ people</span> with zero ad spend.
@@ -221,8 +240,8 @@ export default function CaseStudiesWhitePage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-4">
             {[
-              { n: "02", client: "West Michigan B2B Brand",  service: "Social Media Management", teaser: "+340% impressions in 90 days", industry: "Manufacturing" },
-              { n: "03", client: "Healthcare Executive",      service: "Executive LinkedIn",       teaser: "12× engagement growth",       industry: "Healthcare · Grand Rapids, MI" },
+              { n: "02", service: "Social Media Management", industry: "Manufacturing · West Michigan" },
+              { n: "03", service: "Executive LinkedIn",       industry: "Healthcare · Grand Rapids, MI" },
             ].map((cs, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
@@ -233,9 +252,8 @@ export default function CaseStudiesWhitePage() {
                   <span className="px-2.5 py-1 rounded-full bg-[#004845]/[0.06] text-[#004845]/25 text-[10px] font-bold tracking-widest uppercase">Coming Soon</span>
                 </div>
                 <p className="text-[#004845]/20 text-[10px] font-bold tracking-widest uppercase mb-2">{cs.service}</p>
-                <h3 className="text-xl font-bold text-[#004845]/25 mb-1">{cs.client}</h3>
                 <p className="text-[#004845]/15 text-xs mb-8">{cs.industry}</p>
-                <p className="text-2xl font-black text-[#004845]/20">{cs.teaser}</p>
+                <p className="text-base font-medium text-[#004845]/30 leading-relaxed">A new client story in progress. Check back soon for the full breakdown.</p>
               </motion.div>
             ))}
           </div>

@@ -373,7 +373,7 @@ export default function HomePageTwo() {
                 className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[#004845]/35 text-xs"
               >
                 <a
-                  href="https://www.google.com/search?q=Bloom+Social+Grand+Rapids+MI+reviews"
+                  href="https://share.google/cTygPBlVfKbMfLgw2"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 hover:text-[#004845]/70 transition-colors group"

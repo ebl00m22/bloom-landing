@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
+import { useRef } from "react";
 import Link from "next/link";
 import {
   ArrowRightIcon,
@@ -71,13 +72,13 @@ const differentiators = [
   },
   {
     icon: <CalendarIcon className="w-6 h-6" />,
-    title: "One hour a month, max",
+    title: "30 to 60 minutes a month",
     body: "Review and approve your full month of content in a single batch. That's your entire time commitment.",
   },
   {
     icon: <ChartIcon className="w-6 h-6" />,
-    title: "Real results, no fluff",
-    body: "Monthly reports that connect directly to your goals. Impressions, engagement, growth — tracked and actioned.",
+    title: "Results that move the needle",
+    body: "Monthly reports tied directly to your business goals. Impressions, engagement, and growth, all tracked and actioned.",
   },
 ];
 
@@ -149,7 +150,7 @@ export default function ServicesPage() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="text-xl text-white/65 leading-relaxed max-w-2xl"
             >
-              Strategy, content, publishing, engagement, and reporting — built around your brand and managed by a team that treats it like their own.
+              Strategy, content, publishing, engagement, and reporting, all built around your brand and managed by a team that treats it like their own.
             </motion.p>
           </motion.div>
         </div>
@@ -192,111 +193,7 @@ export default function ServicesPage() {
       {/* ═══════════════════════════════════════════════════════════════
           TWO OFFERINGS — SIDE BY SIDE CARDS
       ════════════════════════════════════════════════════════════════ */}
-      <section className="bg-white py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-
-          {/* Section header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-2xl mx-auto mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-extrabold text-bloom-green leading-tight mb-4">
-              Two ways to work with us
-            </h2>
-            <p className="text-lg text-gray-500 leading-relaxed">
-              Most clients start with one and add the other as they grow.
-            </p>
-          </motion.div>
-
-          {/* Cards */}
-          <motion.div
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={staggerContainer}
-          >
-
-            {/* Card A — Executive LinkedIn */}
-            <motion.div
-              variants={fadeUp}
-              className="bg-bloom-green rounded-3xl p-10 flex flex-col"
-            >
-              <div className="mb-8">
-                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-5">
-                  <PenIcon className="w-6 h-6 text-white" />
-                </div>
-                <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-2">
-                  Personal Brand
-                </p>
-                <h3 className="text-3xl font-extrabold text-white leading-tight mb-4">
-                  Executive LinkedIn
-                </h3>
-                <p className="text-white/70 leading-relaxed">
-                  We become your LinkedIn ghostwriter. Your thinking, your voice, our strategy — published consistently to grow your authority and generate real opportunities.
-                </p>
-              </div>
-
-              <ul className="space-y-3 mb-10 flex-1">
-                {linkedInIncludes.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-white/80">
-                    <CheckIcon className="w-5 h-5 text-bloom-orange shrink-0 mt-0.5" />
-                    <span className="text-sm leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                href="/lp/executive-linkedin"
-                className="inline-flex items-center gap-2 text-white font-semibold text-sm hover:text-bloom-orange transition-colors duration-200"
-              >
-                Learn more <ArrowRightIcon />
-              </Link>
-            </motion.div>
-
-            {/* Card B — Social Media Management */}
-            <motion.div
-              variants={fadeUp}
-              className="bg-white border border-gray-100 shadow-lg rounded-3xl p-10 flex flex-col"
-            >
-              <div className="mb-8">
-                <div className="w-12 h-12 bg-bloom-orange/10 rounded-2xl flex items-center justify-center mb-5">
-                  <MegaphoneIcon className="w-6 h-6 text-bloom-orange" />
-                </div>
-                <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-2">
-                  Brand Social
-                </p>
-                <h3 className="text-3xl font-extrabold text-bloom-green leading-tight mb-4">
-                  Social Media Management
-                </h3>
-                <p className="text-gray-500 leading-relaxed">
-                  Full-service management across every platform your audience uses. We handle strategy, creative, publishing, and reporting so your brand shows up consistently without consuming your time.
-                </p>
-              </div>
-
-              <ul className="space-y-3 mb-10 flex-1">
-                {socialIncludes.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-gray-600">
-                    <CheckIcon className="w-5 h-5 text-bloom-orange shrink-0 mt-0.5" />
-                    <span className="text-sm leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                href="/lp/social-media"
-                className="inline-flex items-center gap-2 text-bloom-green font-semibold text-sm hover:text-bloom-orange transition-colors duration-200"
-              >
-                Learn more <ArrowRightIcon />
-              </Link>
-            </motion.div>
-
-          </motion.div>
-        </div>
-      </section>
+      <TwoWaysSection />
 
       {/* ═══════════════════════════════════════════════════════════════
           WHAT MAKES US DIFFERENT
@@ -389,5 +286,155 @@ export default function ServicesPage() {
       </section>
 
     </main>
+  );
+}
+
+function TwoWaysSection() {
+  const mouseX = useMotionValue(-9999);
+  const mouseY = useMotionValue(-9999);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const handleMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
+  };
+
+  const handleLeave = () => {
+    mouseX.set(-9999);
+    mouseY.set(-9999);
+  };
+
+  const spotlight = useMotionTemplate`radial-gradient(550px circle at ${mouseX}px ${mouseY}px, rgba(0, 72, 69, 0.10), transparent 70%)`;
+
+  return (
+    <section
+      ref={sectionRef}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      className="bg-white py-24 md:py-32 relative overflow-hidden"
+    >
+      {/* Cursor spotlight */}
+      <motion.div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: spotlight }}
+      />
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
+        {/* Section header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-2xl mx-auto mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-extrabold text-bloom-green leading-tight mb-4">
+            Two ways to work with us
+          </h2>
+          <p className="text-lg text-gray-500 leading-relaxed">
+            Most clients start with one and add the other as they grow.
+          </p>
+        </motion.div>
+
+        {/* Cards */}
+        <motion.div
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={staggerContainer}
+        >
+
+          {/* Card A — Executive LinkedIn (already green, intensifies on hover) */}
+          <motion.div
+            variants={fadeUp}
+            whileHover={{ y: -6 }}
+            transition={{ type: "spring", stiffness: 280, damping: 22 }}
+            className="group bg-bloom-green rounded-3xl p-10 flex flex-col relative overflow-hidden ring-1 ring-bloom-green/20 hover:ring-bloom-orange/40 hover:shadow-2xl hover:shadow-bloom-green/40 transition-all duration-500"
+          >
+            {/* Hover glow */}
+            <div aria-hidden="true" className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: "radial-gradient(circle at 30% 0%, rgba(225,115,57,0.18), transparent 60%)" }} />
+            <div className="relative">
+              <div className="mb-8">
+                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-bloom-orange group-hover:scale-110 transition-all duration-300">
+                  <PenIcon className="w-6 h-6 text-white" />
+                </div>
+                <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-2">
+                  Personal Brand
+                </p>
+                <h3 className="text-3xl font-extrabold text-white leading-tight mb-4">
+                  Executive LinkedIn
+                </h3>
+                <p className="text-white/70 leading-relaxed">
+                  We become your LinkedIn ghostwriter. Your thinking, your voice, our strategy. Published consistently to grow your authority and generate real opportunities.
+                </p>
+              </div>
+
+              <ul className="space-y-3 mb-10 flex-1">
+                {linkedInIncludes.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-white/80">
+                    <CheckIcon className="w-5 h-5 text-bloom-orange shrink-0 mt-0.5" />
+                    <span className="text-sm leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/lp/executive-linkedin"
+                className="inline-flex items-center gap-2 text-white font-semibold text-sm group-hover:text-bloom-orange group-hover:gap-3 transition-all duration-200"
+              >
+                Learn more <ArrowRightIcon />
+              </Link>
+            </div>
+          </motion.div>
+
+          {/* Card B — Social Media Management (white → green on hover) */}
+          <motion.div
+            variants={fadeUp}
+            whileHover={{ y: -6 }}
+            transition={{ type: "spring", stiffness: 280, damping: 22 }}
+            className="group bg-white border border-gray-100 shadow-lg rounded-3xl p-10 flex flex-col relative overflow-hidden hover:bg-bloom-green hover:border-bloom-green hover:shadow-2xl hover:shadow-bloom-green/35 transition-all duration-500"
+          >
+            <div aria-hidden="true" className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: "radial-gradient(circle at 70% 0%, rgba(225,115,57,0.18), transparent 60%)" }} />
+            <div className="relative">
+              <div className="mb-8">
+                <div className="w-12 h-12 bg-bloom-orange/10 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-bloom-orange group-hover:scale-110 transition-all duration-300">
+                  <MegaphoneIcon className="w-6 h-6 text-bloom-orange group-hover:text-white transition-colors duration-300" />
+                </div>
+                <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-2">
+                  Brand Social
+                </p>
+                <h3 className="text-3xl font-extrabold text-bloom-green group-hover:text-white leading-tight mb-4 transition-colors duration-500">
+                  Social Media Management
+                </h3>
+                <p className="text-gray-500 group-hover:text-white/75 leading-relaxed transition-colors duration-500">
+                  Full-service management across every platform your audience uses. We handle strategy, creative, publishing, and reporting so your brand shows up consistently without consuming your time.
+                </p>
+              </div>
+
+              <ul className="space-y-3 mb-10 flex-1">
+                {socialIncludes.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3 text-gray-600 group-hover:text-white/85 transition-colors duration-500">
+                    <CheckIcon className="w-5 h-5 text-bloom-orange shrink-0 mt-0.5" />
+                    <span className="text-sm leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/lp/social-media"
+                className="inline-flex items-center gap-2 text-bloom-green group-hover:text-bloom-orange font-semibold text-sm group-hover:gap-3 transition-all duration-200"
+              >
+                Learn more <ArrowRightIcon />
+              </Link>
+            </div>
+          </motion.div>
+
+        </motion.div>
+      </div>
+    </section>
   );
 }

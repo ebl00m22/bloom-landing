@@ -38,7 +38,7 @@ const timelineSteps = [
     acronym: "Begin",
     icon: <LightBulbIcon className="w-6 h-6" />,
     title: "Strategy Alignment",
-    timing: "Week 1–2 after signing",
+    timing: "Week 1 to 2 after signing",
     body: "We kick off with a deep-dive call to learn your voice, your goals, your target audience, and what makes you different. We audit your existing presence, set KPIs, and build the foundation for everything that follows.",
     details: [
       "Brand voice interview and tone of voice guide",
@@ -69,9 +69,9 @@ const timelineSteps = [
     acronym: "Observe",
     icon: <PenIcon className="w-6 h-6" />,
     title: "You Approve in One Batch",
-    timing: "30–60 minutes, your call",
+    timing: "30 to 60 minutes, your call",
     timingHighlight: true,
-    body: "Review and approve your entire month of content in a single 30–60 minute session via Monday.com. Leave comments, request changes, or give a thumbs up. That&apos;s your entire monthly time commitment to Bloom Social.",
+    body: "Review and approve your entire month of content in a single 30 to 60 minute session via Monday.com. Leave comments, request changes, or give a thumbs up. That&apos;s your entire monthly time commitment to Bloom Social.",
     details: [
       "Simple approval workflow in Monday.com",
       "Comment directly on individual posts",
@@ -118,7 +118,7 @@ const timelineSteps = [
 const faqs = [
   {
     question: "How much of my time does this take?",
-    answer: "About 30–60 minutes per month. You&apos;ll do a kickoff call when we onboard (usually 60–90 minutes), and after that, you just review and approve your monthly content calendar. We handle everything else: strategy, writing, design, scheduling, engagement, and reporting.",
+    answer: "About 30 to 60 minutes per month. You&apos;ll do a kickoff call when we onboard (usually 60 to 90 minutes), and after that, you just review and approve your monthly content calendar. We handle everything else: strategy, writing, design, scheduling, engagement, and reporting.",
   },
   {
     question: "What platforms do you manage?",
@@ -464,7 +464,7 @@ export default function ProcessPage() {
           >
             {[
               { stat: "5 weeks", label: "From kickoff to first posts live", sub: "average for new clients" },
-              { stat: "30–60 min", label: "Your monthly time commitment", sub: "review + approve in one batch" },
+              { stat: "30 to 60 min", label: "Your monthly time commitment", sub: "review + approve in one batch" },
               { stat: "15th", label: "Content calendar delivery", sub: "every month, without fail" },
             ].map((item, i) => (
               <div key={i} className="text-center px-8">
