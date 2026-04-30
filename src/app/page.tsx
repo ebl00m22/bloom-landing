@@ -690,14 +690,14 @@ export default function HomePageTwo() {
                   delay: 0,
                 },
                 {
-                  src: "/images/bloom-social-content-production-team.webp",
-                  alt: "Bloom Social content production team",
+                  src: "/images/bloom-social-social-media-team-working.webp",
+                  alt: "Bloom Social team working",
                   className: "aspect-square",
                   delay: 0.1,
                 },
                 {
-                  src: "/images/bloom-social-team-collaboration.webp",
-                  alt: "Bloom Social team collaboration",
+                  src: "/images/bloom-social-video-production-grand-rapids.webp",
+                  alt: "Bloom Social video production Grand Rapids",
                   className: "aspect-square",
                   delay: 0.2,
                 },
