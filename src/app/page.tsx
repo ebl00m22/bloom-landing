@@ -690,8 +690,8 @@ export default function HomePageTwo() {
                   delay: 0,
                 },
                 {
-                  src: "/images/bloom-social-social-media-team-working.webp",
-                  alt: "Bloom Social team working",
+                  src: "/images/bloom-social-team-linkedin-management.webp",
+                  alt: "Bloom Social team LinkedIn management",
                   className: "aspect-square",
                   delay: 0.1,
                 },
