@@ -393,19 +393,18 @@ export default function HomePageTwo() {
               </motion.div>
             </div>
 
-            {/* Right: team photo */}
+            {/* Right: team photo — natural aspect ratio, no crop */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 24 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.85, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-2xl shadow-[#004845]/10 ring-1 ring-[#004845]/[0.1]">
-                <Image
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-[#004845]/10 ring-1 ring-[#004845]/[0.1]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src="/images/bloom-social-grand-rapids-team.webp"
                   alt="Bloom Social team Grand Rapids"
-                  fill
-                  className="object-cover object-left"
-                  priority
+                  className="w-full h-auto block"
                 />
               </div>
             </motion.div>
