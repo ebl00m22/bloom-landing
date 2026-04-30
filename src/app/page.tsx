@@ -696,8 +696,8 @@ export default function HomePageTwo() {
                   delay: 0.1,
                 },
                 {
-                  src: "/images/bloom-social-video-production-grand-rapids.webp",
-                  alt: "Bloom Social video production Grand Rapids",
+                  src: "/images/bloom-social-team-collaboration.webp",
+                  alt: "Bloom Social team collaboration",
                   className: "aspect-square",
                   delay: 0.2,
                 },
