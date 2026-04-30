@@ -208,7 +208,7 @@ export default function SocialMediaLP() {
       w.dataLayer?.push({ event: "form_submission", formType: "social_media_lp" });
 
       const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
-      const label = process.env.NEXT_PUBLIC_GOOGLE_ADS_SOCIAL_CONVERSION_LABEL;
+      const label = process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_CONVERSION_LABEL;
       if (typeof w.gtag === "function" && adsId && label) {
         w.gtag("event", "conversion", {
           send_to: `${adsId}/${label}`,
