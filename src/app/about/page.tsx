@@ -482,7 +482,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-white font-bold text-xl mb-3">Helen DeVos Children&apos;s Hospital</h3>
               <p className="text-white/55 text-sm leading-relaxed mb-4">
-                Working with Helen DeVos Children&apos;s Hospital is very near and dear to Kirsten&apos;s heart. She has seen first-hand how donations can brighten up a child&apos;s stay — and the team members, patients, and families never cease to amaze her.
+                Working with Helen DeVos Children&apos;s Hospital is very near and dear to Kirsten&apos;s heart. She has seen first-hand how donations can brighten up a child&apos;s stay, and the team members, patients, and families never cease to amaze her.
               </p>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3 text-sm text-white/60">
@@ -513,7 +513,7 @@ export default function AboutPage() {
                 Bloom Social is proud to be a certified women-owned business through the Grand Rapids Chamber. These certifications increase transparency and create opportunities for procurement with supplier diversity programs with the area&apos;s largest companies.
               </p>
               <p className="text-white/55 text-sm leading-relaxed">
-                It gives West Michigan organizations a competitive advantage when working with the greater business community — and it reflects our commitment to building something that matters here in Grand Rapids.
+                It gives West Michigan organizations a competitive advantage when working with the greater business community, and it reflects our commitment to building something that matters here in Grand Rapids.
               </p>
               <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-bloom-green/15 border border-bloom-green/25 rounded-full">
                 <div className="w-2 h-2 rounded-full bg-bloom-orange" />
