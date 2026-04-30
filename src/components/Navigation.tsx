@@ -6,14 +6,11 @@ import { useState } from "react";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/home-2", label: "Home White" },
   { href: "/about", label: "About" },
   { href: "/process", label: "Our Process" },
   { href: "/services", label: "Services" },
   { href: "/case-studies", label: "Case Studies" },
-  { href: "/case-studies-white", label: "Case Studies White" },
   { href: "/contact", label: "Contact" },
-  { href: "/contact-white", label: "Contact White" },
 ];
 
 export default function Navigation() {

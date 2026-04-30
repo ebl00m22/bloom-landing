@@ -348,34 +348,37 @@ function TwoWaysSection() {
           variants={staggerContainer}
         >
 
-          {/* Card A — Executive LinkedIn (already green, intensifies on hover) */}
+          {/* Card A — Executive LinkedIn (green → deep green/black on hover) */}
           <motion.div
             variants={fadeUp}
             whileHover={{ y: -6 }}
             transition={{ type: "spring", stiffness: 280, damping: 22 }}
-            className="group bg-bloom-green rounded-3xl p-10 flex flex-col relative overflow-hidden ring-1 ring-bloom-green/20 hover:ring-bloom-orange/40 hover:shadow-2xl hover:shadow-bloom-green/40 transition-all duration-500"
+            className="group bg-bloom-green hover:bg-[#0a1f1d] rounded-3xl p-10 flex flex-col relative overflow-hidden ring-1 ring-bloom-green/20 hover:ring-2 hover:ring-bloom-orange/60 hover:shadow-2xl hover:shadow-bloom-orange/30 transition-all duration-500"
           >
             {/* Hover glow */}
-            <div aria-hidden="true" className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: "radial-gradient(circle at 30% 0%, rgba(225,115,57,0.18), transparent 60%)" }} />
+            <div aria-hidden="true" className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: "radial-gradient(circle at 30% 0%, rgba(225,115,57,0.35), transparent 65%)" }} />
+            {/* Subtle grid pattern that fades in */}
+            <div aria-hidden="true" className="absolute inset-0 opacity-0 group-hover:opacity-[0.06] transition-opacity duration-500 pointer-events-none"
+              style={{ backgroundImage: "linear-gradient(rgba(225,115,57,1) 1px, transparent 1px), linear-gradient(90deg, rgba(225,115,57,1) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
             <div className="relative">
               <div className="mb-8">
-                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-bloom-orange group-hover:scale-110 transition-all duration-300">
+                <div className="w-12 h-12 bg-white/10 group-hover:bg-bloom-orange rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
                   <PenIcon className="w-6 h-6 text-white" />
                 </div>
-                <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-2">
+                <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-2 group-hover:tracking-[0.18em] transition-all duration-500">
                   Personal Brand
                 </p>
                 <h3 className="text-3xl font-extrabold text-white leading-tight mb-4">
                   Executive LinkedIn
                 </h3>
-                <p className="text-white/70 leading-relaxed">
+                <p className="text-white/70 group-hover:text-white/85 leading-relaxed transition-colors duration-500">
                   We become your LinkedIn ghostwriter. Your thinking, your voice, our strategy. Published consistently to grow your authority and generate real opportunities.
                 </p>
               </div>
 
               <ul className="space-y-3 mb-10 flex-1">
                 {linkedInIncludes.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-white/80">
+                  <li key={i} className="flex items-start gap-3 text-white/80 group-hover:text-white/95 transition-colors duration-500">
                     <CheckIcon className="w-5 h-5 text-bloom-orange shrink-0 mt-0.5" />
                     <span className="text-sm leading-relaxed">{item}</span>
                   </li>

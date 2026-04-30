@@ -75,7 +75,7 @@ const SERVICES = [
     title: "Strategy",
     body: "A clear plan for what to post, where, and why. Strategy built around your goals, your audience, and the platforms that will move the needle.",
     bullets: ["Competitive analysis", "Platform strategy", "Audience targeting", "Goal alignment"],
-    accent: "#bdcad1",
+    accent: "#004845",
   },
 ];
 
@@ -111,15 +111,15 @@ const TESTIMONIALS = [
   },
 ];
 
-// ─── Typewriter ───────────────────────────────────────────────────────────────
+// ─── Typewriter (light theme) ────────────────────────────────────────────────
 
-const TYPEWRITER_WORDS = ["following.", "growing.", "watching.", "converting.", "thriving.", "leading."];
+const TYPEWRITER_WORDS_LIGHT = ["following.", "growing.", "watching.", "converting.", "thriving.", "leading."];
 
-function TypewriterWord() {
+function TypewriterWordLight() {
   const [wordIdx, setWordIdx] = useState(0);
-  const [charIdx, setCharIdx] = useState(TYPEWRITER_WORDS[0].length);
+  const [charIdx, setCharIdx] = useState(TYPEWRITER_WORDS_LIGHT[0].length);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [text, setText] = useState(TYPEWRITER_WORDS[0]);
+  const [text, setText] = useState(TYPEWRITER_WORDS_LIGHT[0]);
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
@@ -129,7 +129,7 @@ function TypewriterWord() {
 
   useEffect(() => {
     if (!started) return;
-    const word = TYPEWRITER_WORDS[wordIdx];
+    const word = TYPEWRITER_WORDS_LIGHT[wordIdx];
     let t: ReturnType<typeof setTimeout>;
     if (!isDeleting && charIdx < word.length) {
       t = setTimeout(() => { setText(word.slice(0, charIdx + 1)); setCharIdx(c => c + 1); }, 85);
@@ -139,7 +139,7 @@ function TypewriterWord() {
       t = setTimeout(() => { setText(word.slice(0, charIdx - 1)); setCharIdx(c => c - 1); }, 42);
     } else {
       setIsDeleting(false);
-      setWordIdx(i => (i + 1) % TYPEWRITER_WORDS.length);
+      setWordIdx(i => (i + 1) % TYPEWRITER_WORDS_LIGHT.length);
     }
     return () => clearTimeout(t);
   }, [started, charIdx, isDeleting, wordIdx]);
@@ -147,7 +147,7 @@ function TypewriterWord() {
   return (
     <span className="inline-block whitespace-nowrap min-h-[1.05em]">
       {text}
-      <span className="inline-block w-[3px] h-[0.9em] bg-white/70 ml-1 align-middle animate-[cursor-blink_0.75s_step-end_infinite]" />
+      <span className="inline-block w-[3px] h-[0.9em] bg-[#004845]/60 ml-1 align-middle animate-[cursor-blink-light_0.75s_step-end_infinite]" />
     </span>
   );
 }
@@ -168,13 +168,13 @@ function FloatingBubble({
   return (
     <div
       aria-hidden="true"
-      className="absolute bottom-0 pointer-events-none select-none"
+      className="absolute bottom-0 pointer-events-none select-none hidden sm:block"
       style={{
         left,
-        animation: `bubble-rise ${duration}s linear ${delay}s infinite`,
+        animation: `bubble-rise-light ${duration}s linear ${delay}s infinite`,
       }}
     >
-      <div className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-white/[0.07] backdrop-blur-sm border border-white/[0.1] text-white/55 text-[10px] sm:text-xs font-medium whitespace-nowrap">
+      <div className="px-3 py-1.5 rounded-full bg-[#0c0a14]/[0.06] backdrop-blur-sm border border-[#0c0a14]/[0.1] text-[#004845]/50 text-xs font-medium whitespace-nowrap">
         {text}
       </div>
     </div>
@@ -183,18 +183,9 @@ function FloatingBubble({
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function HomePage() {
+export default function HomePageTwo() {
   const prefersReduced = useReducedMotion();
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
-  const [isLg, setIsLg] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    setIsLg(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsLg(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
 
   // ── Hero scroll parallax ─────────────────────────────────────────────────
   const heroRef = useRef<HTMLElement>(null);
@@ -228,21 +219,21 @@ export default function HomePage() {
   }, [onMove, prefersReduced]);
 
   return (
-    <main className="overflow-x-hidden bg-[#0c0a14]">
+    <main className="overflow-x-hidden bg-white">
 
       {/* Global keyframes */}
       <style>{`
-        @keyframes bubble-rise {
+        @keyframes bubble-rise-light {
           0%   { transform: translateY(0);       opacity: 0;    }
           8%   {                                  opacity: 1;    }
           88%  {                                  opacity: 0.75; }
           100% { transform: translateY(-100vh);  opacity: 0;    }
         }
-        @keyframes scroll-marquee {
+        @keyframes scroll-marquee-light {
           0%   { transform: translateX(0);    }
           100% { transform: translateX(-50%); }
         }
-        @keyframes cursor-blink {
+        @keyframes cursor-blink-light {
           0%, 100% { opacity: 1; }
           50%      { opacity: 0; }
         }
@@ -253,33 +244,28 @@ export default function HomePage() {
       ════════════════════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        className="hero-mesh relative min-h-[100svh] flex items-center overflow-hidden"
+        className="relative min-h-[100svh] flex items-center overflow-hidden bg-[#f8faf9]"
       >
-        <div className="noise-overlay opacity-[0.055]" aria-hidden="true" />
+        {/* Subtle grid/noise texture */}
+        <div className="absolute inset-0 opacity-[0.025]" aria-hidden="true"
+          style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23004845' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }}
+        />
 
-        {/* Orb — teal */}
+        {/* Orb — soft teal */}
         <motion.div
           aria-hidden="true"
-          className="absolute rounded-full blur-[120px] pointer-events-none"
-          style={{ width: 620, height: 620, top: "-10%", right: "-6%", background: "#004845", opacity: 0.48 }}
+          className="absolute rounded-full blur-[160px] pointer-events-none"
+          style={{ width: 700, height: 700, top: "-15%", right: "-8%", background: "#004845", opacity: 0.08 }}
           animate={prefersReduced ? {} : { x: [0, 38, -18, 0], y: [0, -28, 14, 0], scale: [1, 1.06, 0.97, 1] }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
         />
-        {/* Orb — purple */}
+        {/* Orb — soft orange */}
         <motion.div
           aria-hidden="true"
           className="absolute rounded-full blur-[140px] pointer-events-none"
-          style={{ width: 500, height: 500, bottom: "-5%", left: "-5%", background: "#301730", opacity: 0.5 }}
+          style={{ width: 500, height: 500, bottom: "-5%", left: "-5%", background: "#e17339", opacity: 0.07 }}
           animate={prefersReduced ? {} : { x: [0, -24, 18, 0], y: [0, 20, -14, 0], scale: [1, 0.93, 1.04, 1] }}
           transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        />
-        {/* Orb — orange accent */}
-        <motion.div
-          aria-hidden="true"
-          className="absolute rounded-full blur-[100px] pointer-events-none"
-          style={{ width: 340, height: 340, top: "42%", left: "38%", background: "rgba(225,115,57,0.18)" }}
-          animate={prefersReduced ? {} : { x: [0, 18, -22, 10, 0], y: [0, -18, 10, -6, 0], scale: [1, 1.1, 0.9, 1.05, 1] }}
-          transition={{ duration: 26, repeat: Infinity, ease: "easeInOut", delay: 4 }}
         />
 
         {/* Floating speech bubbles */}
@@ -287,7 +273,7 @@ export default function HomePage() {
           {BUBBLES.map((b, i) => <FloatingBubble key={i} {...b} />)}
         </div>
 
-        {/* B mark — cursor-tracked + scroll-parallaxed */}
+        {/* B mark — light mode (dark, multiply blend) */}
         <motion.div
           aria-hidden="true"
           className="absolute right-[-8%] top-1/2 -translate-y-1/2 w-[56vw] max-w-[720px] pointer-events-none select-none z-[2]"
@@ -297,16 +283,15 @@ export default function HomePage() {
             rotateY: prefersReduced ? 0 : tiltY,
             rotateX: prefersReduced ? 0 : tiltX,
             transformPerspective: 1400,
-            opacity: 0.22,
-            filter: "brightness(0) invert(1)",
-            mixBlendMode: "screen",
+            opacity: 0.07,
+            mixBlendMode: "multiply",
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
         </motion.div>
 
-        {/* Hero content — parallaxes up + fades on scroll */}
+        {/* Hero content */}
         <motion.div
           className="relative z-[3] w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-24 sm:pb-32"
           style={prefersReduced ? {} : { y: heroContentY, opacity: heroContentAlpha }}
@@ -317,7 +302,7 @@ export default function HomePage() {
             <div>
               {/* Headline — typewriter on its own line */}
               <motion.h1
-                className="text-[clamp(2.8rem,6.5vw,5.5rem)] font-extrabold text-white leading-[1.04] tracking-tight mb-7"
+                className="text-[clamp(2.8rem,6.5vw,5.5rem)] font-extrabold text-[#004845] leading-[1.04] tracking-tight mb-7"
                 initial="hidden"
                 animate="visible"
                 variants={{
@@ -344,7 +329,7 @@ export default function HomePage() {
                     visible: { opacity: 1, y: 0,  filter: "blur(0px)", transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] } },
                   }}
                 >
-                  <TypewriterWord />
+                  <TypewriterWordLight />
                 </motion.span>
               </motion.h1>
 
@@ -353,7 +338,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.68 }}
-                className="text-lg md:text-xl text-white/55 leading-relaxed max-w-lg mb-10"
+                className="text-lg md:text-xl text-[#004845]/55 leading-relaxed max-w-lg mb-10"
               >
                 We take over your social media. The strategy, the content, the writing. So you can stay focused on running your business.
               </motion.p>
@@ -367,14 +352,14 @@ export default function HomePage() {
               >
                 <Link
                   href="/services"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] transition-colors text-sm"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#e17339] text-white font-bold rounded-xl hover:bg-[#c8622a] transition-colors text-sm shadow-lg shadow-[#e17339]/25"
                 >
                   See our services
                   <ArrowRightIcon className="w-4 h-4" />
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-white/[0.08] text-white font-semibold rounded-xl hover:bg-white/[0.14] border border-white/[0.12] transition-colors text-sm"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#0c0a14]/[0.06] text-[#004845] font-semibold rounded-xl hover:bg-[#0c0a14]/[0.1] border border-[#0c0a14]/[0.1] transition-colors text-sm"
                 >
                   Book a strategy call
                 </Link>
@@ -385,25 +370,25 @@ export default function HomePage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 1 }}
-                className="flex flex-wrap items-center gap-x-5 gap-y-2 text-white/30 text-xs"
+                className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[#004845]/35 text-xs"
               >
                 <a
                   href="https://share.google/cTygPBlVfKbMfLgw2"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 hover:text-white/60 transition-colors group"
+                  className="flex items-center gap-1.5 hover:text-[#004845]/70 transition-colors group"
                   aria-label="Read or leave a Google review"
                 >
                   {[...Array(5)].map((_, i) => (
                     <StarIcon key={i} className="w-3 h-3 text-[#e17339]" filled />
                   ))}
-                  <span className="ml-0.5 font-semibold">5.0</span>
-                  <span className="text-white/35">·</span>
+                  <span className="ml-0.5 font-semibold text-[#004845]/60">5.0</span>
+                  <span className="text-[#004845]/25">·</span>
                   <span className="group-hover:underline">5 Google reviews</span>
                 </a>
-                <span className="hidden sm:block text-white/25">·</span>
+                <span className="hidden sm:block text-[#004845]/20">·</span>
                 <span>Women-owned · Grand Rapids, MI</span>
-                <span className="hidden sm:block text-white/25">·</span>
+                <span className="hidden sm:block text-[#004845]/20">·</span>
                 <span>Founded 2020</span>
               </motion.div>
             </div>
@@ -414,7 +399,7 @@ export default function HomePage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.85, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/50 ring-1 ring-white/[0.08]">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-[#004845]/10 ring-1 ring-[#004845]/[0.1]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/bloom-social-grand-rapids-team.webp"
@@ -436,7 +421,7 @@ export default function HomePage() {
           style={prefersReduced ? {} : { opacity: heroContentAlpha }}
         >
           <motion.div
-            className="w-px h-10 bg-gradient-to-b from-white/30 to-transparent mx-auto"
+            className="w-px h-10 bg-gradient-to-b from-[#0c0a14]/20 to-transparent mx-auto"
             animate={{ scaleY: [1, 0.6, 1], opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
           />
@@ -446,15 +431,15 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════════════════
           MARQUEE
       ════════════════════════════════════════════════════════════════ */}
-      <div className="bg-[#0c0a14] py-4 border-y border-white/[0.06] overflow-hidden">
+      <div className="bg-[#f0f0ee] py-4 border-y border-[#0c0a14]/[0.06] overflow-hidden">
         <div
           className="flex whitespace-nowrap"
-          style={{ animation: "scroll-marquee 30s linear infinite" }}
+          style={{ animation: "scroll-marquee-light 30s linear infinite" }}
         >
           {[...MARQUEE, ...MARQUEE].map((item, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-4 text-white/40 text-[10px] font-semibold tracking-[0.22em] uppercase px-8"
+              className="inline-flex items-center gap-4 text-[#004845]/40 text-[10px] font-semibold tracking-[0.22em] uppercase px-8"
             >
               {item}
               <span className="text-[#e17339] text-sm">·</span>
@@ -466,8 +451,8 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════════════════
           SERVICES
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 md:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
           {/* Header */}
           <motion.div
@@ -478,7 +463,7 @@ export default function HomePage() {
             className="mb-14"
           >
             <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">What we do</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white max-w-xl leading-[1.1]">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#004845] max-w-xl leading-[1.1]">
               Every service your brand needs to show up and stand out.
             </h2>
           </motion.div>
@@ -492,33 +477,31 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.6, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative bg-white/[0.08] border border-white/[0.12] rounded-2xl p-7 overflow-hidden hover:border-white/[0.22] hover:-translate-y-1 transition-all duration-300"
+                className="group relative bg-white border border-[#0c0a14]/[0.08] rounded-2xl p-7 overflow-hidden hover:border-[#0c0a14]/[0.18] hover:-translate-y-1 hover:shadow-xl hover:shadow-[#0c0a14]/[0.06] transition-all duration-300"
               >
                 {/* Bloom glow on hover */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
-                  style={{ background: `radial-gradient(ellipse at 15% 85%, ${s.accent}20 0%, transparent 60%)` }}
+                  style={{ background: `radial-gradient(ellipse at 15% 85%, ${s.accent}10 0%, transparent 60%)` }}
                 />
 
                 {/* Ghost number */}
                 <div
                   className="text-[5rem] font-black leading-none mb-4 select-none"
-                  style={{ color: `${s.accent}28` }}
+                  style={{ color: `${s.accent}45` }}
                 >
                   {s.num}
                 </div>
 
-                {/* Title */}
-                <p className="text-[10px] font-bold tracking-[0.22em] uppercase mb-0.5" style={{ color: `${s.accent}99` }}>
+                <p className="text-[10px] font-bold tracking-[0.22em] uppercase mb-0.5" style={{ color: s.accent }}>
                   {s.eyebrow}
                 </p>
-                <h3 className="text-2xl font-bold text-white mb-3">{s.title}</h3>
-
-                <p className="text-white/70 text-sm leading-relaxed mb-5">{s.body}</p>
+                <h3 className="text-2xl font-bold text-[#004845] mb-3">{s.title}</h3>
+                <p className="text-[#004845]/45 text-sm leading-relaxed mb-5">{s.body}</p>
 
                 <ul className="space-y-2 mb-6">
                   {s.bullets.map((b, j) => (
-                    <li key={j} className="flex items-center gap-2.5 text-xs text-white/60">
+                    <li key={j} className="flex items-center gap-2.5 text-xs text-[#004845]/40">
                       <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: s.accent }} />
                       {b}
                     </li>
@@ -540,9 +523,9 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════
-          STATS BAR
+          STATS BAR  (keep dark — nice contrast anchor)
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-[#002422] relative overflow-hidden">
+      <section className="py-20 bg-[#004845] relative overflow-hidden">
         <div
           aria-hidden="true"
           className="absolute right-[-6%] top-1/2 -translate-y-1/2 w-[36vw] max-w-[440px] pointer-events-none select-none"
@@ -552,7 +535,7 @@ export default function HomePage() {
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0 lg:divide-x lg:divide-white/[0.08]">
             {STATS.map((s, i) => (
               <motion.div
@@ -576,8 +559,8 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════════════════
           PROCESS
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 md:py-32 bg-[#fafaf9]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -587,18 +570,16 @@ export default function HomePage() {
             className="mb-16"
           >
             <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">How it works</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] max-w-lg">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#004845] leading-[1.1] max-w-lg">
               First posts live within five weeks of kickoff.
             </h2>
           </motion.div>
 
           {/* Timeline row */}
           <div className="relative">
-            {/* Static background line */}
-            <div className="hidden lg:block absolute top-[9px] left-[3.5%] right-[3.5%] h-px bg-white/[0.06]" />
-            {/* Animated fill line */}
+            <div className="hidden lg:block absolute top-[9px] left-[3.5%] right-[3.5%] h-px bg-[#0c0a14]/[0.08]" />
             <motion.div
-              className="hidden lg:block absolute top-[9px] left-[3.5%] h-px bg-bloom-orange origin-left"
+              className="hidden lg:block absolute top-[9px] left-[3.5%] h-px bg-[#e17339] origin-left"
               animate={{
                 scaleX: hoveredStep !== null ? (hoveredStep + 1) / PROCESS.length : 0,
                 opacity: hoveredStep !== null ? 1 : 0,
@@ -615,22 +596,21 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
                   transition={{ duration: 0.5, delay: i * 0.12 }}
-                  onHoverStart={() => isLg && setHoveredStep(i)}
-                  onHoverEnd={() => isLg && setHoveredStep(null)}
+                  onHoverStart={() => setHoveredStep(i)}
+                  onHoverEnd={() => setHoveredStep(null)}
                   animate={{
-                    opacity: isLg && hoveredStep !== null && hoveredStep !== i ? 0.45 : 1,
-                    y: isLg && hoveredStep === i ? -6 : 0,
+                    opacity: hoveredStep !== null && hoveredStep !== i ? 0.4 : 1,
+                    y: hoveredStep === i ? -6 : 0,
                   }}
                   className="relative cursor-default group"
                 >
-                  {/* Dot on timeline */}
                   <motion.div
-                    className="hidden lg:block w-[18px] h-[18px] rounded-full border-2 bg-[#0c0a14] mb-8 relative z-10"
+                    className="hidden lg:block w-[18px] h-[18px] rounded-full border-2 bg-[#fafaf9] mb-8 relative z-10"
                     animate={{
-                      borderColor: isLg && i <= (hoveredStep ?? -1) ? "#e17339" : "rgba(225,115,57,0.35)",
-                      backgroundColor: isLg && hoveredStep === i ? "#e17339" : "#0c0a14",
-                      scale: isLg && hoveredStep === i ? 1.35 : 1,
-                      boxShadow: isLg && hoveredStep === i ? "0 0 0 5px rgba(225,115,57,0.18)" : "0 0 0 0px transparent",
+                      borderColor: i <= (hoveredStep ?? -1) ? "#e17339" : "rgba(225,115,57,0.3)",
+                      backgroundColor: hoveredStep === i ? "#e17339" : "#fafaf9",
+                      scale: hoveredStep === i ? 1.35 : 1,
+                      boxShadow: hoveredStep === i ? "0 0 0 5px rgba(225,115,57,0.15)" : "0 0 0 0px transparent",
                     }}
                     transition={{ duration: 0.2 }}
                   />
@@ -638,12 +618,12 @@ export default function HomePage() {
                   <p className="text-[#e17339] text-[10px] font-bold tracking-[0.22em] uppercase mb-2">{step.n}</p>
                   <motion.h3
                     className="font-bold text-lg mb-2"
-                    animate={{ color: isLg && hoveredStep === i ? "#ffffff" : "rgba(255,255,255,0.85)" }}
+                    animate={{ color: hoveredStep === i ? "#0c0a14" : "rgba(12,10,20,0.65)" }}
                     transition={{ duration: 0.2 }}
                   >
                     {step.title}
                   </motion.h3>
-                  <p className="text-white/40 text-sm leading-relaxed">{step.body}</p>
+                  <p className="text-[#004845]/40 text-sm leading-relaxed">{step.body}</p>
                 </motion.div>
               ))}
             </div>
@@ -658,7 +638,7 @@ export default function HomePage() {
           >
             <Link
               href="/process"
-              className="inline-flex items-center gap-2 text-white/50 text-sm hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 text-[#004845]/45 text-sm hover:text-[#004845] transition-colors"
             >
               See the full process
               <ArrowRightIcon className="w-4 h-4" />
@@ -670,9 +650,9 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════════════════
           TEAM / WHO WE ARE
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-[#001a19] relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-14 lg:gap-20 items-center">
+      <section className="py-24 bg-[#edf5f4] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
 
             {/* Copy */}
             <motion.div
@@ -682,18 +662,18 @@ export default function HomePage() {
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
               <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-4">Who we are</p>
-              <h2 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#004845] leading-[1.1] mb-6">
                 A Grand Rapids agency that treats your brand like it is their own.
               </h2>
-              <p className="text-white/50 leading-relaxed mb-4 text-sm">
+              <p className="text-[#004845]/50 leading-relaxed mb-4 text-sm">
                 Founded in 2020 by Jeff and Kirsten Pipp, Bloom Social is a boutique team of strategists, writers, and designers based in West Michigan.
               </p>
-              <p className="text-white/50 leading-relaxed mb-8 text-sm">
+              <p className="text-[#004845]/50 leading-relaxed mb-8 text-sm">
                 We run on EOS: clear processes, real accountability, and results you can point to. We serve clients in Grand Rapids and across the US.
               </p>
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 text-white font-semibold hover:text-[#e17339] transition-colors text-sm group"
+                className="inline-flex items-center gap-2 text-[#004845] font-semibold hover:text-[#e17339] transition-colors text-sm group"
               >
                 Meet the team
                 <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -716,8 +696,8 @@ export default function HomePage() {
                   delay: 0.1,
                 },
                 {
-                  src: "/images/bloom-social-content-creation-team.webp",
-                  alt: "Bloom Social content creation team",
+                  src: "/images/bloom-social-video-production-grand-rapids.webp",
+                  alt: "Bloom Social video production Grand Rapids",
                   className: "aspect-square",
                   delay: 0.2,
                 },
@@ -728,7 +708,7 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: photo.delay }}
-                  className={`relative rounded-xl overflow-hidden ${photo.className}`}
+                  className={`relative rounded-xl overflow-hidden shadow-md ${photo.className}`}
                 >
                   <Image src={photo.src} alt={photo.alt} fill className="object-cover" />
                 </motion.div>
@@ -742,8 +722,8 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════════════════
           TESTIMONIALS
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 md:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -753,7 +733,7 @@ export default function HomePage() {
             className="mb-14"
           >
             <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">What clients say</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white">Real results. Real people.</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#004845]">Real results. Real people.</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-5">
@@ -764,19 +744,19 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: i * 0.12 }}
-                className="bg-white/[0.04] border border-white/[0.07] rounded-2xl p-7 flex flex-col gap-5 hover:border-white/[0.14] transition-colors duration-300"
+                className="bg-[#f7f8f7] border border-[#0c0a14]/[0.07] rounded-2xl p-7 flex flex-col gap-5 hover:border-[#0c0a14]/[0.14] hover:shadow-lg hover:shadow-[#0c0a14]/[0.05] transition-all duration-300"
               >
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, j) => (
                     <StarIcon key={j} className="w-3.5 h-3.5 text-[#e17339]" filled />
                   ))}
                 </div>
-                <p className="text-white/65 text-sm leading-relaxed italic flex-1">
+                <p className="text-[#004845]/60 text-sm leading-relaxed italic flex-1">
                   &ldquo;{t.quote}&rdquo;
                 </p>
                 <div>
-                  <p className="font-bold text-white text-sm">{t.name}</p>
-                  <p className="text-white/30 text-xs">{t.title}</p>
+                  <p className="font-bold text-[#004845] text-sm">{t.name}</p>
+                  <p className="text-[#004845]/35 text-xs">{t.title}</p>
                 </div>
               </motion.div>
             ))}
@@ -787,7 +767,7 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════════════════
           FINAL CTA
       ════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 lg:py-32 bg-[#004845] relative overflow-hidden">
+      <section className="py-32 bg-[#004845] relative overflow-hidden">
         <div
           aria-hidden="true"
           className="absolute left-[-8%] top-1/2 -translate-y-1/2 w-[44vw] max-w-[560px] pointer-events-none select-none"
@@ -796,9 +776,8 @@ export default function HomePage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/bloom-social-b-mark-bg.png" alt="" className="w-full h-auto" />
         </div>
-        <div className="noise-overlay opacity-[0.03]" />
 
-        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
