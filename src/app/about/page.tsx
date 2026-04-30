@@ -52,11 +52,11 @@ const teamMembers = [
     image: "",
     initials: "BM",
     isPlaceholder: true,
-    bio: "Braelyn is the newest addition to the Bloom Social team. She works alongside our specialists on content planning, scheduling, and community management, bringing fresh energy and ideas to every account she touches.",
+    bio: "Braelyn works alongside our specialists on content planning, scheduling, and community management. She brings fresh energy and sharp ideas to every account she touches.",
   },
   {
     name: "Ethan Weliver",
-    role: "Content & Creative Lead",
+    role: "Social Media Specialist",
     image: "/images/team-ethan-bloom-social.webp",
     initials: "EW",
     bio: "Ethan brings the creative vision to life. From photography and video to written content and strategy, he makes sure everything Bloom Social produces looks sharp and tells the right story.",
