@@ -79,17 +79,24 @@ const SERVICES = [
   },
 ];
 
+// Bloom Social was incorporated in April 2020. This calculates years live so the stat auto-updates.
+function yearsSinceFounded() {
+  const start = new Date(2020, 3, 1); // April 1, 2020
+  const now = new Date();
+  return Math.floor((now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 365.25));
+}
+
 const STATS = [
-  { num: 50,  suffix: "+",    label: "Clients served nationwide" },
-  { num: 5,   suffix: " yrs", label: "Building brands since 2020" },
-  { num: 30,  suffix: " min", label: "Your weekly time investment" },
-  { num: 12,  suffix: "×",    label: "Avg impressions growth in 90 days" },
+  { num: 50,                    suffix: "+",    label: "Clients served nationwide" },
+  { num: yearsSinceFounded(),   suffix: " yrs", label: "Building brands since 2020" },
+  { num: 1,                     suffix: " hr",  label: "Your monthly time investment" },
+  { num: 5,                     suffix: "×",    label: "Avg impressions growth in 90 days" },
 ];
 
 const PROCESS = [
   { n: "01", title: "Strategy Call",         body: "We learn your voice, goals, and audience in one conversation." },
   { n: "02", title: "Content Calendar",      body: "By the 15th of every month you get a full calendar ready for review." },
-  { n: "03", title: "Quick Approval",        body: "Review and approve in 30 minutes on Monday.com. That is your entire monthly commitment." },
+  { n: "03", title: "Quick Approval",        body: "A 30-minute monthly check-in plus a couple of quick approvals in Monday.com. About an hour a month." },
   { n: "04", title: "We Handle Everything",  body: "Publishing, engagement, monitoring, and reporting. You run your business. We run your social." },
 ];
 

@@ -54,9 +54,9 @@ const callExpectations = [
 // ─── Trust signals ─────────────────────────────────────────────────────────
 
 const trustSignals = [
-  "50+ executives served nationwide",
+  "50+ brands served nationwide",
   "Founded 2020 in Grand Rapids, MI",
-  "Women-owned boutique agency",
+  "Women-owned",
   "Built on EOS: clear process, real accountability",
   "No long-term contracts required",
   "Respond within 24 hours (usually same day)",
@@ -285,7 +285,7 @@ export default function ContactPage() {
             <div className="flex gap-1">
               {[...Array(5)].map((_, i) => <StarIcon key={i} />)}
             </div>
-            <p className="text-gray-400 text-sm">5.0 rated. Trusted by 50+ executives nationwide.</p>
+            <p className="text-gray-400 text-sm">5.0 rated. Trusted by 50+ brands nationwide.</p>
           </motion.div>
         </div>
       </section>

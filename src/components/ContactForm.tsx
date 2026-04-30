@@ -24,7 +24,7 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
         email: data.get("email"),
         company: data.get("company"),
         source: "contact_form",
-        extra: { role: data.get("role"), message: data.get("message") },
+        extra: { phone: data.get("phone"), message: data.get("message") },
       }),
     });
 
@@ -104,12 +104,13 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
 
       <div>
         <label htmlFor="company" className={`block text-sm font-medium mb-1 ${isDark ? "text-white/70" : "text-gray-700"}`}>
-          Company
+          Company *
         </label>
         <input
           id="company"
           name="company"
           type="text"
+          required
           placeholder="Acme Inc."
           className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 ${
             isDark
@@ -120,27 +121,21 @@ export default function ContactForm({ variant = "default" }: { variant?: "defaul
       </div>
 
       <div>
-        <label htmlFor="role" className={`block text-sm font-medium mb-1 ${isDark ? "text-white/70" : "text-gray-700"}`}>
-          Your Role *
+        <label htmlFor="phone" className={`block text-sm font-medium mb-1 ${isDark ? "text-white/70" : "text-gray-700"}`}>
+          Phone *
         </label>
-        <select
-          id="role"
-          name="role"
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
           required
-          defaultValue=""
+          placeholder="(616) 555-0123"
           className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 ${
             isDark
-              ? "bg-[#0c0a14] border-white/20 text-white"
-              : "border-gray-300 text-gray-900 bg-white"
+              ? "bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              : "border-gray-300 text-gray-900 placeholder-gray-400"
           }`}
-        >
-          <option value="" disabled>Select your role...</option>
-          <option>C-Suite / Founder</option>
-          <option>VP / Director</option>
-          <option>Manager</option>
-          <option>Marketing / Comms Team</option>
-          <option>Other</option>
-        </select>
+        />
       </div>
 
       <div>

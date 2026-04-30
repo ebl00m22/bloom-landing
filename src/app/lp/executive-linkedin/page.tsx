@@ -25,27 +25,27 @@ const BENEFITS = [
   },
   {
     icon: UsersIcon,
-    title: "One monthly review",
-    body: "See your full content calendar on the 15th. Approve everything in 30 minutes. We handle the rest.",
+    title: "Easy monthly approval",
+    body: "See your full content calendar on the 15th. A 30-minute check-in plus quick approvals in Monday.com. We handle the rest.",
   },
   {
     icon: ChartIcon,
     title: "Results you can measure",
-    body: "Impressions, DMs, inbound leads. We report on what moves the needle — not vanity metrics.",
+    body: "Impressions, DMs, inbound leads. We report on what moves the needle, not vanity metrics.",
   },
 ];
 
 const STATS = [
   { end: 50, suffix: "+", label: "Executives served" },
-  { end: 12, suffix: "×", label: "Avg impressions growth" },
-  { end: 30, suffix: " min", label: "Weekly time investment" },
+  { end: 5, suffix: "×", label: "Avg impressions growth" },
+  { end: 1, suffix: " hr", label: "Monthly time investment" },
 ];
 
 const STEPS = [
   {
     n: "01",
     title: "Strategy Call",
-    body: "We learn your voice, goals, and target audience. No templates — everything is built around you.",
+    body: "We learn your voice, goals, and target audience. No templates. Everything is built around you.",
   },
   {
     n: "02",
@@ -55,7 +55,7 @@ const STEPS = [
   {
     n: "03",
     title: "You Approve",
-    body: "30 minutes in Monday.com. Review, edit, or approve. Your final say, always.",
+    body: "A 30-minute check-in plus quick approvals in Monday.com. Your final say, always.",
   },
   {
     n: "04",
@@ -266,7 +266,7 @@ export default function ExecutiveLinkedInLP() {
                 transition={{ duration: 0.6, delay: 0.72 }}
                 className="text-lg md:text-xl text-white/55 leading-relaxed mb-10"
               >
-                We write, schedule, and publish your LinkedIn content in your voice. You review once a month. We handle everything else.
+                We write, schedule, and publish your LinkedIn content in your voice. A 30-minute monthly check-in plus quick approvals in Monday.com. We handle everything else.
               </motion.p>
 
               {/* Trust signals */}
@@ -318,46 +318,49 @@ export default function ExecutiveLinkedInLP() {
                   {/* Name + Company */}
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">Your Name</label>
+                      <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">Your Name *</label>
                       <input
                         type="text"
                         name="name"
+                        required
                         placeholder="Jane Smith"
                         className="w-full px-4 py-3 rounded-xl bg-white/[0.08] border border-white/[0.10] text-white placeholder-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">Company</label>
+                      <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">Company *</label>
                       <input
                         type="text"
                         name="company"
+                        required
                         placeholder="Acme Corp"
                         className="w-full px-4 py-3 rounded-xl bg-white/[0.08] border border-white/[0.10] text-white placeholder-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
                       />
                     </div>
                   </div>
 
-                  {/* Email */}
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">Email Address</label>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="jane@company.com"
-                      className="w-full px-4 py-3 rounded-xl bg-white/[0.08] border border-white/[0.10] text-white placeholder-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
-                    />
-                  </div>
-
-                  {/* Platform */}
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">What platform are you focused on?</label>
-                    <select name="platform" className="w-full px-4 py-3 rounded-xl bg-white/[0.08] border border-white/[0.10] text-white text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all appearance-none" style={{ color: "rgba(255,255,255,0.85)" }}>
-                      <option value="" style={{ background: "#1a1527" }}>Select a platform</option>
-                      <option value="linkedin" style={{ background: "#1a1527" }}>LinkedIn</option>
-                      <option value="instagram" style={{ background: "#1a1527" }}>Instagram</option>
-                      <option value="facebook" style={{ background: "#1a1527" }}>Facebook</option>
-                      <option value="multiple" style={{ background: "#1a1527" }}>Multiple Platforms</option>
-                    </select>
+                  {/* Email + Phone */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">Email *</label>
+                      <input
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="jane@company.com"
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.08] border border-white/[0.10] text-white placeholder-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-white/50 text-xs font-semibold uppercase tracking-wider">Phone *</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        required
+                        placeholder="(616) 555-0123"
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.08] border border-white/[0.10] text-white placeholder-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
+                      />
+                    </div>
                   </div>
 
                   {/* Message */}

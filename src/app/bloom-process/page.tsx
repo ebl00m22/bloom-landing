@@ -91,7 +91,7 @@ function BloomHeroLetters() {
   const letters = ["B", ".", "L", ".", "O", ".", "O", ".", "M", "."];
 
   return (
-    <div className="flex items-baseline gap-0 leading-none select-none" aria-label="B.L.O.O.M.">
+    <div className="flex items-baseline gap-0 leading-none select-none whitespace-nowrap" aria-label="B.L.O.O.M.">
       {letters.map((char, i) => (
         <motion.span
           key={i}
@@ -104,8 +104,8 @@ function BloomHeroLetters() {
           }}
           className={
             char === "."
-              ? "text-[8vw] text-bloom-green/40 font-extrabold tracking-tight"
-              : "text-[15vw] text-bloom-green font-extrabold tracking-tight"
+              ? "text-[5.5vw] sm:text-[7vw] md:text-[8vw] text-bloom-green/40 font-extrabold tracking-tight"
+              : "text-[10.5vw] sm:text-[13vw] md:text-[15vw] text-bloom-green font-extrabold tracking-tight"
           }
           style={{ lineHeight: 0.9 }}
         >

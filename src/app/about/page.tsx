@@ -192,9 +192,9 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-3">The Founders</p>
+            <p className="text-sm font-semibold tracking-widest uppercase text-bloom-orange mb-3">The Owners</p>
             <h2 className="text-4xl md:text-5xl font-extrabold text-bloom-green leading-tight">
-              Jeff &amp; Kirsten Pipp
+              Kirsten &amp; Jeff Pipp
             </h2>
           </motion.div>
 
@@ -209,28 +209,28 @@ export default function AboutPage() {
             <motion.div variants={fadeUp} className="grid grid-cols-2 gap-5">
               <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/team-jeff-pipp-bloom-social.webp"
-                  alt="Jeff Pipp — Co-founder, Bloom Social"
-                  fill
-                  className="object-cover object-top"
-                  sizes="(max-width: 1024px) 50vw, 25vw"
-                />
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 p-4">
-                  <p className="text-white font-bold text-sm">Jeff Pipp</p>
-                  <p className="text-white/65 text-xs">Co-Owner</p>
-                </div>
-              </div>
-              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden mt-8">
-                <Image
                   src="/images/team-kirsten-pipp-bloom-social.webp"
-                  alt="Kirsten Pipp — Co-founder, Bloom Social"
+                  alt="Kirsten Pipp, Owner of Bloom Social"
                   fill
                   className="object-cover object-top"
                   sizes="(max-width: 1024px) 50vw, 25vw"
                 />
                 <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 p-4">
                   <p className="text-white font-bold text-sm">Kirsten Pipp</p>
-                  <p className="text-white/65 text-xs">Co-Owner</p>
+                  <p className="text-white/65 text-xs">Owner</p>
+                </div>
+              </div>
+              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden mt-8">
+                <Image
+                  src="/images/team-jeff-pipp-bloom-social.webp"
+                  alt="Jeff Pipp, Owner of Bloom Social"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                />
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 p-4">
+                  <p className="text-white font-bold text-sm">Jeff Pipp</p>
+                  <p className="text-white/65 text-xs">Owner</p>
                 </div>
               </div>
             </motion.div>
@@ -243,13 +243,13 @@ export default function AboutPage() {
               </h3>
               <div className="space-y-4 text-gray-600 text-lg leading-relaxed">
                 <p>
-                  Jeff and Kirsten Pipp founded Bloom Social in 2020 in Grand Rapids, Michigan. What started as a vision to bring boutique-quality social media strategy to executives and B2B companies has grown into a nationwide practice with clients across the country.
+                  Kirsten Pipp founded Bloom Social in 2020 in Grand Rapids, Michigan. What started as a vision to bring boutique-quality social media strategy to executives and B2B companies has grown into a nationwide practice with clients across the country. Today, Kirsten and Jeff run Bloom Social together.
                 </p>
                 <p>
-                  They run Bloom Social on the Entrepreneurial Operating System (EOS), which means every part of the business, from client onboarding to content delivery, runs on clear processes, measurable goals, and genuine accountability.
+                  They run the agency on the Entrepreneurial Operating System (EOS), which means every part of the business, from client onboarding to content delivery, runs on clear processes, measurable goals, and genuine accountability.
                 </p>
                 <p>
-                  Today, Bloom Social serves executives, founders, and growth-stage companies who want to show up powerfully online without spending their own time doing it.
+                  Bloom Social serves executives, founders, and growth-stage companies who want to show up powerfully online without spending their own time doing it.
                 </p>
               </div>
 

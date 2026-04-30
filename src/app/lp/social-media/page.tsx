@@ -39,13 +39,13 @@ const BENEFITS = [
 const STATS = [
   { end: 50, suffix: "+", label: "Clients served" },
   { end: 5, suffix: "×", label: "Avg engagement growth" },
-  { end: 2, suffix: " wks", label: "Kickoff to first post" },
+  { end: 5, suffix: " wks", label: "Kickoff to first post" },
 ];
 
 const STEPS = [
   { n: "01", title: "Onboarding", body: "We learn your brand, audience, and goals." },
   { n: "02", title: "Content Calendar", body: "Full calendar delivered on the 15th." },
-  { n: "03", title: "You Approve", body: "30 minutes once a month." },
+  { n: "03", title: "You Approve", body: "30-minute check-in plus quick approvals in Monday.com." },
   { n: "04", title: "We Handle It", body: "We post, engage, and report back monthly." },
 ];
 
@@ -57,8 +57,8 @@ const WHY_BLOOM = [
   },
   {
     icon: CheckIcon,
-    title: "One approval batch",
-    body: "30 minutes in Monday.com. That's your entire monthly commitment.",
+    title: "Easy monthly approval",
+    body: "A 30-minute check-in plus a couple of quick reviews in Monday.com. About an hour a month.",
   },
   {
     icon: ChartIcon,
@@ -104,7 +104,7 @@ const FAQS = [
   },
   {
     q: "How much of my time does this take?",
-    a: "About 30 minutes a month. You review your content calendar, leave any comments, and approve. We handle everything else.",
+    a: "About an hour a month. A 30-minute check-in plus a couple of quick reviews in Monday.com to approve your content. We handle everything else.",
   },
   {
     q: "When do posts go live?",
@@ -383,59 +383,51 @@ export default function SocialMediaLP() {
                   onSubmit={handleFormSubmit}
                   className="flex flex-col gap-4"
                 >
-                  {/* Name + Email row */}
+                  {/* Name + Company row */}
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Name</label>
+                      <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Name *</label>
                       <input
                         type="text"
                         name="name"
+                        required
                         placeholder="Jane Smith"
                         className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Email</label>
+                      <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Company *</label>
                       <input
-                        type="email"
-                        name="email"
-                        placeholder="jane@company.com"
+                        type="text"
+                        name="company"
+                        required
+                        placeholder="Acme Co."
                         className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
                       />
                     </div>
                   </div>
 
-                  {/* Company */}
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Company</label>
-                    <input
-                      type="text"
-                      name="company"
-                      placeholder="Acme Co."
-                      className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
-                    />
-                  </div>
-
-                  {/* Platform select */}
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Which platforms?</label>
-                    <div className="relative">
-                      <select
-                        name="platform"
-                        defaultValue=""
-                        className="w-full appearance-none bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all pr-10"
-                        style={{ colorScheme: "dark" }}
-                      >
-                        <option value="" disabled className="bg-[#1a1630] text-white/40">Select platforms…</option>
-                        <option value="instagram" className="bg-[#1a1630] text-white">Instagram</option>
-                        <option value="facebook" className="bg-[#1a1630] text-white">Facebook</option>
-                        <option value="linkedin" className="bg-[#1a1630] text-white">LinkedIn</option>
-                        <option value="tiktok" className="bg-[#1a1630] text-white">TikTok</option>
-                        <option value="multiple" className="bg-[#1a1630] text-white">Multiple</option>
-                      </select>
-                      <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/35 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                      </svg>
+                  {/* Email + Phone row */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Email *</label>
+                      <input
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="jane@company.com"
+                        className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-white/55 text-xs font-semibold tracking-wide uppercase">Phone *</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        required
+                        placeholder="(616) 555-0123"
+                        className="w-full bg-white/[0.07] border border-white/[0.12] rounded-xl px-4 py-3 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-[#e17339]/60 focus:bg-white/[0.10] transition-all"
+                      />
                     </div>
                   </div>
 
@@ -632,7 +624,7 @@ export default function SocialMediaLP() {
           >
             <p className="text-[#e17339] text-[10px] font-bold tracking-[0.25em] uppercase mb-3">How it works</p>
             <h2 className="text-4xl md:text-5xl font-bold text-white leading-[1.1] max-w-lg">
-              First posts live within two weeks of kickoff.
+              First posts live within five weeks of kickoff.
             </h2>
           </motion.div>
 
